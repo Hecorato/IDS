@@ -77,10 +77,13 @@ with col2:
             hovertemplate='%{y}<br>Fallas: %{x}<extra></extra>',
             textposition='outside'
         )
-        fig1.update_layout(
-        xaxis_title='Fecha', 
-        yaxis_title='Total Tickets',
+        fig2.update_layout(
+        yaxis_title='',
+        xaxis_title='Total Fallas',
+        yaxis=dict(autorange='reversed'),
+        showlegend=False,
         height=500
+)
         )
         
         st.plotly_chart(fig2, use_container_width=True)
