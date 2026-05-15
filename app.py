@@ -10,6 +10,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
+st.title("Dashboard IDS")
 
 # ── CARGA DE DATOS ────────────────────────────────────
 df = pd.read_csv('IDS ABRIL-MAYO - Hoja 1.csv')
