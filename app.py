@@ -28,10 +28,9 @@ if filtro == 'Día':
     x_col = 'FECHA CREACION'
 
 elif filtro == 'Semana':
-    df_filtrado['SEMANA'] = df_filtrado['FECHA'].dt.isocalendar().week
-    df_filtrado['SEMANA_INICIO'] = df_filtrado['FECHA'].dt.to_period('W').apply(lambda r: r.start_time)
-    df_agrupado = df_filtrado.groupby(['SEMANA', 'SEMANA_INICIO']).size().reset_index(name='TOTAL_TICKETS')
-    df_agrupado['ETIQUETA'] = 'Semana ' + df_agrupado['SEMANA'].astype(str) + ' - ' + df_agrupado['SEMANA_INICIO'].dt.strftime('%d %b')
+    df_filtrado['SEMANA_INICIO'] = df_filtrado['FECHA'].dt.to_period('W-SUN').apply(lambda r: r.start_time)
+    df_filtrado['NUM_SEMANA'] = df_filtrado['SEMANA_INICIO'].dt.isocalendar().week
+    df_agrupado = df_filtrado.groupby(['SEMANA_INICIO', 'NUM_SEMANA']).size().reset_index(name='TOTAL_TICKETS')
     x_col = 'SEMANA_INICIO'
 
 else:
@@ -60,8 +59,8 @@ fig.update_traces(
     hovertemplate=hover
 )
 if filtro == 'Semana':
-    fig.update_traces(customdata=df_agrupado['SEMANA'])
-    
+    fig.update_traces(customdata=df_agrupado['NUM_SEMANA'])
+
 fig.update_layout(xaxis_title='Fecha', yaxis_title='Total Tickets')
 
 st.plotly_chart(fig, use_container_width=True)
