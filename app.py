@@ -6,7 +6,7 @@ st.title("Ingreso de Soporte")
 
 df = pd.read_csv('IDS ABRIL-MAYO - Hoja 1.csv')
 
-df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION'])
+df['FECHA'] = pd.to_datetime(df['FECHA'])
 
 df_agrupado = df.groupby('FECHA CREACION')['CUENTA'].count().reset_index()
 
