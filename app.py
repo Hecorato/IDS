@@ -3,8 +3,13 @@ import plotly.express as px
 import streamlit as st
 
 # ── CONFIGURACIÓN ─────────────────────────────────────
-st.set_page_config(page_title="Dashboard IDS", layout="wide")
-st.title("Dashboard IDS")
+st.set_page_config(
+    page_title="Dashboard IDS",
+    page_icon="📊",
+    layout="wide",
+    initial_sidebar_state="collapsed"
+)
+
 
 # ── CARGA DE DATOS ────────────────────────────────────
 df = pd.read_csv('IDS ABRIL-MAYO - Hoja 1.csv')
