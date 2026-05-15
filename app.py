@@ -2,7 +2,7 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-st.title("Ingreso de Soporte")
+st.title("IDS Historico")
 
 df = pd.read_csv('IDS ABRIL-MAYO - Hoja 1.csv')
 df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION']).dt.date
@@ -45,10 +45,17 @@ fig = px.line(
     markers=True
 )
 
+if filtro == 'Día':
+    hover = '%{x}<br>Tickets: %{y}<extra></extra>'
+elif filtro == 'Semana':
+    hover = 'Semana del %{x}<br>Tickets: %{y}<extra></extra>'
+else:
+    hover = 'Mes: %{x}<br>Tickets: %{y}<extra></extra>'
+
 fig.update_traces(
-    line=dict(color='#1f77b4', shape='spline'),
+    line=dict(color='#1f77b4', shape='spline', smoothing=1.3),
     marker=dict(size=8, color='#1f77b4'),
-    hovertemplate='%{x}<br>Tickets: %{y}<extra></extra>'
+    hovertemplate=hover
 )
 
 fig.update_layout(xaxis_title='Fecha', yaxis_title='Total Tickets')
