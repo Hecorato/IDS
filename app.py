@@ -81,8 +81,8 @@ with col2:
         xaxis_title='Fecha', 
         yaxis_title='Total Tickets',
         height=500
-)
         )
+        
         st.plotly_chart(fig2, use_container_width=True)
 
 # ── MÓDULO 3: (próximo módulo aquí) ───────────────────
