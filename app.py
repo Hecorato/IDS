@@ -63,7 +63,7 @@ with col2:
     with st.container(border=True):
         st.subheader("⚠️ Fallas")
         df_fallas = df_filtrado.groupby('NIVEL2').size().reset_index(name='TOTAL')
-        df_fallas = df_fallas.sort_values('TOTAL', ascending=False)
+        df_fallas = df_fallas.sort_values('TOTAL', ascending=True)
         fig2 = px.bar(
             df_fallas,
             x='TOTAL',
