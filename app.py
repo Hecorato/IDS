@@ -50,7 +50,7 @@ fig = px.line(
 if filtro == 'Día':
     hover = '%{x}<br>Tickets: %{y}<extra></extra>'
 elif filtro == 'Semana':
-    hover = 'Semana del %{x}<br>Tickets: %{y}<extra></extra>'
+    hover = 'Semana %{customdata}<br>Tickets: %{y}<extra></extra>'
 else:
     hover = 'Mes: %{x}<br>Tickets: %{y}<extra></extra>'
 
@@ -59,7 +59,9 @@ fig.update_traces(
     marker=dict(size=8, color='#1f77b4'),
     hovertemplate=hover
 )
-
+if filtro == 'Semana':
+    fig.update_traces(customdata=df_agrupado['SEMANA'])
+    
 fig.update_layout(xaxis_title='Fecha', yaxis_title='Total Tickets')
 
 st.plotly_chart(fig, use_container_width=True)
