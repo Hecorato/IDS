@@ -4,7 +4,7 @@ import streamlit as st
 
 st.title("Ingreso de Soporte")
 
-df = pd.read_csv('IDS ABRIL-MAYO.csv')
+df = pd.read_csv('IDS ABRIL-MAYO - Hoja 1.csv')
 
 df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION'])
 
