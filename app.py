@@ -64,13 +64,25 @@ with col2:
         st.subheader("⚠️ Fallas")
         df_fallas = df_filtrado.groupby('NIVEL2').size().reset_index(name='TOTAL')
         df_fallas = df_fallas.sort_values('TOTAL', ascending=False)
-        fig2 = px.bar(df_fallas, x='TOTAL', y='NIVEL2', orientation='h', text='TOTAL')
+        fig2 = px.bar(
+            df_fallas,
+            x='TOTAL',
+            y='NIVEL2',
+            orientation='h',
+            text='TOTAL',
+            color='NIVEL2',
+            color_discrete_sequence=px.colors.qualitative.Plotly
+        )
         fig2.update_traces(
-            marker_color='#e05c2a',
             hovertemplate='%{y}<br>Fallas: %{x}<extra></extra>',
             textposition='outside'
         )
-        fig2.update_layout(yaxis_title='', xaxis_title='Total Fallas', yaxis=dict(autorange='reversed'))
+        fig2.update_layout(
+            yaxis_title='',
+            xaxis_title='Total Fallas',
+            yaxis=dict(autorange='reversed'),
+            showlegend=False
+        )
         st.plotly_chart(fig2, use_container_width=True)
 
 # ── MÓDULO 3: (próximo módulo aquí) ───────────────────
