@@ -83,8 +83,8 @@ with col2:
         yaxis=dict(autorange='reversed'),
         showlegend=False,
         height=500
-)
-        )
+        )   
+        
         
         st.plotly_chart(fig2, use_container_width=True)
 
