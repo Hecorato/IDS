@@ -28,9 +28,11 @@ if filtro == 'Día':
     x_col = 'FECHA CREACION'
 
 elif filtro == 'Semana':
-    df_filtrado['SEMANA'] = df_filtrado['FECHA'].dt.to_period('W').apply(lambda r: r.start_time)
-    df_agrupado = df_filtrado.groupby('SEMANA').size().reset_index(name='TOTAL_TICKETS')
-    x_col = 'SEMANA'
+    df_filtrado['SEMANA'] = df_filtrado['FECHA'].dt.isocalendar().week
+    df_filtrado['SEMANA_INICIO'] = df_filtrado['FECHA'].dt.to_period('W').apply(lambda r: r.start_time)
+    df_agrupado = df_filtrado.groupby(['SEMANA', 'SEMANA_INICIO']).size().reset_index(name='TOTAL_TICKETS')
+    df_agrupado['ETIQUETA'] = 'Semana ' + df_agrupado['SEMANA'].astype(str) + ' - ' + df_agrupado['SEMANA_INICIO'].dt.strftime('%d %b')
+    x_col = 'SEMANA_INICIO'
 
 else:
     df_filtrado['MES'] = df_filtrado['FECHA'].dt.to_period('M').apply(lambda r: r.start_time)
