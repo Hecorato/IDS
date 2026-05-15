@@ -47,8 +47,10 @@ fig = px.line(
 
 fig.update_traces(
     line=dict(color='#1f77b4', shape='spline'),
-    marker=dict(size=8, color='#1f77b4')
+    marker=dict(size=8, color='#1f77b4'),
+    hovertemplate='%{x}<br>Tickets: %{y}<extra></extra>'
 )
+
 fig.update_layout(xaxis_title='Fecha', yaxis_title='Total Tickets')
 
 st.plotly_chart(fig, use_container_width=True)
