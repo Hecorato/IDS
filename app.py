@@ -6,15 +6,14 @@ st.title("Ingreso de Soporte")
 
 df = pd.read_csv('IDS ABRIL-MAYO - Hoja 1.csv')
 
-df['FECHA'] = pd.to_datetime(df['FECHA'])
-
-df_agrupado = df.groupby('FECHA CREACION')['CUENTA'].count().reset_index()
+df_agrupado = df.groupby('FECHA CREACION')['TICKET'].count().reset_index()
+df_agrupado = df_agrupado.rename(columns={'TICKET': 'TOTAL_TICKETS'})
 
 
 fig = px.line(
     df_agrupado,
     x='FECHA CREACION',
-    y='CUENTA',
+    y='TOTAL_TICKETS',
     title='Cantidad de cuentas por fecha'
 )
 
