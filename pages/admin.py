@@ -4,6 +4,7 @@ import requests
 import base64
 from components.auth import check_login
 
+# ── LISTA DE CLUSTERS ─────────────────────────────────
 CLUSTERS = [
     "AMPLIACION COACALCO",
     "AMPLIACION CUAUTITLAN 2",
@@ -24,17 +25,16 @@ CLUSTERS = [
     "TEOLOYUCAN_2_A"
 ]
 
+# ── FUNCIÓN: SUBIR A GITHUB ───────────────────────────
 def subir_a_github(df):
     token = st.secrets["github"]["token"]
     repo = st.secrets["github"]["repo"]
     url = f"https://api.github.com/repos/{repo}/contents/ids.csv"
     headers = {"Authorization": f"token {token}"}
 
-    # Obtener SHA del archivo actual
     r = requests.get(url, headers=headers)
     sha = r.json().get("sha", None)
 
-    # Convertir df a CSV en base64
     contenido = df.to_csv(index=False).encode()
     contenido_b64 = base64.b64encode(contenido).decode()
 
@@ -45,20 +45,25 @@ def subir_a_github(df):
     }
 
     r = requests.put(url, headers=headers, json=payload)
-    return r.status_code == 200 or r.status_code == 201
+    return r.status_code in [200, 201]
 
+# ── FUNCIÓN: LEER Y LIMPIAR XLSX ──────────────────────
 def procesar_archivo(archivo):
-    # Leer xlsx
-    df_nuevo = pd.read_excel(archivo, sheet_name='Reporte ingresos soportes', header=1)
-
-    # Filtrar clusters
-    df_nuevo = df_nuevo[df_nuevo['CLUSTER INSTALACION'].isin(CLUSTERS)]
-
-    # Agregar columna fecha y semana
-    df_nuevo['FECHA CREACION'] = pd.to_datetime(df_nuevo['FECHA CREACION']).dt.date
-    df_nuevo['SEMANA'] = pd.to_datetime(df_nuevo['FECHA CREACION']).dt.isocalendar().week
-
-    return df_nuevo
+    df = pd.read_excel(
+        archivo,
+        sheet_name='Reporte ingresos soportes',
+        header=1
+    )
+    # Eliminar columnas vacías
+    df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
+    # Eliminar filas vacías
+    df = df.dropna(how='all')
+    # Filtrar solo tus clusters
+    df = df[df['CLUSTER INSTALACION'].isin(CLUSTERS)]
+    # Agregar columna fecha limpia y semana
+    df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION']).dt.date
+    df['SEMANA'] = pd.to_datetime(df['FECHA CREACION']).dt.isocalendar().week
+    return df
 
 # ── PÁGINA ────────────────────────────────────────────
 st.set_page_config(page_title="Admin - Dashboard IDS", layout="wide")
@@ -71,28 +76,38 @@ st.markdown("---")
 
 with st.container(border=True):
     st.subheader("📤 Cargar reporte del día")
-    archivo = st.file_uploader("Sube el archivo xlsx", type=["xlsx"])
+    st.caption("Sube el archivo xlsx tal como lo descargas, sin modificarlo")
+
+    archivo = st.file_uploader("Selecciona el archivo", type=["xlsx"])
 
     if archivo:
         with st.spinner("Procesando archivo..."):
             df_nuevo = procesar_archivo(archivo)
 
         st.success(f"✅ {len(df_nuevo)} registros de tus clusters encontrados")
-        st.dataframe(df_nuevo.head(), use_container_width=True)
+        st.dataframe(df_nuevo.head(10), use_container_width=True)
 
-        if st.button("Actualizar dashboard", use_container_width=True):
-            with st.spinner("Subiendo a GitHub..."):
-
-                # Cargar histórico si existe
+        st.markdown("---")
+        if st.button("⬆️ Actualizar dashboard", use_container_width=True):
+            with st.spinner("Fusionando y subiendo a GitHub..."):
                 try:
                     df_base = pd.read_csv('ids.csv')
-                    df_base['FECHA CREACION'] = pd.to_datetime(df_base['FECHA CREACION']).dt.date
-                    df_total = pd.concat([df_base, df_nuevo], ignore_index=True)
-                    df_total = df_total.drop_duplicates(subset=['OT'], keep='last')
+                    df_base['FECHA CREACION'] = pd.to_datetime(
+                        df_base['FECHA CREACION']
+                    ).dt.date
+                    df_total = pd.concat(
+                        [df_base, df_nuevo], ignore_index=True
+                    )
+                    df_total = df_total.drop_duplicates(
+                        subset=['OT'], keep='last'
+                    )
                 except:
                     df_total = df_nuevo
 
                 if subir_a_github(df_total):
-                    st.success(f"🎉 Dashboard actualizado con {len(df_total)} registros totales")
+                    st.success(
+                        f"🎉 Dashboard actualizado con {len(df_total)} registros totales"
+                    )
+                    st.balloons()
                 else:
-                    st.error("❌ Error al subir a GitHub")
+                    st.error("❌ Error al subir a GitHub, intenta de nuevo")
