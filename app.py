@@ -3,7 +3,6 @@ from data.loader import cargar_datos
 from components.auth import check_login
 from components.filtros import render_filtros
 from components.tickets import render_tickets
-from components.fallas import render_fallas
 from components.detalle import render_detalle
 
 st.set_page_config(page_title="Dashboard IDS", layout="wide")
@@ -25,10 +24,7 @@ with col2:
 df = cargar_datos()
 df_filtrado, filtro, df_agrupado, x_col, hover = render_filtros(df)
 
-col1, col2 = st.columns(2)
-with col1:
+with st.container(border=True):
     evento = render_tickets(df_agrupado, filtro, x_col, hover)
-with col2:
-    render_fallas(df_filtrado)
 
 render_detalle(df_filtrado, evento)
