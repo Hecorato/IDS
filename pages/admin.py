@@ -49,8 +49,7 @@ def subir_a_github(df):
 
 # ── FUNCIÓN: LEER Y LIMPIAR XLSX ──────────────────────
 def procesar_archivo(archivo):
-    df = pd.read_excel(
-        archivo,
+    df = pd.read_excel(archivo,
         sheet_name='Reporte ingresos soportes',
         header=1
     )
@@ -99,7 +98,7 @@ with st.container(border=True):
                         [df_base, df_nuevo], ignore_index=True
                     )
                     df_total = df_total.drop_duplicates(
-                        subset=['OT'], keep='last'
+                        subset=['OS'], keep='last'
                     )
                 except:
                     df_total = df_nuevo
