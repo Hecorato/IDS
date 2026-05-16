@@ -1,97 +1,34 @@
-import pandas as pd
-import plotly.express as px
 import streamlit as st
+from data.loader import cargar_datos
+from components.auth import check_login
+from components.filtros import render_filtros
+from components.tickets import render_tickets
+from components.fallas import render_fallas
+from components.detalle import render_detalle
 
-# ── CONFIGURACIÓN ─────────────────────────────────────
-st.set_page_config(
-    page_title="Dashboard IDS",
-    page_icon="📊",
-    layout="wide",
-    initial_sidebar_state="collapsed"
-)
+st.set_page_config(page_title="Dashboard IDS", layout="wide")
 
-st.title("Dashboard IDS")
+if not check_login():
+    st.stop()
 
-# ── CARGA DE DATOS ────────────────────────────────────
-df = pd.read_csv('IDS ABRIL-MAYO - Hoja 1.csv')
-df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION']).dt.date
-df['FECHA'] = pd.to_datetime(df['FECHA CREACION'])
+# ── HEADER ────────────────────────────────────────────
+col1, col2 = st.columns([6, 1])
+with col1:
+    st.title("Dashboard IDS")
+with col2:
+    st.write(f"👤 {st.session_state['nombre']}")
+    if st.button("Cerrar sesión"):
+        st.session_state.clear()
+        st.rerun()
 
-# ── FILTROS GLOBALES ──────────────────────────────────
-st.subheader("Filtros")
+# ── DASHBOARD ─────────────────────────────────────────
+df = cargar_datos()
+df_filtrado, filtro, df_agrupado, x_col, hover = render_filtros(df)
+
 col1, col2 = st.columns(2)
 with col1:
-    fecha_inicio = st.date_input('Desde:', value=df['FECHA CREACION'].min())
+    evento = render_tickets(df_agrupado, filtro, x_col, hover)
 with col2:
-    fecha_fin = st.date_input('Hasta:', value=df['FECHA CREACION'].max())
+    render_fallas(df_filtrado)
 
-filtro = st.selectbox('Agrupar por:', ['Día', 'Semana', 'Mes'])
-
-df_filtrado = df[(df['FECHA CREACION'] >= fecha_inicio) & (df['FECHA CREACION'] <= fecha_fin)].copy()
-df_filtrado['FECHA'] = pd.to_datetime(df_filtrado['FECHA CREACION'])
-
-# Agrupación temporal
-if filtro == 'Día':
-    df_agrupado = df_filtrado.groupby('FECHA CREACION').size().reset_index(name='TOTAL_TICKETS')
-    df_agrupado['FECHA CREACION'] = pd.to_datetime(df_agrupado['FECHA CREACION'])
-    x_col = 'FECHA CREACION'
-    hover = '%{x}<br>Tickets: %{y}<extra></extra>'
-elif filtro == 'Semana':
-    df_filtrado['SEMANA_INICIO'] = df_filtrado['FECHA'].dt.to_period('W-SUN').apply(lambda r: r.start_time)
-    df_filtrado['NUM_SEMANA'] = df_filtrado['SEMANA_INICIO'].dt.isocalendar().week
-    df_agrupado = df_filtrado.groupby(['SEMANA_INICIO', 'NUM_SEMANA']).size().reset_index(name='TOTAL_TICKETS')
-    x_col = 'SEMANA_INICIO'
-    hover = 'Semana %{customdata}<br>Tickets: %{y}<extra></extra>'
-else:
-    df_filtrado['MES'] = df_filtrado['FECHA'].dt.to_period('M').apply(lambda r: r.start_time)
-    df_agrupado = df_filtrado.groupby('MES').size().reset_index(name='TOTAL_TICKETS')
-    x_col = 'MES'
-    hover = 'Mes: %{x}<br>Tickets: %{y}<extra></extra>'
-
-# ── MÓDULOS LADO A LADO ───────────────────────────────
-col1, col2 = st.columns(2)
-
-with col1:
-    with st.container(border=True):
-        st.subheader("📋 Ingreso de tickets")
-        fig1 = px.line(df_agrupado, x=x_col, y='TOTAL_TICKETS', markers=True)
-        fig1.update_traces(
-            line=dict(color='#1f77b4', shape='spline', smoothing=1.3),
-            marker=dict(size=8, color='#1f77b4'),
-            hovertemplate=hover
-        )
-        if filtro == 'Semana':
-            fig1.update_traces(customdata=df_agrupado['NUM_SEMANA'])
-        fig1.update_layout(xaxis_title='Fecha', yaxis_title='Total Tickets', height=500)
-        st.plotly_chart(fig1, use_container_width=True)
-
-with col2:
-    with st.container(border=True):
-        st.subheader("⚠️ Fallas")
-        df_fallas = df_filtrado.groupby('NIVEL2').size().reset_index(name='TOTAL')
-        df_fallas = df_fallas.sort_values('TOTAL', ascending=True)
-        fig2 = px.bar(
-            df_fallas,
-            x='TOTAL',
-            y='NIVEL2',
-            orientation='h',
-            text='TOTAL',
-            color='NIVEL2',
-            color_discrete_sequence=px.colors.qualitative.Plotly
-        )
-        fig2.update_traces(
-            hovertemplate='%{y}<br>Fallas: %{x}<extra></extra>',
-            textposition='outside'
-        )
-        fig2.update_layout(
-        yaxis_title='',
-        xaxis_title='Total Fallas',
-        yaxis=dict(autorange='reversed'),
-        showlegend=False,
-        height=500
-        )   
-        
-        
-        st.plotly_chart(fig2, use_container_width=True)
-
-# ── MÓDULO 3: (próximo módulo aquí) ───────────────────
+render_detalle(df_filtrado, evento)
