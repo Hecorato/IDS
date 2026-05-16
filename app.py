@@ -62,7 +62,7 @@ with col1:
         )
         if filtro == 'Semana':
             fig1.update_traces(customdata=df_agrupado['NUM_SEMANA'])
-        fig1.update_layout(xaxis_title='Fecha', yaxis_title='Total Tickets')
+        fig1.update_layout(xaxis_title='Fecha', yaxis_title='Total Tickets', height=500)
         st.plotly_chart(fig1, use_container_width=True)
 
 with col2:
