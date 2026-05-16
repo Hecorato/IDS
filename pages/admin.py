@@ -77,7 +77,7 @@ with st.container(border=True):
     st.subheader("📤 Cargar reporte del día")
     st.caption("Sube el archivo xlsx tal como lo descargas, sin modificarlo")
 
-    archivo = st.file_uploader("Selecciona el archivo", type=["xlsx"])
+    archivo = st.file_uploader("Selecciona el archivo", type=["xlsx", "xls"])
 
     if archivo:
         with st.spinner("Procesando archivo..."):
