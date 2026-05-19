@@ -146,3 +146,45 @@ with st.container(border=True):
 
 if st.button("← Regresar al dashboard"):
     st.switch_page('app.py')
+
+
+    # ── GRÁFICA POR HORA ──────────────────────────────────
+with st.container(border=True):
+    st.subheader("🕐 Tickets por hora del día — Semana actual vs anterior")
+
+    df['FECHA APERTURA'] = pd.to_datetime(df['FECHA APERTURA'], dayfirst=True, errors='coerce')
+    df['HORA'] = df['FECHA APERTURA'].dt.hour
+
+    df_hora_actual = df[df['NUM_SEMANA'] == sem_actual].groupby('HORA').size().reset_index(name='Tickets')
+    df_hora_actual['Semana'] = f'Sem {sem_actual}'
+
+    df_hora_anterior = df[df['NUM_SEMANA'] == sem_anterior].groupby('HORA').size().reset_index(name='Tickets')
+    df_hora_anterior['Semana'] = f'Sem {sem_anterior}'
+
+    df_horas = pd.concat([df_hora_anterior, df_hora_actual])
+
+    fig_hora = px.line(
+        df_horas,
+        x='HORA',
+        y='Tickets',
+        color='Semana',
+        markers=True,
+        text='Tickets',
+        color_discrete_map={
+            f'Sem {sem_anterior}': '#a8c8e8',
+            f'Sem {sem_actual}': '#1f77b4'
+        }
+    )
+    fig_hora.update_traces(
+        line=dict(shape='spline', smoothing=1.3),
+        marker=dict(size=8),
+        textposition='top center'
+    )
+    fig_hora.update_layout(
+        height=300,
+        xaxis_title='Hora del día',
+        yaxis_title='Total Tickets',
+        xaxis=dict(tickmode='linear', tick0=0, dtick=1),
+        legend=dict(orientation='h', y=1.1)
+    )
+    st.plotly_chart(fig_hora, use_container_width=True)
