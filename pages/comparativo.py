@@ -1,7 +1,8 @@
 import pandas as pd
 import plotly.express as px
 import streamlit as st
-from datetime import datetime
+import requests
+from datetime import timezone, timedelta
 from components.auth import check_login
 from data.loader import cargar_datos
 
@@ -10,10 +11,26 @@ st.set_page_config(page_title="Comparativo - Dashboard IDS", layout="wide")
 if not check_login():
     st.stop()
 
-hora_actual = datetime.now().strftime("%H:%M")
-st.title(f"📊 Comparativo Semanal — Corte {hora_actual}")
+# ── HORA DE ACTUALIZACIÓN ─────────────────────────────
+def obtener_hora_actualizacion():
+    try:
+        token = st.secrets["github"]["token"]
+        repo = st.secrets["github"]["repo"]
+        url = f"https://api.github.com/repos/{repo}/commits?path=ids.csv&per_page=1"
+        headers = {"Authorization": f"token {token}"}
+        r = requests.get(url, headers=headers)
+        fecha_utc = r.json()[0]['commit']['committer']['date']
+        cdmx = timezone(timedelta(hours=-6))
+        fecha = pd.to_datetime(fecha_utc).astimezone(cdmx)
+        return fecha.strftime("%H:%M")
+    except:
+        return "N/A"
+
+hora_corte = obtener_hora_actualizacion()
+st.title(f"📊 Comparativo Semanal — Corte {hora_corte}")
 st.markdown("---")
 
+# ── CARGA DE DATOS ────────────────────────────────────
 df = cargar_datos()
 df['FECHA'] = pd.to_datetime(df['FECHA CREACION'])
 df['DIA_SEMANA'] = df['FECHA'].dt.day_name()
@@ -53,7 +70,7 @@ df_anterior = df[df['NUM_SEMANA'] == sem_anterior]
 
 clusters = sorted(df['CLUSTER INSTALACION'].unique())
 
-# Construir tabla comparativa
+# ── TABLA COMPARATIVA ─────────────────────────────────
 filas = []
 for cluster in clusters:
     fila = {'Cluster': cluster}
@@ -77,7 +94,6 @@ filas.append(fila_total)
 
 df_tabla = pd.DataFrame(filas)
 
-# ── TABLA ─────────────────────────────────────────────
 with st.container(border=True):
     st.subheader("📋 Tabla por Cluster y Día")
     cols = [c for c in df_tabla.columns if c != 'Cluster']
