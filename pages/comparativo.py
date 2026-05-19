@@ -30,6 +30,21 @@ sem_anterior = semanas[1]
 
 st.subheader(f"Semana {sem_actual} vs Semana {sem_anterior}")
 
+# ── KPIs ──────────────────────────────────────────────
+col1, col2 = st.columns(2)
+with col1:
+    with st.container(border=True):
+        total_anterior = len(df[df['NUM_SEMANA'] == sem_anterior])
+        st.metric(f"📅 Semana {sem_anterior}", f"{total_anterior:,} tickets")
+
+with col2:
+    with st.container(border=True):
+        total_actual = len(df[df['NUM_SEMANA'] == sem_actual])
+        diferencia = total_actual - total_anterior
+        st.metric(f"📅 Semana {sem_actual}", f"{total_actual:,} tickets", delta=f"{diferencia:+,}")
+
+st.markdown("---")
+
 dias_orden = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 dias_es = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
 
