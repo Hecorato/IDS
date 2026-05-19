@@ -55,7 +55,6 @@ with col1:
     with st.container(border=True):
         total_anterior = len(df[df['NUM_SEMANA'] == sem_anterior])
         st.metric(f"📅 Semana {sem_anterior}", f"{total_anterior:,} tickets")
-
 with col2:
     with st.container(border=True):
         total_actual = len(df[df['NUM_SEMANA'] == sem_actual])
@@ -85,7 +84,6 @@ for cluster in clusters:
         fila[f'{dia_es} S{sem_actual}'] = actual
     filas.append(fila)
 
-# Fila de totales
 fila_total = {'Cluster': '📊 TOTAL'}
 for dia_en, dia_es in zip(dias_orden, dias_es):
     actual = df_actual[df_actual['DIA_SEMANA'] == dia_en].shape[0]
@@ -153,7 +151,14 @@ with st.container(border=True):
     st.subheader("🕐 Tickets por hora del día — Semana actual vs anterior")
 
     dia_seleccionado = st.selectbox(
-        col1, col2 = st.columns(2)
+        'Ver comportamiento por hora del día:',
+        options=dias_es,
+        index=0,
+        key='filtro_hora_dia'
+    )
+    dia_en_seleccionado = dias_orden[dias_es.index(dia_seleccionado)]
+
+    col1, col2 = st.columns(2)
     with col1:
         with st.container(border=True):
             total_hora_anterior = len(df[
@@ -169,12 +174,6 @@ with st.container(border=True):
             ])
             dif_hora = total_hora_actual - total_hora_anterior
             st.metric(f"📅 {dia_seleccionado} Sem {sem_actual}", f"{total_hora_actual:,} tickets", delta=f"{dif_hora:+,}")
-        'Ver comportamiento por hora del día:',
-        options=dias_es,
-        index=0,
-        key='filtro_hora_dia'
-    )
-    dia_en_seleccionado = dias_orden[dias_es.index(dia_seleccionado)]
 
     df_hora_actual = df[
         (df['NUM_SEMANA'] == sem_actual) &
