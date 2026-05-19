@@ -59,7 +59,7 @@ with col2:
     with st.container(border=True):
         total_actual = len(df[df['NUM_SEMANA'] == sem_actual])
         diferencia = total_actual - total_anterior
-        st.metric(f"📅 Semana {sem_actual}", f"{total_actual:,} tickets", delta=f"{diferencia:+,}")
+        st.metric(f"📅 Semana {sem_actual}", f"{total_actual:,} tickets", delta=f"{diferencia:+,}", delta_color="inverse")
 
 st.markdown("---")
 
@@ -165,7 +165,7 @@ with st.container(border=True):
                 (df['NUM_SEMANA'] == sem_anterior) &
                 (df['DIA_SEMANA'] == dia_en_seleccionado)
             ])
-            st.metric(f"📅 {dia_seleccionado} Sem {sem_anterior}", f"{total_hora_anterior:,} tickets")
+            st.metric(f"📅 {dia_seleccionado} Sem {sem_actual}", f"{total_hora_actual:,} tickets", delta=f"{dif_hora:+,}", delta_color="inverse")
     with col2:
         with st.container(border=True):
             total_hora_actual = len(df[
@@ -173,7 +173,7 @@ with st.container(border=True):
                 (df['DIA_SEMANA'] == dia_en_seleccionado)
             ])
             dif_hora = total_hora_actual - total_hora_anterior
-            st.metric(f"📅 {dia_seleccionado} Sem {sem_actual}", f"{total_hora_actual:,} tickets", delta=f"{dif_hora:+,}")
+            st.metric(f"📅 {dia_seleccionado} Sem {sem_actual}", f"{total_hora_actual:,} tickets", delta=f"{dif_hora:+,}", delta_color="inverse")
 
     df_hora_actual = df[
         (df['NUM_SEMANA'] == sem_actual) &
