@@ -27,4 +27,3 @@ df_filtrado, filtro, df_agrupado, x_col, hover = render_filtros(df)
 with st.container(border=True):
     evento = render_tickets(df_agrupado, filtro, x_col, hover)
 
-render_detalle(df_filtrado, evento)
