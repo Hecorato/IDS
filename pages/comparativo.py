@@ -153,6 +153,22 @@ with st.container(border=True):
     st.subheader("🕐 Tickets por hora del día — Semana actual vs anterior")
 
     dia_seleccionado = st.selectbox(
+        col1, col2 = st.columns(2)
+    with col1:
+        with st.container(border=True):
+            total_hora_anterior = len(df[
+                (df['NUM_SEMANA'] == sem_anterior) &
+                (df['DIA_SEMANA'] == dia_en_seleccionado)
+            ])
+            st.metric(f"📅 {dia_seleccionado} Sem {sem_anterior}", f"{total_hora_anterior:,} tickets")
+    with col2:
+        with st.container(border=True):
+            total_hora_actual = len(df[
+                (df['NUM_SEMANA'] == sem_actual) &
+                (df['DIA_SEMANA'] == dia_en_seleccionado)
+            ])
+            dif_hora = total_hora_actual - total_hora_anterior
+            st.metric(f"📅 {dia_seleccionado} Sem {sem_actual}", f"{total_hora_actual:,} tickets", delta=f"{dif_hora:+,}")
         'Ver comportamiento por hora del día:',
         options=dias_es,
         index=0,
