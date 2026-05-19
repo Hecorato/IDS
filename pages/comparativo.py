@@ -148,7 +148,7 @@ st.markdown("---")
 
 # ── GRÁFICA POR HORA ──────────────────────────────────
 with st.container(border=True):
-    st.subheader("🕐 Tickets por hora del día — Semana actual vs anterior {hora_corte}")
+    st.subheader(f"🕐 Tickets por hora del día — Semana actual vs anterior — Corte {hora_corte}")
 
     dia_seleccionado = st.selectbox(
         'Ver comportamiento por hora del día:',
