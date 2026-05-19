@@ -207,7 +207,7 @@ with st.container(border=True):
         textposition='top center'
     )
     fig_hora.update_layout(
-        height=300,
+        height=450,
         xaxis_title='Hora del día',
         yaxis_title='Total Tickets',
         xaxis=dict(tickmode='linear', tick0=0, dtick=1),
