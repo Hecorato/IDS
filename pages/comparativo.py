@@ -165,7 +165,7 @@ with st.container(border=True):
                 (df['NUM_SEMANA'] == sem_anterior) &
                 (df['DIA_SEMANA'] == dia_en_seleccionado)
             ])
-            st.metric(f"📅 {dia_seleccionado} Sem {sem_actual}", f"{total_hora_actual:,} tickets", delta=f"{dif_hora:+,}", delta_color="inverse")
+            st.metric(f"📅 {dia_seleccionado} Sem {sem_anterior}", f"{total_hora_anterior:,} tickets")
     with col2:
         with st.container(border=True):
             total_hora_actual = len(df[
