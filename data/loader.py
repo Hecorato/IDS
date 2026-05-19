@@ -23,6 +23,7 @@ CLUSTERS = [
 def cargar_datos():
     df = pd.read_csv('ids.csv')
     df = df[df['CLUSTER INSTALACION'].isin(CLUSTERS)]
+    df = df[df['ESTATUS'] != 'Cancelado']  # ← esto
     df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION']).dt.date
     df['FECHA'] = pd.to_datetime(df['FECHA CREACION'])
     return df
