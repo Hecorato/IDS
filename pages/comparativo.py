@@ -35,6 +35,8 @@ df = cargar_datos()
 df['FECHA'] = pd.to_datetime(df['FECHA CREACION'])
 df['DIA_SEMANA'] = df['FECHA'].dt.day_name()
 df['NUM_SEMANA'] = df['FECHA'].dt.isocalendar().week
+df['FECHA APERTURA'] = pd.to_datetime(df['FECHA APERTURA'], dayfirst=True, errors='coerce')
+df['HORA'] = df['FECHA APERTURA'].dt.hour
 
 semanas = sorted(df['NUM_SEMANA'].unique(), reverse=True)
 
@@ -106,7 +108,7 @@ with st.container(border=True):
 
 st.markdown("---")
 
-# ── GRÁFICA COMPARATIVA ───────────────────────────────
+# ── GRÁFICA COMPARATIVA POR DÍA ───────────────────────
 with st.container(border=True):
     st.subheader("📈 Total de tickets por día — Semana actual vs anterior")
 
@@ -144,21 +146,30 @@ with st.container(border=True):
     )
     st.plotly_chart(fig, use_container_width=True)
 
-if st.button("← Regresar al dashboard"):
-    st.switch_page('app.py')
+st.markdown("---")
 
-
-    # ── GRÁFICA POR HORA ──────────────────────────────────
+# ── GRÁFICA POR HORA ──────────────────────────────────
 with st.container(border=True):
     st.subheader("🕐 Tickets por hora del día — Semana actual vs anterior")
 
-    df['FECHA APERTURA'] = pd.to_datetime(df['FECHA APERTURA'], dayfirst=True, errors='coerce')
-    df['HORA'] = df['FECHA APERTURA'].dt.hour
+    dia_seleccionado = st.selectbox(
+        'Ver comportamiento por hora del día:',
+        options=dias_es,
+        index=0,
+        key='filtro_hora_dia'
+    )
+    dia_en_seleccionado = dias_orden[dias_es.index(dia_seleccionado)]
 
-    df_hora_actual = df[df['NUM_SEMANA'] == sem_actual].groupby('HORA').size().reset_index(name='Tickets')
+    df_hora_actual = df[
+        (df['NUM_SEMANA'] == sem_actual) &
+        (df['DIA_SEMANA'] == dia_en_seleccionado)
+    ].groupby('HORA').size().reset_index(name='Tickets')
     df_hora_actual['Semana'] = f'Sem {sem_actual}'
 
-    df_hora_anterior = df[df['NUM_SEMANA'] == sem_anterior].groupby('HORA').size().reset_index(name='Tickets')
+    df_hora_anterior = df[
+        (df['NUM_SEMANA'] == sem_anterior) &
+        (df['DIA_SEMANA'] == dia_en_seleccionado)
+    ].groupby('HORA').size().reset_index(name='Tickets')
     df_hora_anterior['Semana'] = f'Sem {sem_anterior}'
 
     df_horas = pd.concat([df_hora_anterior, df_hora_actual])
@@ -188,3 +199,6 @@ with st.container(border=True):
         legend=dict(orientation='h', y=1.1)
     )
     st.plotly_chart(fig_hora, use_container_width=True)
+
+if st.button("← Regresar al dashboard"):
+    st.switch_page('app.py')
