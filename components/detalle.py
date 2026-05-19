@@ -27,9 +27,13 @@ df = hacer_merge(df_tickets, df_soluciones)
 
 # Filtrar por fecha
 df_dia = df[df['FECHA CREACION'] == fecha]
-st.write("Tickets OS ejemplo:", df_tickets['OS'].head(3).tolist())
-st.write("Soluciones OS ejemplo:", df_soluciones['OS'].head(3).tolist())
-st.write("Registros después del merge con datos:", df_dia[df_dia['Causa'].notna()].shape[0])
+
+try:
+    st.write("Tickets OS ejemplo:", df_tickets['OS'].head(3).tolist())
+    st.write("Soluciones OS ejemplo:", df_soluciones['OS'].head(3).tolist())
+    st.write("Merge registros con Causa:", df_dia['Causa'].notna().sum())
+except Exception as e:
+    st.error(f"Error en debug: {e}")
 
 # KPIs
 col1, col2, col3 = st.columns(3)
