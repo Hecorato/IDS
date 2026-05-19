@@ -18,7 +18,6 @@ df = cargar_datos()
 df['FECHA'] = pd.to_datetime(df['FECHA CREACION'])
 df['DIA_SEMANA'] = df['FECHA'].dt.day_name()
 df['NUM_SEMANA'] = df['FECHA'].dt.isocalendar().week
-df['ANO'] = df['FECHA'].dt.isocalendar().year
 
 semanas = sorted(df['NUM_SEMANA'].unique(), reverse=True)
 
@@ -66,7 +65,13 @@ df_tabla = pd.DataFrame(filas)
 # ── TABLA ─────────────────────────────────────────────
 with st.container(border=True):
     st.subheader("📋 Tabla por Cluster y Día")
-    st.dataframe(df_tabla.set_index('Cluster'), use_container_width=True, height=600)
+    cols = [c for c in df_tabla.columns if c != 'Cluster']
+    st.dataframe(
+        df_tabla.set_index('Cluster'),
+        use_container_width=True,
+        height=400,
+        column_config={col: st.column_config.NumberColumn(col, format="%d", width="small") for col in cols}
+    )
 
 st.markdown("---")
 
@@ -83,20 +88,29 @@ with st.container(border=True):
 
     df_grafica = pd.DataFrame(datos_grafica)
 
-    fig = px.bar(
+    fig = px.line(
         df_grafica,
         x='Día',
         y='Tickets',
         color='Semana',
-        barmode='group',
+        markers=True,
         text='Tickets',
         color_discrete_map={
             f'Sem {sem_anterior}': '#a8c8e8',
             f'Sem {sem_actual}': '#1f77b4'
         }
     )
-    fig.update_traces(textposition='outside')
-    fig.update_layout(height=400, xaxis_title='', yaxis_title='Total Tickets')
+    fig.update_traces(
+        line=dict(shape='spline', smoothing=1.3),
+        marker=dict(size=8),
+        textposition='top center'
+    )
+    fig.update_layout(
+        height=300,
+        xaxis_title='',
+        yaxis_title='Total Tickets',
+        legend=dict(orientation='h', y=1.1)
+    )
     st.plotly_chart(fig, use_container_width=True)
 
 if st.button("← Regresar al dashboard"):
