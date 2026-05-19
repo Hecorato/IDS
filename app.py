@@ -3,7 +3,7 @@ from data.loader import cargar_datos
 from components.auth import check_login
 from components.filtros import render_filtros
 from components.tickets import render_tickets
-from components.detalle import render_detalle
+
 
 st.set_page_config(page_title="Dashboard IDS", layout="wide")
 
