@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 from components.auth import check_login
 
-st.set_page_config(page_title="Buscador de Cuenta", layout="wide")
+st.set_page_config(page_title="Buscador de Cuenta(En construccion)", layout="wide")
 
 if not check_login():
     st.stop()
