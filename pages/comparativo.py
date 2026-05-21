@@ -150,44 +150,61 @@ st.markdown("---")
 with st.container(border=True):
     st.subheader(f"🕐 Tickets por hora del día — Semana actual vs anterior — Corte {hora_corte}")
 
-    dia_seleccionado = st.selectbox(
-        'Ver comportamiento por hora del día:',
-        options=dias_es,
-        index=0,
-        key='filtro_hora_dia'
-    )
+    col_dia, col_sem1, col_sem2 = st.columns(3)
+    with col_dia:
+        dia_seleccionado = st.selectbox(
+            'Día:',
+            options=dias_es,
+            index=0,
+            key='filtro_hora_dia'
+        )
+    with col_sem1:
+        sem_a = st.selectbox(
+            'Semana A:',
+            options=semanas,
+            index=1,
+            key='sem_a'
+        )
+    with col_sem2:
+        sem_b = st.selectbox(
+            'Semana B:',
+            options=semanas,
+            index=0,
+            key='sem_b'
+        )
+
     dia_en_seleccionado = dias_orden[dias_es.index(dia_seleccionado)]
 
     col1, col2 = st.columns(2)
     with col1:
         with st.container(border=True):
-            total_hora_anterior = len(df[
-                (df['NUM_SEMANA'] == sem_anterior) &
+            total_a = len(df[
+                (df['NUM_SEMANA'] == sem_a) &
                 (df['DIA_SEMANA'] == dia_en_seleccionado)
             ])
-            st.metric(f"📅 {dia_seleccionado} Sem {sem_anterior}", f"{total_hora_anterior:,} tickets")
+            st.metric(f"📅 {dia_seleccionado} Sem {sem_a}", f"{total_a:,} tickets")
     with col2:
         with st.container(border=True):
-            total_hora_actual = len(df[
-                (df['NUM_SEMANA'] == sem_actual) &
+            total_b = len(df[
+                (df['NUM_SEMANA'] == sem_b) &
                 (df['DIA_SEMANA'] == dia_en_seleccionado)
             ])
-            dif_hora = total_hora_actual - total_hora_anterior
-            st.metric(f"📅 {dia_seleccionado} Sem {sem_actual}", f"{total_hora_actual:,} tickets", delta=f"{dif_hora:+,}", delta_color="inverse")
+            dif_hora = total_b - total_a
+            st.metric(f"📅 {dia_seleccionado} Sem {sem_b}", f"{total_b:,} tickets", delta=f"{dif_hora:+,}", delta_color="inverse")
 
-    df_hora_actual = df[
-        (df['NUM_SEMANA'] == sem_actual) &
+    df_hora_a = df[
+        (df['NUM_SEMANA'] == sem_a) &
         (df['DIA_SEMANA'] == dia_en_seleccionado)
     ].groupby('HORA').size().reset_index(name='Tickets')
-    df_hora_actual['Semana'] = f'Sem {sem_actual}'
+    df_hora_a['Semana'] = f'Sem {sem_a}'
 
-    df_hora_anterior = df[
-        (df['NUM_SEMANA'] == sem_anterior) &
+    df_hora_b = df[
+        (df['NUM_SEMANA'] == sem_b) &
         (df['DIA_SEMANA'] == dia_en_seleccionado)
     ].groupby('HORA').size().reset_index(name='Tickets')
-    df_hora_anterior['Semana'] = f'Sem {sem_anterior}'
+    df_hora_b['Semana'] = f'Sem {sem_b}'
 
-    df_horas = pd.concat([df_hora_anterior, df_hora_actual])
+    df_horas = pd.concat([df_hora_a, df_hora_b])
 
     fig_hora = px.line(
         df_horas,
@@ -197,8 +214,8 @@ with st.container(border=True):
         markers=True,
         text='Tickets',
         color_discrete_map={
-            f'Sem {sem_anterior}': '#a8c8e8',
-            f'Sem {sem_actual}': '#1f77b4'
+            f'Sem {sem_a}': '#a8c8e8',
+            f'Sem {sem_b}': '#1f77b4'
         }
     )
     fig_hora.update_traces(
