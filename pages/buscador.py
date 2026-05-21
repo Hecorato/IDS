@@ -10,7 +10,7 @@ if not check_login():
 BASE = "https://apiservice.sistemastp.com.mx/gsa/lite/v1/port"
 headers = {"User-Agent": "DashboardIDS/1.0"}
 
-st.title("🔍 Buscador de Cuenta")
+st.title("🔍 Buscador de Cuenta(En construccion")
 st.markdown("---")
 
 col1, col2 = st.columns([2, 1])
