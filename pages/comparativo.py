@@ -254,16 +254,7 @@ with st.container(border=True):
             .tail(top_n)
         )
 
-        fig_nivel2 = px.bar(
-            df_nivel2,
-            x='Tickets',
-            y='NIVEL2',
-            orientation='h',
-            text='Tickets',
-        )
-        fig_nivel2.update_traces(
-            textposition='outside',
-            colores = {
+        colores = {
             falla: '#e63946' if i == len(df_nivel2) - 1 else '#1f77b4'
             for i, falla in enumerate(df_nivel2['NIVEL2'])
         }
@@ -285,14 +276,7 @@ with st.container(border=True):
             margin=dict(l=10, r=40, t=10, b=10),
             showlegend=False
         )
-        )
-        fig_nivel2.update_layout(
-            height=80 + top_n * 28,
-            xaxis_title='Total Tickets',
-            yaxis_title='',
-            margin=dict(l=10, r=40, t=10, b=10)
-        )
         st.plotly_chart(fig_nivel2, use_container_width=True)
 
-if st.button("← Regresar al dashboard"):
+if st.button("← Regresar al dashboard", key="regresar_final"):
     st.switch_page('app.py')
