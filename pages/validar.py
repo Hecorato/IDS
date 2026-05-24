@@ -7,10 +7,10 @@ st.title("Validación Join")
 df_tickets = cargar_datos()
 df_infra = pd.read_csv('semana_detalle_coacalco.csv')
 
-df_tickets['Cuenta'] = df_tickets['Cuenta'].astype(str).str.strip()
+df_tickets['CUENTA'] = df_tickets['CUENTA'].astype(str).str.strip()
 df_infra['Cuenta'] = df_infra['Cuenta'].astype(str).str.strip()
 
-df_join = df_tickets.merge(df_infra, on='Cuenta', how='left')
+df_join = df_tickets.merge(df_infra, left_on='CUENTA', right_on='Cuenta', how='left')
 
 total = len(df_tickets)
 con_match = df_join['OLT'].notna().sum()
