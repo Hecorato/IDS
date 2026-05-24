@@ -1,13 +1,12 @@
 import streamlit as st
 import pandas as pd
-from data.loader import cargar_datos
 
 st.title("Validación Join")
 
-df_tickets = cargar_datos()
-df_infra = pd.read_csv('semana_detalle_coacalco.csv')
+df_tickets = pd.read_csv('ids.csv', dtype={'CUENTA': str})
+df_infra = pd.read_csv('semana_detalle_coacalco.csv', dtype={'Cuenta': str})
 
-df_tickets['CUENTA'] = df_tickets['CUENTA'].astype(str).str.strip().str.zfill(10)
+df_tickets['CUENTA'] = df_tickets['CUENTA'].str.strip().str.zfill(10)
 df_infra['Cuenta'] = df_infra['Cuenta'].astype(str).str.strip().str.zfill(10)
 
 df_join = df_tickets.merge(df_infra, left_on='CUENTA', right_on='Cuenta', how='left')
