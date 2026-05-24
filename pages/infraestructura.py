@@ -38,18 +38,18 @@ df['DIA_SEMANA'] = df['FECHA CREACION'].dt.day_name().map(dias_map)
 
 # ── FILTROS ───────────────────────────────────────────
 col1, col2, col3, col4 = st.columns(4)
-        with col1:
-            st.caption("Total tickets")
-            st.markdown(f"**{len(df_detalle):,}**")
-        with col2:
-            st.caption("Cuentas únicas")
-            st.markdown(f"**{df_detalle['CUENTA'].nunique():,}**")
-        with col3:
-            st.caption("OLT")
-            st.markdown(f"**{df_detalle['OLT'].iloc[0] if not df_detalle.empty else 'N/A'}**")
-        with col4:
-            st.caption("Falla más frecuente")
-            st.markdown(f"**{df_detalle['NIVEL2'].mode()[0] if not df_detalle.empty else 'N/A'}**")
+    with col1:
+        st.caption("Total tickets")
+        st.markdown(f"**{len(df_detalle):,}**")
+    with col2:
+        st.caption("Cuentas únicas")
+        st.markdown(f"**{df_detalle['CUENTA'].nunique():,}**")
+    with col3:
+        st.caption("OLT")
+        st.markdown(f"**{df_detalle['OLT'].iloc[0] if not df_detalle.empty else 'N/A'}**")
+    with col4:
+        st.caption("Falla más frecuente")
+        st.markdown(f"**{df_detalle['NIVEL2'].mode()[0] if not df_detalle.empty else 'N/A'}**")
 # ── TABLA SPLITTERS ───────────────────────────────────
 df_splitters = (
     df_filtrado.groupby('Código QR')
