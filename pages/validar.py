@@ -20,3 +20,6 @@ col1, col2, col3 = st.columns(3)
 col1.metric("Total tickets", f"{total:,}")
 col2.metric("Con match", f"{con_match:,}", f"{con_match/total*100:.1f}%")
 col3.metric("Sin match", f"{sin_match:,}", f"{sin_match/total*100:.1f}%")
+
+st.write("Ejemplos CUENTA tickets:", df_tickets['CUENTA'].head(5).tolist())
+st.write("Ejemplos Cuenta infra:", df_infra['Cuenta'].head(5).tolist())
