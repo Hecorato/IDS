@@ -219,7 +219,7 @@ with st.container(border=True):
 with st.container(border=True):
     st.subheader("📊 Fallas por tipo (NIVEL2)")
 
-    col_f1, col_f2, col_f3 = st.columns(3)
+    col_f1, col_f2, col_f3, col_f4 = st.columns(4)
     with col_f1:
         top_n = st.slider("Mostrar top:", min_value=5, max_value=30, value=10, step=5, key='slider_nivel2')
     with col_f2:
@@ -236,12 +236,22 @@ with st.container(border=True):
             default=['Todos'],
             key='dias_nivel2'
         )
+    with col_f4:
+        clusters_nivel2 = st.multiselect(
+            'Cluster:',
+            options=['Todos'] + clusters,
+            default=['Todos'],
+            key='clusters_nivel2'
+        )
 
     df_n2 = df[df['NUM_SEMANA'].isin(sems_nivel2)] if sems_nivel2 else df
 
     if 'Todos' not in dias_nivel2 and dias_nivel2:
         dias_en_n2 = [dias_orden[dias_es.index(d)] for d in dias_nivel2]
         df_n2 = df_n2[df_n2['DIA_SEMANA'].isin(dias_en_n2)]
+
+    if 'Todos' not in clusters_nivel2 and clusters_nivel2:
+        df_n2 = df_n2[df_n2['CLUSTER INSTALACION'].isin(clusters_nivel2)]
 
     if df_n2.empty:
         st.warning("No hay datos con los filtros seleccionados.")
