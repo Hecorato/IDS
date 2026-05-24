@@ -1,19 +1,33 @@
 import pandas as pd
-import streamlit as st
 
-@st.cache_data(ttl=3600)
-def cargar_infra():
-    df = pd.read_csv('semana_detalle_coacalco.csv')
-    
-    # Identificador único de puerto
-    df['ID_PUERTO'] = (
-        df['OLT'].astype(str) + ' ' +
-        df['F'].astype(str) + '/' +
-        df['S'].astype(str) + '/' +
-        df['P'].astype(str)
-    )
-    
-    # Limpiar cuenta
-    df['Cuenta'] = df['Cuenta'].astype(str).str.strip()
-    
+CLUSTERS = [
+    "AMPLIACION COACALCO",
+    "AMPLIACION CUAUTITLAN 2",
+    "AMPLIACION MELCHOR OCAMPO 1",
+    "AMPLIACION MELCHOR OCAMPO 2",
+    "AMPLIACION MELCHOR OCAMPO 2_A",
+    "AMPLIACION PASEOS DEL VALLE 1",
+    "AMPLIACION SAN PABLO DE LAS SALINAS II",
+    "COACALCO",
+    "MELCHOR OCAMPO",
+    "PASEOS DEL VALLE",
+    "SAN PABLO DE LAS SALINAS I",
+    "SAN PABLO DE LAS SALINAS II",
+    "MELCHOR OCAMPO_A",
+    "MELCHOR OCAMPO 2_A",
+    "TEOLOYUCAN",
+    "TULTEPEC",
+    "VILLA DE LAS FLORES",
+    "TEOLOYUCAN_2_A",
+    "TEOLOYUCAN_3_A",
+    "TEOLOYUCAN_A"
+]
+
+def cargar_datos():
+    df = pd.read_csv('ids.csv', dtype={'CUENTA': str})
+    df = df[df['CLUSTER INSTALACION'].isin(CLUSTERS)]
+    df = df[df['ESTATUS'] != 'Cancelado']
+    df['CUENTA'] = df['CUENTA'].str.strip().str.zfill(10)
+    df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION']).dt.date
+    df['FECHA'] = pd.to_datetime(df['FECHA CREACION'])
     return df
