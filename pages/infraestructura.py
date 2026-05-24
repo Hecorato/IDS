@@ -89,5 +89,52 @@ with st.container(border=True):
         height=300
     )
 
+# ── DETALLE POR SPLITTER ──────────────────────────────
+with st.container(border=True):
+    st.subheader("🔍 Detalle por splitter")
+
+    qrs = df_splitters['Código QR'].tolist()
+    qr_sel = st.selectbox("Selecciona un QR:", options=qrs)
+
+    df_detalle = df_filtrado[df_filtrado['Código QR'] == qr_sel]
+
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric("Total tickets", f"{len(df_detalle):,}")
+    col2.metric("Cuentas únicas", f"{df_detalle['CUENTA'].nunique():,}")
+    col3.metric("OLT", df_detalle['OLT'].iloc[0] if not df_detalle.empty else "N/A")
+    col4.metric("Falla más frecuente", df_detalle['NIVEL2'].mode()[0] if not df_detalle.empty else "N/A")
+
+    # ── MAPA ──
+    lat = df_detalle['Latitud'].iloc[0]
+    lon = df_detalle['Longitud'].iloc[0]
+
+    if pd.notna(lat) and pd.notna(lon):
+        st.subheader("📍 Ubicación del splitter")
+        df_mapa = pd.DataFrame({'lat': [lat], 'lon': [lon]})
+        st.map(df_mapa, zoom=15)
+    else:
+        st.warning("Sin coordenadas para este splitter.")
+
+    st.markdown("---")
+
+    # ── TICKETS DEL SPLITTER ──
+    st.subheader("📋 Tickets asociados")
+    df_tabla_detalle = df_detalle[['CUENTA', 'FECHA CREACION', 'NIVEL2', 'ESTATUS']].reset_index(drop=True)
+    st.dataframe(df_tabla_detalle, use_container_width=True, height=250)
+
+    st.markdown("---")
+
+    # ── HISTORIAL POR CUENTA ──
+    st.subheader("👤 Historial por cuenta")
+    cuentas = sorted(df_detalle['CUENTA'].unique().tolist())
+    cuenta_sel = st.selectbox("Selecciona una cuenta:", options=cuentas)
+
+    df_historial = df[df['CUENTA'] == cuenta_sel][['FECHA CREACION', 'NIVEL2', 'ESTATUS', 'Código QR', 'OLT']].sort_values('FECHA CREACION', ascending=False).reset_index(drop=True)
+
+    col1, col2 = st.columns(2)
+    col1.metric("Total tickets de esta cuenta", f"{len(df_historial):,}")
+    col2.metric("Splitters distintos", f"{df_historial['Código QR'].nunique():,}")
+
+    st.dataframe(df_historial, use_container_width=True, height=250)
 if st.button("← Regresar al dashboard", key="regresar_infra"):
     st.switch_page('app.py')
