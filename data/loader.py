@@ -24,9 +24,10 @@ CLUSTERS = [
 ]
 
 def cargar_datos():
-    df = pd.read_csv('ids.csv')
+    df = pd.read_csv('ids.csv', dtype={'CUENTA': str})  # ← fuerza lectura como texto
     df = df[df['CLUSTER INSTALACION'].isin(CLUSTERS)]
-    df = df[df['ESTATUS'] != 'Cancelado']  # ← esto
+    df = df[df['ESTATUS'] != 'Cancelado']
+    df['CUENTA'] = df['CUENTA'].str.strip().str.zfill(10)
     df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION']).dt.date
     df['FECHA'] = pd.to_datetime(df['FECHA CREACION'])
     return df
