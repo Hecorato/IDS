@@ -215,3 +215,41 @@ with st.container(border=True):
 
 if st.button("← Regresar al dashboard"):
     st.switch_page('app.py')
+
+    pythonst.markdown("---")
+
+# ── GRÁFICA POR NIVEL2 ────────────────────────────────
+with st.container(border=True):
+    st.subheader("📊 Fallas por tipo (NIVEL2)")
+
+    top_n = st.slider("Mostrar top:", min_value=5, max_value=30, value=10, step=5)
+
+    df_nivel2 = (
+        df.groupby('NIVEL2')
+        .size()
+        .reset_index(name='Tickets')
+        .sort_values('Tickets', ascending=True)
+        .tail(top_n)
+    )
+
+    fig_nivel2 = px.bar(
+        df_nivel2,
+        x='Tickets',
+        y='NIVEL2',
+        orientation='h',
+        text='Tickets',
+    )
+    fig_nivel2.update_traces(
+        textposition='outside',
+        marker_color='#1f77b4'
+    )
+    fig_nivel2.update_layout(
+        height=80 + top_n * 28,
+        xaxis_title='Total Tickets',
+        yaxis_title='',
+        margin=dict(l=10, r=40, t=10, b=10)
+    )
+    st.plotly_chart(fig_nivel2, use_container_width=True)
+
+if st.button("← Regresar al dashboard"):
+    st.switch_page('app.py')
