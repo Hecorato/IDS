@@ -11,7 +11,6 @@ if not check_login():
 st.title("🔧 Splitters Problemáticos")
 st.markdown("---")
 
-# ── CARGA ─────────────────────────────────────────────
 @st.cache_data(ttl=3600)
 def cargar_join():
     df_tickets = pd.read_csv('ids.csv', dtype={'CUENTA': str})
@@ -36,21 +35,20 @@ dias_map = dict(zip(dias_orden, dias_es))
 df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION'])
 df['DIA_SEMANA'] = df['FECHA CREACION'].dt.day_name().map(dias_map)
 
-# ── FILTROS ───────────────────────────────────────────
-col1, col2, col3, col4 = st.columns(4)
-    with col1:
-        st.caption("Total tickets")
-        st.markdown(f"**{len(df_detalle):,}**")
-    with col2:
-        st.caption("Cuentas únicas")
-        st.markdown(f"**{df_detalle['CUENTA'].nunique():,}**")
-    with col3:
-        st.caption("OLT")
-        st.markdown(f"**{df_detalle['OLT'].iloc[0] if not df_detalle.empty else 'N/A'}**")
-    with col4:
-        st.caption("Falla más frecuente")
-        st.markdown(f"**{df_detalle['NIVEL2'].mode()[0] if not df_detalle.empty else 'N/A'}**")
-# ── TABLA SPLITTERS ───────────────────────────────────
+col1, col2, col3 = st.columns(3)
+with col1:
+    top_n = st.slider("Mostrar top splitters:", min_value=5, max_value=30, value=10, step=5)
+with col2:
+    olts = ['Todas'] + sorted(df['OLT'].dropna().unique().tolist())
+    olt_sel = st.selectbox("Filtrar por OLT:", options=olts, key="olt_sel")
+with col3:
+    dias_sel = st.multiselect('Día:', options=['Todos'] + dias_es, default=['Todos'])
+
+df_filtrado = df if olt_sel == 'Todas' else df[df['OLT'] == olt_sel]
+
+if 'Todos' not in dias_sel and dias_sel:
+    df_filtrado = df_filtrado[df_filtrado['DIA_SEMANA'].isin(dias_sel)]
+
 df_splitters = (
     df_filtrado.groupby('Código QR')
     .agg(
@@ -92,7 +90,6 @@ seleccionados = edited[edited['Ver'] == True]
 
 st.markdown("---")
 
-# ── DETALLE ───────────────────────────────────────────
 if seleccionados.empty:
     st.info("☝️ Marca un splitter en la tabla para ver su detalle.")
 else:
@@ -103,16 +100,23 @@ else:
         st.subheader(f"📡 Splitter: {qr_sel}")
 
         col1, col2, col3, col4 = st.columns(4)
-        col1.metric("Total tickets", f"{len(df_detalle):,}")
-        col2.metric("Cuentas únicas", f"{df_detalle['CUENTA'].nunique():,}")
-        col3.metric("OLT", df_detalle['OLT'].iloc[0] if not df_detalle.empty else "N/A")
-        col4.metric("Falla más frecuente", df_detalle['NIVEL2'].mode()[0] if not df_detalle.empty else "N/A")
+        with col1:
+            st.caption("Total tickets")
+            st.markdown(f"**{len(df_detalle):,}**")
+        with col2:
+            st.caption("Cuentas únicas")
+            st.markdown(f"**{df_detalle['CUENTA'].nunique():,}**")
+        with col3:
+            st.caption("OLT")
+            st.markdown(f"**{df_detalle['OLT'].iloc[0] if not df_detalle.empty else 'N/A'}**")
+        with col4:
+            st.caption("Falla más frecuente")
+            st.markdown(f"**{df_detalle['NIVEL2'].mode()[0] if not df_detalle.empty else 'N/A'}**")
 
         st.markdown("---")
 
         col_mapa, col_dias = st.columns(2)
 
-        # ── MAPA ──
         with col_mapa:
             st.subheader("📍 Ubicación")
             lat = df_detalle['Latitud'].iloc[0]
@@ -123,10 +127,8 @@ else:
             else:
                 st.warning("Sin coordenadas.")
 
-        # ── DÍAS CON SOPORTE ──
         with col_dias:
             st.subheader("📅 Días con soporte")
-
             df_dias_detalle = (
                 df_detalle.groupby(df_detalle['FECHA CREACION'].dt.date)
                 .agg(
@@ -137,7 +139,6 @@ else:
                 .rename(columns={'FECHA CREACION': 'Fecha'})
                 .sort_values('Fecha', ascending=False)
             )
-
             st.dataframe(
                 df_dias_detalle,
                 use_container_width=True,
@@ -151,7 +152,6 @@ else:
 
         st.markdown("---")
 
-        # ── REINCIDENCIA ──────────────────────────────
         st.subheader("🔁 Reincidencia por cuenta")
 
         df_reincidencia = (
@@ -173,8 +173,12 @@ else:
 
         reincidentes = df_reincidencia['Reincidente'].sum()
         col1, col2 = st.columns(2)
-        col1.metric("Cuentas reincidentes", f"{reincidentes:,}")
-        col2.metric("% reincidencia", f"{reincidentes/len(df_reincidencia)*100:.1f}%")
+        with col1:
+            st.caption("Cuentas reincidentes")
+            st.markdown(f"**{reincidentes:,}**")
+        with col2:
+            st.caption("% reincidencia")
+            st.markdown(f"**{reincidentes/len(df_reincidencia)*100:.1f}%**")
 
         st.dataframe(
             df_reincidencia,
