@@ -31,3 +31,5 @@ def cargar_datos():
     df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION']).dt.date
     df['FECHA'] = pd.to_datetime(df['FECHA CREACION'])
     return df
+
+    st.cache_data.clear()
