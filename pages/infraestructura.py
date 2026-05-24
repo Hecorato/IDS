@@ -166,6 +166,7 @@ else:
             .sort_values('Total_tickets', ascending=False)
         )
 
+        df_reincidencia['QR'] = qr_sel
         df_reincidencia['Reincidente'] = df_reincidencia['Total_tickets'] > 1
         df_reincidencia['Dias_entre_soporte'] = (
             df_reincidencia['Ultimo_ticket'] - df_reincidencia['Primer_ticket']
@@ -185,6 +186,7 @@ else:
             use_container_width=True,
             height=300,
             column_config={
+                'QR': st.column_config.TextColumn('QR', width='medium'),
                 'CUENTA': st.column_config.TextColumn('Cuenta'),
                 'Total_tickets': st.column_config.NumberColumn('Total tickets', format="%d"),
                 'Primer_ticket': st.column_config.DateColumn('Primer soporte', format="DD/MM/YYYY"),
