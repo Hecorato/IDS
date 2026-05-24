@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
 from components.auth import check_login
 
 st.set_page_config(page_title="Infraestructura - Dashboard IDS", layout="wide")
@@ -28,12 +27,7 @@ def cargar_join():
 
 df = cargar_join()
 
-dias_orden = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-dias_es = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
-dias_map = dict(zip(dias_orden, dias_es))
-
 df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION'])
-df['DIA_SEMANA'] = df['FECHA CREACION'].dt.day_name().map(dias_map)
 
 col1, col2, col3 = st.columns(3)
 with col1:
@@ -42,12 +36,23 @@ with col2:
     olts = ['Todas'] + sorted(df['OLT'].dropna().unique().tolist())
     olt_sel = st.selectbox("Filtrar por OLT:", options=olts, key="olt_sel")
 with col3:
-    dias_sel = st.multiselect('Día:', options=['Todos'] + dias_es, default=['Todos'])
+    fecha_min = df['FECHA CREACION'].dt.date.min()
+    fecha_max = df['FECHA CREACION'].dt.date.max()
+    rango_fechas = st.date_input(
+        'Rango de fechas:',
+        value=(fecha_min, fecha_max),
+        min_value=fecha_min,
+        max_value=fecha_max,
+        key='rango_fechas'
+    )
 
 df_filtrado = df if olt_sel == 'Todas' else df[df['OLT'] == olt_sel]
 
-if 'Todos' not in dias_sel and dias_sel:
-    df_filtrado = df_filtrado[df_filtrado['DIA_SEMANA'].isin(dias_sel)]
+if len(rango_fechas) == 2:
+    df_filtrado = df_filtrado[
+        (df_filtrado['FECHA CREACION'].dt.date >= rango_fechas[0]) &
+        (df_filtrado['FECHA CREACION'].dt.date <= rango_fechas[1])
+    ]
 
 df_splitters = (
     df_filtrado.groupby('Código QR')
