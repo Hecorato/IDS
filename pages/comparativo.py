@@ -213,10 +213,7 @@ with st.container(border=True):
     )
     st.plotly_chart(fig_hora, use_container_width=True)
 
-if st.button("← Regresar al dashboard"):
-    st.switch_page('app.py')
 
-    pythonst.markdown("---")
 
 # ── GRÁFICA POR NIVEL2 ────────────────────────────────
 with st.container(border=True):
