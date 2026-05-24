@@ -113,6 +113,7 @@ else:
 
         col_mapa, col_dias = st.columns(2)
 
+        # ── MAPA ──
         with col_mapa:
             st.subheader("📍 Ubicación")
             lat = df_detalle['Latitud'].iloc[0]
@@ -123,48 +124,73 @@ else:
             else:
                 st.warning("Sin coordenadas.")
 
+        # ── DÍAS CON SOPORTE ──
         with col_dias:
-            st.subheader("📅 Tickets por día")
-            df_dias = (
-                df_detalle.groupby('DIA_SEMANA')
-                .size()
-                .reset_index(name='Tickets')
-            )
-            df_dias['orden'] = df_dias['DIA_SEMANA'].map(
-                {d: i for i, d in enumerate(dias_es)}
-            )
-            df_dias = df_dias.sort_values('orden')
+            st.subheader("📅 Días con soporte")
 
-            fig_dias = px.bar(
-                df_dias,
-                x='DIA_SEMANA',
-                y='Tickets',
-                text='Tickets',
-                color_discrete_sequence=['#1f77b4']
+            df_dias_detalle = (
+                df_detalle.groupby(df_detalle['FECHA CREACION'].dt.date)
+                .agg(
+                    Tickets=('CUENTA', 'count'),
+                    Cuentas=('CUENTA', lambda x: ', '.join(x.unique()))
+                )
+                .reset_index()
+                .rename(columns={'FECHA CREACION': 'Fecha'})
+                .sort_values('Fecha', ascending=False)
             )
-            fig_dias.update_traces(textposition='outside')
-            fig_dias.update_layout(
+
+            st.dataframe(
+                df_dias_detalle,
+                use_container_width=True,
                 height=300,
-                xaxis_title='',
-                yaxis_title='Tickets',
-                margin=dict(t=10, b=10)
+                column_config={
+                    'Fecha': st.column_config.DateColumn('Fecha', format="DD/MM/YYYY"),
+                    'Tickets': st.column_config.NumberColumn('Tickets', format="%d"),
+                    'Cuentas': st.column_config.TextColumn('Cuentas afectadas'),
+                }
             )
-            st.plotly_chart(fig_dias, use_container_width=True)
 
         st.markdown("---")
 
-        st.subheader("👥 Cuentas afectadas")
-        df_cuentas = (
+        # ── REINCIDENCIA ──────────────────────────────
+        st.subheader("🔁 Reincidencia por cuenta")
+
+        df_reincidencia = (
             df_detalle.groupby('CUENTA')
             .agg(
-                Tickets=('NIVEL2', 'count'),
+                Total_tickets=('NIVEL2', 'count'),
+                Primer_ticket=('FECHA CREACION', 'min'),
+                Ultimo_ticket=('FECHA CREACION', 'max'),
                 Falla_frecuente=('NIVEL2', lambda x: x.mode()[0]),
-                Ultimo_ticket=('FECHA CREACION', 'max')
             )
             .reset_index()
-            .sort_values('Tickets', ascending=False)
+            .sort_values('Total_tickets', ascending=False)
         )
-        st.dataframe(df_cuentas, use_container_width=True, height=300)
+
+        df_reincidencia['Reincidente'] = df_reincidencia['Total_tickets'] > 1
+        df_reincidencia['Dias_entre_soporte'] = (
+            df_reincidencia['Ultimo_ticket'] - df_reincidencia['Primer_ticket']
+        ).dt.days
+
+        reincidentes = df_reincidencia['Reincidente'].sum()
+        col1, col2 = st.columns(2)
+        col1.metric("Cuentas reincidentes", f"{reincidentes:,}")
+        col2.metric("% reincidencia", f"{reincidentes/len(df_reincidencia)*100:.1f}%")
+
+        st.dataframe(
+            df_reincidencia,
+            use_container_width=True,
+            height=300,
+            column_config={
+                'CUENTA': st.column_config.TextColumn('Cuenta'),
+                'Total_tickets': st.column_config.NumberColumn('Total tickets', format="%d"),
+                'Primer_ticket': st.column_config.DateColumn('Primer soporte', format="DD/MM/YYYY"),
+                'Ultimo_ticket': st.column_config.DateColumn('Último soporte', format="DD/MM/YYYY"),
+                'Dias_entre_soporte': st.column_config.NumberColumn('Días entre soporte', format="%d"),
+                'Falla_frecuente': st.column_config.TextColumn('Falla frecuente'),
+                'Reincidente': st.column_config.CheckboxColumn('Reincidente'),
+            }
+        )
 
 if st.button("← Regresar al dashboard", key="regresar_infra"):
     st.switch_page('app.py')
