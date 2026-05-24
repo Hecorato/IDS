@@ -7,7 +7,12 @@ df_tickets = pd.read_csv('ids.csv', dtype={'CUENTA': str})
 df_infra = pd.read_csv('semana_detalle_coacalco.csv', dtype={'Cuenta': str})
 
 df_tickets['CUENTA'] = df_tickets['CUENTA'].str.strip().str.zfill(10)
-df_infra['Cuenta'] = df_infra['Cuenta'].astype(str).str.strip().str.zfill(10)
+df_tickets['CUENTA'] = (
+    df_tickets['CUENTA']
+    .str.strip()
+    .str.replace('.0', '', regex=False)
+    .str.zfill(10)
+)
 
 df_join = df_tickets.merge(df_infra, left_on='CUENTA', right_on='Cuenta', how='left')
 
