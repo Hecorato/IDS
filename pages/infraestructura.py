@@ -127,7 +127,7 @@ with st.container(border=True):
     # ── HISTORIAL POR CUENTA ──
     st.subheader("👤 Historial por cuenta")
     cuentas = sorted(df_detalle['CUENTA'].unique().tolist())
-    cuenta_sel = st.selectbox("Selecciona una cuenta:", options=cuentas)
+    cuenta_sel = st.selectbox("Selecciona una cuenta:", options=cuentas, key="cuenta_sel")
 
     df_historial = df[df['CUENTA'] == cuenta_sel][['FECHA CREACION', 'NIVEL2', 'ESTATUS', 'Código QR', 'OLT']].sort_values('FECHA CREACION', ascending=False).reset_index(drop=True)
 
