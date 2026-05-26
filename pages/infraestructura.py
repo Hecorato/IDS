@@ -227,7 +227,6 @@ else:
 
         st.markdown("---")
 
-        # ── EVIDENCIAS ────────────────────────────────
         st.subheader("📸 Evidencias")
 
         tab_antes, tab_durante, tab_despues = st.tabs(["📷 Antes", "🔧 Durante", "✅ Después"])
@@ -260,16 +259,16 @@ else:
                         max_results=10
                     )
                     imagenes = recursos.get("resources", [])
-                if imagenes:
-                    cols = st.columns(3)
-                    for i, img in enumerate(imagenes):
-                        with cols[i % 3]:
-                            st.image(img["secure_url"], use_column_width=True)
-                            if st.button("🗑️ Eliminar", key=f"del_{img['public_id']}"):
-                                cloudinary.uploader.destroy(img["public_id"])
-                                st.rerun()
-                else:
-                    st.info("Sin evidencias aún.")
+                    if imagenes:
+                        cols = st.columns(3)
+                        for i, img in enumerate(imagenes):
+                            with cols[i % 3]:
+                                st.image(img["secure_url"], use_column_width=True)
+                                if st.button("🗑️ Eliminar", key=f"del_{img['public_id']}"):
+                                    cloudinary.uploader.destroy(img["public_id"])
+                                    st.rerun()
+                    else:
+                        st.info("Sin evidencias aún.")
                 except Exception:
                     st.info("Sin evidencias aún.")
 
