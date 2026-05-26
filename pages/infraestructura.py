@@ -84,6 +84,17 @@ with st.container(border=True):
     st.caption("Marca el checkbox para ver el detalle — edita el Estado directamente en la tabla")
 
     edited = st.data_editor(
+        qr_opciones = df_splitters['Código QR'].tolist()
+        qr_evidencia = st.selectbox(
+    "📸 Ver evidencias de:",
+    options=['Selecciona un QR...'] + qr_opciones,
+    key="qr_evidencia_sel"
+)
+
+if qr_evidencia != 'Selecciona un QR...':
+    if st.button(f"Ir a evidencias de {qr_evidencia}", key="btn_ir_evidencias"):
+        st.session_state['qr_evidencias'] = qr_evidencia
+        st.switch_page("pages/evidencias.py")
         df_splitters,
         use_container_width=True,
         height=400,
