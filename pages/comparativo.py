@@ -1,156 +1,216 @@
-import streamlit as st
 import pandas as pd
+import plotly.express as px
+import streamlit as st
+import requests
+from datetime import timezone, timedelta
 from components.auth import check_login
+from data.loader import cargar_datos
 
-st.set_page_config(page_title="Analisis de Soporte en Tiempo Real", layout="wide")
+st.set_page_config(page_title="Comparativo - Dashboard IDS", layout="wide")
 
 if not check_login():
     st.stop()
 
-st.title("Analisis de Soporte en Tiempo Real")
+def obtener_hora_actualizacion():
+    try:
+        token = st.secrets["github"]["token"]
+        repo = st.secrets["github"]["repo"]
+        url = f"https://api.github.com/repos/{repo}/commits?path=ids.csv&per_page=1"
+        headers = {"Authorization": f"token {token}"}
+        r = requests.get(url, headers=headers)
+        fecha_utc = r.json()[0]['commit']['committer']['date']
+        cdmx = timezone(timedelta(hours=-6))
+        fecha = pd.to_datetime(fecha_utc).astimezone(cdmx)
+        return fecha.strftime("%H:%M")
+    except:
+        return "N/A"
+
+hora_corte = obtener_hora_actualizacion()
+st.title(f"Comparativo Semanal — Corte {hora_corte}")
 st.markdown("---")
 
-@st.cache_data(ttl=300)
-def cargar_join():
-    df_tickets = pd.read_csv('ids.csv', dtype={'CUENTA': str})
-    df_tickets['CUENTA'] = df_tickets['CUENTA'].str.strip().str.replace('.0', '', regex=False).str.zfill(10)
-    df_infra = pd.read_csv('semana_detalle_coacalco.csv', dtype={'Cuenta': str})
-    df_infra['Cuenta'] = df_infra['Cuenta'].str.strip().str.zfill(10)
-    df = df_tickets.merge(df_infra, left_on='CUENTA', right_on='Cuenta', how='left')
-    df = df[df['ESTATUS'] != 'Cancelado']
-    df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION'])
-    df['NUM_SEMANA'] = df['FECHA CREACION'].dt.isocalendar().week
-    df['FSP'] = df['F'].astype(str) + '/' + df['S'].astype(str) + '/' + df['P'].astype(str)
-    col_qr = [c for c in df.columns if 'QR' in c]
-    if col_qr:
-        df = df.rename(columns={col_qr[0]: 'QR'})
-    return df
-
-df = cargar_join()
+df = cargar_datos()
+df['FECHA'] = pd.to_datetime(df['FECHA CREACION'])
+df['DIA_SEMANA'] = df['FECHA'].dt.day_name()
+df['NUM_SEMANA'] = df['FECHA'].dt.isocalendar().week
+df['FECHA APERTURA'] = pd.to_datetime(df['FECHA APERTURA'], dayfirst=True, errors='coerce')
+df['HORA'] = df['FECHA APERTURA'].dt.hour
 
 semanas = sorted(df['NUM_SEMANA'].unique(), reverse=True)
-fechas = sorted(df['FECHA CREACION'].dt.date.unique(), reverse=True)
 
-col1, col2, col3 = st.columns(3)
-with col1:
-    sem_sel = st.multiselect('Semana:', options=semanas, default=[semanas[0]])
-with col2:
-    fecha_sel = st.multiselect('Dia:', options=['Todos'] + [str(f) for f in fechas], default=['Todos'])
-with col3:
-    cuenta_buscar = st.text_input("Buscar cuenta (opcional):", placeholder="Ej: 0135295039").strip()
-
-df_f = df[df['NUM_SEMANA'].isin(sem_sel)] if sem_sel else df
-
-if 'Todos' not in fecha_sel and fecha_sel:
-    fechas_sel = [pd.to_datetime(f).date() for f in fecha_sel]
-    df_f = df_f[df_f['FECHA CREACION'].dt.date.isin(fechas_sel)]
-
-if cuenta_buscar:
-    df_f = df_f[df_f['CUENTA'] == cuenta_buscar.zfill(10)]
-
-st.markdown("---")
-
-if df_f.empty:
-    st.warning("Sin tickets con los filtros seleccionados.")
+if len(semanas) < 2:
+    st.warning("Se necesitan al menos 2 semanas de datos")
     st.stop()
 
-col1, col2, col3, col4 = st.columns(4)
+sem_actual = semanas[0]
+sem_anterior = semanas[1]
+
+st.subheader(f"Semana {sem_actual} vs Semana {sem_anterior}")
+
+col1, col2 = st.columns(2)
 with col1:
     with st.container(border=True):
-        st.caption("Total tickets")
-        st.markdown(f"**{len(df_f):,}**")
+        total_anterior = len(df[df['NUM_SEMANA'] == sem_anterior])
+        st.metric(f"Semana {sem_anterior}", f"{total_anterior:,} tickets")
 with col2:
     with st.container(border=True):
-        st.caption("Cuentas unicas")
-        st.markdown(f"**{df_f['CUENTA'].nunique():,}**")
-with col3:
-    with st.container(border=True):
-        st.caption("OLTs afectadas")
-        st.markdown(f"**{df_f['OLT'].nunique():,}**")
-with col4:
-    with st.container(border=True):
-        st.caption("QRs afectados")
-        st.markdown(f"**{df_f['QR'].nunique():,}**")
+        total_actual = len(df[df['NUM_SEMANA'] == sem_actual])
+        diferencia = total_actual - total_anterior
+        st.metric(f"Semana {sem_actual}", f"{total_actual:,} tickets", delta=f"{diferencia:+,}", delta_color="inverse")
 
 st.markdown("---")
 
-tab_olt, tab_qr, tab_fsp, tab_detalle = st.tabs(["OLT", "QR", "FSP", "Detalle tickets"])
+dias_orden = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+dias_es = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo']
 
-with tab_olt:
-    df_olt = (
-        df_f.groupby('OLT')
-        .agg(
-            Tickets=('CUENTA', 'count'),
-            Cuentas=('CUENTA', 'nunique'),
-            QRs=('QR', 'nunique'),
-            Falla=('NIVEL2', lambda x: x.mode()[0])
-        )
-        .reset_index()
-        .sort_values('Tickets', ascending=False)
-    )
-    st.dataframe(df_olt, use_container_width=True, height=400)
+df_actual = df[df['NUM_SEMANA'] == sem_actual]
+df_anterior = df[df['NUM_SEMANA'] == sem_anterior]
 
-with tab_qr:
-    df_qr = (
-        df_f.groupby(['QR', 'OLT'])
-        .agg(
-            Tickets=('CUENTA', 'count'),
-            Cuentas=('CUENTA', 'nunique'),
-            Falla=('NIVEL2', lambda x: x.mode()[0]),
-            Latitud=('Latitud', 'first'),
-            Longitud=('Longitud', 'first'),
-        )
-        .reset_index()
-        .sort_values('Tickets', ascending=False)
-    )
-    df_qr['Mapa'] = df_qr.apply(
-        lambda r: f"https://www.google.com/maps?q={r['Latitud']},{r['Longitud']}"
-        if pd.notna(r['Latitud']) and pd.notna(r['Longitud']) else None,
-        axis=1
-    )
+clusters = sorted(df['CLUSTER INSTALACION'].unique())
+
+filas = []
+for cluster in clusters:
+    fila = {'Cluster': cluster}
+    for dia_en, dia_es in zip(dias_orden, dias_es):
+        actual = df_actual[(df_actual['CLUSTER INSTALACION'] == cluster) & (df_actual['DIA_SEMANA'] == dia_en)].shape[0]
+        anterior = df_anterior[(df_anterior['CLUSTER INSTALACION'] == cluster) & (df_anterior['DIA_SEMANA'] == dia_en)].shape[0]
+        fila[f'{dia_es} S{sem_anterior}'] = anterior
+        fila[f'{dia_es} S{sem_actual}'] = actual
+    filas.append(fila)
+
+fila_total = {'Cluster': 'TOTAL'}
+for dia_en, dia_es in zip(dias_orden, dias_es):
+    fila_total[f'{dia_es} S{sem_anterior}'] = df_anterior[df_anterior['DIA_SEMANA'] == dia_en].shape[0]
+    fila_total[f'{dia_es} S{sem_actual}'] = df_actual[df_actual['DIA_SEMANA'] == dia_en].shape[0]
+filas.append(fila_total)
+
+df_tabla = pd.DataFrame(filas)
+
+with st.container(border=True):
+    st.subheader("Tabla por Cluster y Dia")
+    cols = [c for c in df_tabla.columns if c != 'Cluster']
     st.dataframe(
-        df_qr,
+        df_tabla.set_index('Cluster'),
         use_container_width=True,
         height=400,
-        column_config={
-            'Latitud': None,
-            'Longitud': None,
-            'Mapa': st.column_config.LinkColumn('Mapa'),
-        }
-    )
-
-with tab_fsp:
-    df_fsp = (
-        df_f.groupby(['OLT', 'FSP'])
-        .agg(
-            Tickets=('CUENTA', 'count'),
-            Cuentas=('CUENTA', 'nunique'),
-            QRs=('QR', 'nunique'),
-            Falla=('NIVEL2', lambda x: x.mode()[0])
-        )
-        .reset_index()
-        .sort_values('Tickets', ascending=False)
-    )
-    st.dataframe(df_fsp, use_container_width=True, height=400)
-
-with tab_detalle:
-    cols = ['CUENTA', 'FECHA CREACION', 'NIVEL2', 'ESTATUS', 'OLT', 'QR', 'CLUSTER INSTALACION']
-    st.dataframe(
-        df_f[cols].sort_values('FECHA CREACION', ascending=False).reset_index(drop=True),
-        use_container_width=True,
-        height=400
+        column_config={col: st.column_config.NumberColumn(col, format="%d", width="small") for col in cols}
     )
 
 st.markdown("---")
 
 with st.container(border=True):
-    st.subheader("Mapa de afectacion")
-    df_mapa = df_f[['Latitud', 'Longitud']].dropna().drop_duplicates()
-    df_mapa = df_mapa.rename(columns={'Latitud': 'lat', 'Longitud': 'lon'})
-    if not df_mapa.empty:
-        st.map(df_mapa, zoom=11)
-    else:
-        st.info("Sin coordenadas disponibles.")
+    st.subheader("Total de tickets por dia — Semana actual vs anterior")
 
-if st.button("Regresar al dashboard", key="regresar_analisis"):
+    datos_grafica = []
+    for dia_en, dia_es in zip(dias_orden, dias_es):
+        actual = df_actual[df_actual['DIA_SEMANA'] == dia_en].shape[0]
+        anterior = df_anterior[df_anterior['DIA_SEMANA'] == dia_en].shape[0]
+        datos_grafica.append({'Dia': dia_es, 'Tickets': anterior, 'Semana': f'Sem {sem_anterior}'})
+        datos_grafica.append({'Dia': dia_es, 'Tickets': actual, 'Semana': f'Sem {sem_actual}'})
+
+    df_grafica = pd.DataFrame(datos_grafica)
+
+    fig = px.line(
+        df_grafica, x='Dia', y='Tickets', color='Semana',
+        markers=True, text='Tickets',
+        color_discrete_map={
+            f'Sem {sem_anterior}': '#a8c8e8',
+            f'Sem {sem_actual}': '#1f77b4'
+        }
+    )
+    fig.update_traces(line=dict(shape='spline', smoothing=1.3), marker=dict(size=8), textposition='top center')
+    fig.update_layout(height=300, xaxis_title='', yaxis_title='Total Tickets', legend=dict(orientation='h', y=1.1))
+    st.plotly_chart(fig, use_container_width=True)
+
+st.markdown("---")
+
+with st.container(border=True):
+    st.subheader(f"Tickets por hora del dia — Corte {hora_corte}")
+
+    col_dia, col_sems = st.columns([1, 2])
+    with col_dia:
+        dia_seleccionado = st.selectbox('Dia:', options=dias_es, index=0, key='filtro_hora_dia')
+    with col_sems:
+        sems_seleccionadas = st.multiselect('Semanas a comparar:', options=semanas, default=semanas[:2])
+
+    dia_en_seleccionado = dias_orden[dias_es.index(dia_seleccionado)]
+
+    if not sems_seleccionadas:
+        st.warning("Selecciona al menos una semana.")
+        st.stop()
+
+    cols_kpi = st.columns(len(sems_seleccionadas))
+    for i, sem in enumerate(sems_seleccionadas):
+        total = len(df[(df['NUM_SEMANA'] == sem) & (df['DIA_SEMANA'] == dia_en_seleccionado)])
+        with cols_kpi[i]:
+            with st.container(border=True):
+                st.metric(f"Sem {sem}", f"{total:,} tickets")
+
+    df_horas = pd.concat([
+        df[(df['NUM_SEMANA'] == sem) & (df['DIA_SEMANA'] == dia_en_seleccionado)]
+        .groupby('HORA').size().reset_index(name='Tickets').assign(Semana=f'Sem {sem}')
+        for sem in sems_seleccionadas
+    ])
+
+    fig_hora = px.line(df_horas, x='HORA', y='Tickets', color='Semana', markers=True, text='Tickets')
+    fig_hora.update_traces(line=dict(shape='spline', smoothing=1.3), marker=dict(size=8), textposition='top center')
+    fig_hora.update_layout(
+        height=450, xaxis_title='Hora del dia', yaxis_title='Total Tickets',
+        xaxis=dict(tickmode='linear', tick0=0, dtick=1),
+        legend=dict(orientation='h', y=1.1)
+    )
+    st.plotly_chart(fig_hora, use_container_width=True)
+
+st.markdown("---")
+
+with st.container(border=True):
+    st.subheader("Fallas por tipo (NIVEL2)")
+
+    col_f1, col_f2, col_f3, col_f4 = st.columns(4)
+    with col_f1:
+        top_n = st.slider("Mostrar top:", min_value=5, max_value=30, value=10, step=5, key='slider_nivel2')
+    with col_f2:
+        sems_nivel2 = st.multiselect('Semana:', options=semanas, default=[sem_actual], key='sems_nivel2')
+    with col_f3:
+        dias_nivel2 = st.multiselect('Dia:', options=['Todos'] + dias_es, default=['Todos'], key='dias_nivel2')
+    with col_f4:
+        clusters_nivel2 = st.multiselect('Cluster:', options=['Todos'] + clusters, default=['Todos'], key='clusters_nivel2')
+
+    df_n2 = df[df['NUM_SEMANA'].isin(sems_nivel2)] if sems_nivel2 else df
+
+    if 'Todos' not in dias_nivel2 and dias_nivel2:
+        dias_en_n2 = [dias_orden[dias_es.index(d)] for d in dias_nivel2]
+        df_n2 = df_n2[df_n2['DIA_SEMANA'].isin(dias_en_n2)]
+
+    if 'Todos' not in clusters_nivel2 and clusters_nivel2:
+        df_n2 = df_n2[df_n2['CLUSTER INSTALACION'].isin(clusters_nivel2)]
+
+    if df_n2.empty:
+        st.warning("No hay datos con los filtros seleccionados.")
+    else:
+        df_nivel2 = (
+            df_n2.groupby('NIVEL2')
+            .size()
+            .reset_index(name='Tickets')
+            .sort_values('Tickets', ascending=True)
+            .tail(top_n)
+        )
+
+        colores = {
+            falla: '#e63946' if i == len(df_nivel2) - 1 else '#1f77b4'
+            for i, falla in enumerate(df_nivel2['NIVEL2'])
+        }
+
+        fig_nivel2 = px.bar(
+            df_nivel2, x='Tickets', y='NIVEL2', orientation='h',
+            text='Tickets', color='NIVEL2', color_discrete_map=colores
+        )
+        fig_nivel2.update_traces(textposition='outside')
+        fig_nivel2.update_layout(
+            height=80 + top_n * 28, xaxis_title='Total Tickets', yaxis_title='',
+            margin=dict(l=10, r=40, t=10, b=10), showlegend=False
+        )
+        st.plotly_chart(fig_nivel2, use_container_width=True)
+
+if st.button("Regresar al dashboard", key="regresar_final"):
     st.switch_page('app.py')
