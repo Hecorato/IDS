@@ -235,6 +235,13 @@ else:
             with tab:
                 folder = f"evidencias/{qr_sel}/{etapa}"
 
+                comentario = st.text_area(
+                    "Comentario:",
+                    placeholder="Agrega una nota sobre esta evidencia...",
+                    key=f"comentario_{qr_sel}_{etapa}",
+                    height=80
+                )
+
                 archivo = st.file_uploader(
                     "Subir imagen",
                     type=["jpg", "jpeg", "png"],
@@ -246,7 +253,8 @@ else:
                             cloudinary.uploader.upload(
                                 archivo,
                                 folder=folder,
-                                public_id=f"{qr_sel}_{etapa}_{archivo.name}"
+                                public_id=f"{qr_sel}_{etapa}_{archivo.name}",
+                                context=f"comentario={comentario}" if comentario else None
                             )
                             st.success("✅ Subida correctamente")
                         except Exception as e:
@@ -256,7 +264,8 @@ else:
                     recursos = cloudinary.api.resources(
                         type="upload",
                         prefix=folder,
-                        max_results=10
+                        max_results=10,
+                        context=True
                     )
                     imagenes = recursos.get("resources", [])
                     if imagenes:
@@ -264,6 +273,9 @@ else:
                         for i, img in enumerate(imagenes):
                             with cols[i % 3]:
                                 st.image(img["secure_url"], use_column_width=True)
+                                meta = img.get("context", {}).get("custom", {})
+                                if meta.get("comentario"):
+                                    st.caption(meta["comentario"])
                                 if st.button("🗑️ Eliminar", key=f"del_{img['public_id']}"):
                                     cloudinary.uploader.destroy(img["public_id"])
                                     st.rerun()
