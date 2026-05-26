@@ -20,7 +20,11 @@ def cargar_join():
     df = df[df['ESTATUS'] != 'Cancelado']
     df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION'])
     df['NUM_SEMANA'] = df['FECHA CREACION'].dt.isocalendar().week
-    df['FSP'] = df['F'].astype(str) + '/' + df['S'].astype(str) + '/' + df['P'].astype(str)
+    df['FSP'] = (
+        df['F'].str.replace('.0', '', regex=False) + '/' +
+        df['S'].str.replace('.0', '', regex=False) + '/' +
+        df['P'].str.replace('.0', '', regex=False)
+    )
     col_qr = [c for c in df.columns if 'QR' in c]
     if col_qr:
         df = df.rename(columns={col_qr[0]: 'QR'})
