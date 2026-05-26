@@ -3,3 +3,4 @@ plotly
 streamlit
 openpyxl
 xlrd
+cloudinary
