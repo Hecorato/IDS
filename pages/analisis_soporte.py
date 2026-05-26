@@ -21,9 +21,9 @@ def cargar_join():
     df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION'])
     df['NUM_SEMANA'] = df['FECHA CREACION'].dt.isocalendar().week
     df['FSP'] = (
-        df['F'].str.replace('.0', '', regex=False) + '/' +
-        df['S'].str.replace('.0', '', regex=False) + '/' +
-        df['P'].str.replace('.0', '', regex=False)
+        df['F'].fillna(0).astype(int).astype(str) + '/' +
+        df['S'].fillna(0).astype(int).astype(str) + '/' +
+        df['P'].fillna(0).astype(int).astype(str)
     )
     col_qr = [c for c in df.columns if 'QR' in c]
     if col_qr:
