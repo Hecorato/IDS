@@ -68,14 +68,12 @@ df_splitters = (
     .head(top_n)
 )
 
-# ── Link de Maps ──
 df_splitters['Mapa'] = df_splitters.apply(
     lambda r: f"https://www.google.com/maps?q={r['Latitud']},{r['Longitud']}"
     if pd.notna(r['Latitud']) and pd.notna(r['Longitud']) else None,
     axis=1
 )
 
-# ── Estado editable ──
 df_splitters.insert(0, 'Ver', False)
 df_splitters['Estado'] = 'Sin asignar'
 
@@ -84,17 +82,6 @@ with st.container(border=True):
     st.caption("Marca el checkbox para ver el detalle — edita el Estado directamente en la tabla")
 
     edited = st.data_editor(
-        qr_opciones = df_splitters['Código QR'].tolist()
-        qr_evidencia = st.selectbox(
-    "📸 Ver evidencias de:",
-    options=['Selecciona un QR...'] + qr_opciones,
-    key="qr_evidencia_sel"
-)
-
-if qr_evidencia != 'Selecciona un QR...':
-    if st.button(f"Ir a evidencias de {qr_evidencia}", key="btn_ir_evidencias"):
-        st.session_state['qr_evidencias'] = qr_evidencia
-        st.switch_page("pages/evidencias.py")
         df_splitters,
         use_container_width=True,
         height=400,
@@ -116,6 +103,18 @@ if qr_evidencia != 'Selecciona un QR...':
         disabled=[c for c in df_splitters.columns if c not in ['Ver', 'Estado']],
         key="tabla_splitters"
     )
+
+    # ── EVIDENCIAS ──
+    qr_opciones = df_splitters['Código QR'].tolist()
+    qr_evidencia = st.selectbox(
+        "📸 Ver evidencias de:",
+        options=['Selecciona un QR...'] + qr_opciones,
+        key="qr_evidencia_sel"
+    )
+    if qr_evidencia != 'Selecciona un QR...':
+        if st.button(f"Ir a evidencias de {qr_evidencia}", key="btn_ir_evidencias"):
+            st.session_state['qr_evidencias'] = qr_evidencia
+            st.switch_page("pages/evidencias.py")
 
 seleccionados = edited[edited['Ver'] == True]
 
