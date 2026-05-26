@@ -28,7 +28,7 @@ def cargar_join():
         .str.replace('.0', '', regex=False)
         .str.zfill(10)
     )
-    df_infra = pd.read_csv('semana_detalle_coacalco.csv', dtype={'Cuenta': str})
+    df_infra = pd.read_csv('semana_detalle_coacalco.csv', dtype={'Cuenta': str, 'F': str, 'S': str, 'P': str})
     df_infra['Cuenta'] = df_infra['Cuenta'].str.strip().str.zfill(10)
     df = df_tickets.merge(df_infra, left_on='CUENTA', right_on='Cuenta', how='left')
     df = df[df['ESTATUS'] != 'Cancelado']
