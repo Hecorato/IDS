@@ -10,7 +10,7 @@ if not check_login():
 st.title("⚡ Análisis de Soporte en Tiempo Real")
 st.markdown("---")
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=300)
 def cargar_join():
     df_tickets = pd.read_csv('ids.csv', dtype={'CUENTA': str})
     df_tickets['CUENTA'] = (
@@ -23,150 +23,85 @@ def cargar_join():
     df_infra['Cuenta'] = df_infra['Cuenta'].str.strip().str.zfill(10)
     df = df_tickets.merge(df_infra, left_on='CUENTA', right_on='Cuenta', how='left')
     df = df[df['ESTATUS'] != 'Cancelado']
+    df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION'])
+    df['NUM_SEMANA'] = df['FECHA CREACION'].dt.isocalendar().week
     return df
 
 df = cargar_join()
-df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION'])
 
-# ── BUSCADOR ──────────────────────────────────────────
-cuenta = st.text_input(
-    "🔍 Ingresa el número de cuenta:",
-    placeholder="Ej: 0135295039"
-).strip().zfill(10)
+# ── FILTROS ───────────────────────────────────────────
+semanas = sorted(df['NUM_SEMANA'].unique(), reverse=True)
+fechas  = sorted(df['FECHA CREACION'].dt.date.unique(), reverse=True)
 
-if not cuenta or cuenta == '0000000000':
-    st.info("Ingresa una cuenta para analizar.")
-    st.stop()
+col1, col2, col3 = st.columns(3)
+with col1:
+    sem_sel = st.multiselect(
+        'Semana:',
+        options=semanas,
+        default=[semanas[0]],
+        key='sem_sel'
+    )
+with col2:
+    fecha_sel = st.multiselect(
+        'Día:',
+        options=['Todos'] + [str(f) for f in fechas],
+        default=['Todos'],
+        key='fecha_sel'
+    )
+with col3:
+    cuenta_buscar = st.text_input(
+        "🔍 Buscar cuenta (opcional):",
+        placeholder="Ej: 0135295039"
+    ).strip()
 
-# ── DATOS DEL CLIENTE ─────────────────────────────────
-df_cliente = df[df['CUENTA'] == cuenta]
+# ── APLICAR FILTROS ───────────────────────────────────
+df_f = df[df['NUM_SEMANA'].isin(sem_sel)] if sem_sel else df
 
-if df_cliente.empty:
-    st.error(f"❌ Cuenta `{cuenta}` no encontrada en el sistema.")
-    st.stop()
+if 'Todos' not in fecha_sel and fecha_sel:
+    fechas_sel = [pd.to_datetime(f).date() for f in fecha_sel]
+    df_f = df_f[df_f['FECHA CREACION'].dt.date.isin(fechas_sel)]
 
-# Datos de infraestructura
-infra = df_cliente.iloc[0]
-qr = infra.get('Código QR', 'N/A')
-olt = infra.get('OLT', 'N/A')
-lat = infra.get('Latitud', None)
-lon = infra.get('Longitud', None)
-f = infra.get('F', 'N/A')
-s = infra.get('S', 'N/A')
-p = infra.get('P', 'N/A')
-fsp = f"{f}/{s}/{p}"
-cluster = infra.get('CLUSTER INSTALACION', 'N/A')
-
-# ── UBICACIÓN ─────────────────────────────────────────
-with st.container(border=True):
-    st.subheader("📍 Ubicación del cliente")
-    col1, col2, col3, col4 = st.columns(4)
-    with col1:
-        st.caption("Cluster")
-        st.markdown(f"**{cluster}**")
-    with col2:
-        st.caption("OLT")
-        st.markdown(f"**{olt}**")
-    with col3:
-        st.caption("FSP")
-        st.markdown(f"**{fsp}**")
-    with col4:
-        st.caption("QR")
-        st.markdown(f"**{qr}**")
-
-    if pd.notna(lat) and pd.notna(lon):
-        st.markdown(f"[🗺️ Ver en Google Maps](https://www.google.com/maps?q={lat},{lon})")
+if cuenta_buscar:
+    cuenta_buscar = cuenta_buscar.zfill(10)
+    df_f = df_f[df_f['CUENTA'] == cuenta_buscar]
 
 st.markdown("---")
 
-# ── ANÁLISIS ZONAL ────────────────────────────────────
-df_qr  = df[df['Código QR'] == qr] if qr != 'N/A' else pd.DataFrame()
-df_fsp = df[(df['OLT'] == olt) & (df['F'] == infra.get('F')) & 
-            (df['S'] == infra.get('S')) & (df['P'] == infra.get('P'))] if olt != 'N/A' else pd.DataFrame()
-df_olt = df[df['OLT'] == olt] if olt != 'N/A' else pd.DataFrame()
+if df_f.empty:
+    st.warning("Sin tickets con los filtros seleccionados.")
+    st.stop()
 
+# ── KPIs ──────────────────────────────────────────────
 col1, col2, col3, col4 = st.columns(4)
 with col1:
     with st.container(border=True):
-        st.caption("Tickets del cliente")
-        st.markdown(f"**{len(df_cliente):,}**")
+        st.caption("Total tickets")
+        st.markdown(f"**{len(df_f):,}**")
 with col2:
     with st.container(border=True):
-        st.caption(f"Tickets en QR {qr}")
-        st.markdown(f"**{len(df_qr):,}**")
+        st.caption("Cuentas únicas")
+        st.markdown(f"**{df_f['CUENTA'].nunique():,}**")
 with col3:
     with st.container(border=True):
-        st.caption(f"Tickets en FSP {fsp}")
-        st.markdown(f"**{len(df_fsp):,}**")
+        st.caption("OLTs afectadas")
+        st.markdown(f"**{df_f['OLT'].nunique():,}**")
 with col4:
     with st.container(border=True):
-        st.caption(f"Tickets en OLT")
-        st.markdown(f"**{len(df_olt):,}**")
+        st.caption("QRs afectados")
+        st.markdown(f"**{df_f['Código QR'].nunique():,}**")
 
 st.markdown("---")
 
-# ── DETALLE POR NIVEL ─────────────────────────────────
-tab_cliente, tab_qr, tab_fsp, tab_olt = st.tabs([
-    f"👤 Cliente ({len(df_cliente)})",
-    f"📡 QR ({len(df_qr)})",
-    f"🔌 FSP ({len(df_fsp)})",
-    f"🏗️ OLT ({len(df_olt)})"
+# ── TABS DE ANÁLISIS ──────────────────────────────────
+tab_olt, tab_qr, tab_fsp, tab_detalle = st.tabs([
+    "🏗️ Por OLT",
+    "📡 Por QR",
+    "🔌 Por FSP",
+    "📋 Detalle tickets"
 ])
 
-cols_mostrar = ['CUENTA', 'FECHA CREACION', 'NIVEL2', 'ESTATUS', 'CLUSTER INSTALACION']
-
-with tab_cliente:
-    st.dataframe(
-        df_cliente[cols_mostrar].sort_values('FECHA CREACION', ascending=False).reset_index(drop=True),
-        use_container_width=True, height=300
-    )
-
-with tab_qr:
-    if df_qr.empty:
-        st.info("Sin datos para este QR.")
-    else:
-        col1, col2 = st.columns(2)
-        col1.metric("Cuentas únicas", df_qr['CUENTA'].nunique())
-        col2.metric("Falla más frecuente", df_qr['NIVEL2'].mode()[0])
-        st.dataframe(
-            df_qr[cols_mostrar].sort_values('FECHA CREACION', ascending=False).reset_index(drop=True),
-            use_container_width=True, height=300
-        )
-
-with tab_fsp:
-    if df_fsp.empty:
-        st.info("Sin datos para este FSP.")
-    else:
-        col1, col2 = st.columns(2)
-        col1.metric("Cuentas únicas", df_fsp['CUENTA'].nunique())
-        col2.metric("QRs afectados", df_fsp['Código QR'].nunique())
-        st.dataframe(
-            df_fsp[cols_mostrar].sort_values('FECHA CREACION', ascending=False).reset_index(drop=True),
-            use_container_width=True, height=300
-        )
-
 with tab_olt:
-    if df_olt.empty:
-        st.info("Sin datos para esta OLT.")
-    else:
-        col1, col2, col3 = st.columns(3)
-        col1.metric("Cuentas únicas", df_olt['CUENTA'].nunique())
-        col2.metric("QRs afectados", df_olt['Código QR'].nunique())
-        col3.metric("Falla más frecuente", df_olt['NIVEL2'].mode()[0])
-        st.dataframe(
-            df_olt[cols_mostrar].sort_values('FECHA CREACION', ascending=False).reset_index(drop=True),
-            use_container_width=True, height=300
-        )
-
-# ── MAPA ──────────────────────────────────────────────
-if pd.notna(lat) and pd.notna(lon):
-    st.markdown("---")
-    with st.container(border=True):
-        st.subheader("🗺️ Mapa de afectación en la zona")
-        df_mapa = df_qr[['Latitud', 'Longitud', 'CUENTA']].dropna().drop_duplicates()
-        df_mapa = df_mapa.rename(columns={'Latitud': 'lat', 'Longitud': 'lon'})
-        if not df_mapa.empty:
-            st.map(df_mapa, zoom=15)
-
-if st.button("← Regresar al dashboard", key="regresar_analisis"):
-    st.switch_page('app.py')
+    df_olt = (
+        df_f.groupby('OLT')
+        .agg(
+            Tickets=('CU
