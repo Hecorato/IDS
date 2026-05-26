@@ -68,11 +68,20 @@ df_splitters = (
     .head(top_n)
 )
 
+# ── Link de Maps ──
+df_splitters['Mapa'] = df_splitters.apply(
+    lambda r: f"https://www.google.com/maps?q={r['Latitud']},{r['Longitud']}"
+    if pd.notna(r['Latitud']) and pd.notna(r['Longitud']) else None,
+    axis=1
+)
+
+# ── Estado editable ──
 df_splitters.insert(0, 'Ver', False)
+df_splitters['Estado'] = 'Sin asignar'
 
 with st.container(border=True):
     st.subheader(f"🚨 Top {top_n} Splitters con más tickets")
-    st.caption("Marca el checkbox para ver el detalle del splitter")
+    st.caption("Marca el checkbox para ver el detalle — edita el Estado directamente en la tabla")
 
     edited = st.data_editor(
         df_splitters,
@@ -84,10 +93,16 @@ with st.container(border=True):
             'Tickets': st.column_config.NumberColumn('Tickets', format="%d"),
             'Cuentas_unicas': st.column_config.NumberColumn('Cuentas únicas', format="%d"),
             'OLT': st.column_config.TextColumn('OLT', width='medium'),
-            'Latitud': st.column_config.NumberColumn('Latitud', format="%.6f"),
-            'Longitud': st.column_config.NumberColumn('Longitud', format="%.6f"),
+            'Latitud': None,
+            'Longitud': None,
+            'Mapa': st.column_config.LinkColumn('📍 Mapa', width='small'),
+            'Estado': st.column_config.SelectboxColumn(
+                'Estado',
+                options=['Sin asignar', 'Trabajado', 'En espera de accesos', 'VM'],
+                width='medium'
+            ),
         },
-        disabled=[c for c in df_splitters.columns if c != 'Ver'],
+        disabled=[c for c in df_splitters.columns if c not in ['Ver', 'Estado']],
         key="tabla_splitters"
     )
 
@@ -127,6 +142,7 @@ else:
             lat = df_detalle['Latitud'].iloc[0]
             lon = df_detalle['Longitud'].iloc[0]
             if pd.notna(lat) and pd.notna(lon):
+                st.markdown(f"[🗺️ Ver en Google Maps](https://www.google.com/maps?q={lat},{lon})")
                 df_mapa = pd.DataFrame({'lat': [lat], 'lon': [lon]})
                 st.map(df_mapa, zoom=15)
             else:
