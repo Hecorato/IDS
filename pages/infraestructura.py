@@ -1,11 +1,20 @@
 import streamlit as st
 import pandas as pd
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 from components.auth import check_login
 
 st.set_page_config(page_title="Infraestructura - Dashboard IDS", layout="wide")
 
 if not check_login():
     st.stop()
+
+cloudinary.config(
+    cloud_name=st.secrets["cloudinary"]["cloud_name"],
+    api_key=st.secrets["cloudinary"]["api_key"],
+    api_secret=st.secrets["cloudinary"]["api_secret"]
+)
 
 st.title("🔧 Splitters Problemáticos")
 st.markdown("---")
@@ -103,18 +112,6 @@ with st.container(border=True):
         disabled=[c for c in df_splitters.columns if c not in ['Ver', 'Estado']],
         key="tabla_splitters"
     )
-
-    # ── EVIDENCIAS ──
-    qr_opciones = df_splitters['Código QR'].tolist()
-    qr_evidencia = st.selectbox(
-        "📸 Ver evidencias de:",
-        options=['Selecciona un QR...'] + qr_opciones,
-        key="qr_evidencia_sel"
-    )
-    if qr_evidencia != 'Selecciona un QR...':
-        if st.button(f"Ir a evidencias de {qr_evidencia}", key="btn_ir_evidencias"):
-            st.session_state['qr_evidencias'] = qr_evidencia
-            st.switch_page("pages/evidencias.py")
 
 seleccionados = edited[edited['Ver'] == True]
 
@@ -227,6 +224,51 @@ else:
                 'Reincidente': st.column_config.CheckboxColumn('Reincidente'),
             }
         )
+
+        st.markdown("---")
+
+        # ── EVIDENCIAS ────────────────────────────────
+        st.subheader("📸 Evidencias")
+
+        tab_antes, tab_durante, tab_despues = st.tabs(["📷 Antes", "🔧 Durante", "✅ Después"])
+
+        for tab, etapa in zip([tab_antes, tab_durante, tab_despues], ["antes", "durante", "despues"]):
+            with tab:
+                folder = f"evidencias/{qr_sel}/{etapa}"
+
+                archivo = st.file_uploader(
+                    "Subir imagen",
+                    type=["jpg", "jpeg", "png"],
+                    key=f"upload_{qr_sel}_{etapa}"
+                )
+                if archivo:
+                    with st.spinner("Subiendo..."):
+                        try:
+                            cloudinary.uploader.upload(
+                                archivo,
+                                folder=folder,
+                                public_id=f"{qr_sel}_{etapa}_{archivo.name}"
+                            )
+                            st.success("✅ Subida correctamente")
+                        except Exception as e:
+                            st.error(f"Error: {e}")
+
+                try:
+                    recursos = cloudinary.api.resources(
+                        type="upload",
+                        prefix=folder,
+                        max_results=10
+                    )
+                    imagenes = recursos.get("resources", [])
+                    if imagenes:
+                        cols = st.columns(3)
+                        for i, img in enumerate(imagenes):
+                            with cols[i % 3]:
+                                st.image(img["secure_url"], use_column_width=True)
+                    else:
+                        st.info("Sin evidencias aún.")
+                except Exception:
+                    st.info("Sin evidencias aún.")
 
 if st.button("← Regresar al dashboard", key="regresar_infra"):
     st.switch_page('app.py')
