@@ -21,6 +21,9 @@ def cargar_join():
     df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION'])
     df['NUM_SEMANA'] = df['FECHA CREACION'].dt.isocalendar().week
     df['FSP'] = df['F'].astype(str) + '/' + df['S'].astype(str) + '/' + df['P'].astype(str)
+    col_qr = [c for c in df.columns if 'QR' in c]
+    if col_qr:
+        df = df.rename(columns={col_qr[0]: 'QR'})
     return df
 
 df = cargar_join()
@@ -67,7 +70,7 @@ with col3:
 with col4:
     with st.container(border=True):
         st.caption("QRs afectados")
-        st.markdown(f"**{df_f['Código QR'].nunique():,}**")
+        st.markdown(f"**{df_f['QR'].nunique():,}**")
 
 st.markdown("---")
 
@@ -79,7 +82,7 @@ with tab_olt:
         .agg(
             Tickets=('CUENTA', 'count'),
             Cuentas=('CUENTA', 'nunique'),
-            QRs=('Código QR', 'nunique'),
+            QRs=('QR', 'nunique'),
             Falla=('NIVEL2', lambda x: x.mode()[0])
         )
         .reset_index()
@@ -89,7 +92,7 @@ with tab_olt:
 
 with tab_qr:
     df_qr = (
-        df_f.groupby(['Código QR', 'OLT'])
+        df_f.groupby(['QR', 'OLT'])
         .agg(
             Tickets=('CUENTA', 'count'),
             Cuentas=('CUENTA', 'nunique'),
@@ -122,7 +125,7 @@ with tab_fsp:
         .agg(
             Tickets=('CUENTA', 'count'),
             Cuentas=('CUENTA', 'nunique'),
-            QRs=('Código QR', 'nunique'),
+            QRs=('QR', 'nunique'),
             Falla=('NIVEL2', lambda x: x.mode()[0])
         )
         .reset_index()
@@ -131,7 +134,7 @@ with tab_fsp:
     st.dataframe(df_fsp, use_container_width=True, height=400)
 
 with tab_detalle:
-    cols = ['CUENTA', 'FECHA CREACION', 'NIVEL2', 'ESTATUS', 'OLT', 'Código QR', 'CLUSTER INSTALACION']
+    cols = ['CUENTA', 'FECHA CREACION', 'NIVEL2', 'ESTATUS', 'OLT', 'QR', 'CLUSTER INSTALACION']
     st.dataframe(
         df_f[cols].sort_values('FECHA CREACION', ascending=False).reset_index(drop=True),
         use_container_width=True,
@@ -139,6 +142,7 @@ with tab_detalle:
     )
 
 st.markdown("---")
+
 with st.container(border=True):
     st.subheader("Mapa de afectacion")
     df_mapa = df_f[['Latitud', 'Longitud']].dropna().drop_duplicates()
