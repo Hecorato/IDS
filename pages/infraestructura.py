@@ -149,7 +149,7 @@ else:
     with st.container(border=True):
         st.subheader(f"📡 Splitter: {qr_sel}")
 
-        col1, col2, col3, col4, col5 = st.columns(5)
+        col1, col2, col3, col4, col5, col6 = st.columns(6)
         with col1:
             st.caption("Total tickets")
             st.markdown(f"**{len(df_detalle):,}**")
@@ -158,11 +158,15 @@ else:
             st.markdown(f"**{df_detalle['CUENTA'].nunique():,}**")
         with col3:
             st.caption("OLT")
-            st.markdown(f"**{df_detalle['OLT'].iloc[0] if not df_detalle.empty else 'N/A'}**")
+            st.markdown(f"**{df_detalle['OLT_NCE'].iloc[0] if not df_detalle.empty else 'N/A'}**")
         with col4:
             st.caption("FSP")
             st.markdown(f"**{df_detalle['FSP'].iloc[0] if not df_detalle.empty else 'N/A'}**")
         with col5:
+            st.caption("ONTs Fiber Home")
+            fh = df_detalle['es_FH'].sum() if 'es_FH' in df_detalle.columns else 0
+            st.markdown(f"**{fh:,}**")
+        with col6:
             st.caption("Falla más frecuente")
             st.markdown(f"**{df_detalle['NIVEL2'].mode()[0] if not df_detalle.empty else 'N/A'}**")
 
