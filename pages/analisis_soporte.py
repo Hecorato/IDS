@@ -149,8 +149,8 @@ with st.container(border=True):
         df_historial.groupby('CUENTA')
         .agg(
             Soportes_acumulados=('NIVEL2', 'count'),
-            Primer_soporte=('FECHA CREACION', 'min'),
-            Ultimo_soporte=('FECHA CREACION', 'max'),
+            Primer_soporte=('FECHA APERTURA', 'min'),
+            Ultimo_soporte=('FECHA APERTURA', 'max'),
             Falla_frecuente=('NIVEL2', lambda x: x.mode()[0]),
             OLT=('OLT_NCE', 'first'),
             QR=('QR', 'first'),
