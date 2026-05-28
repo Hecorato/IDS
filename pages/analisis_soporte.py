@@ -186,13 +186,6 @@ with st.container(border=True):
         st.info("Sin datos de hora disponibles.")
     else:
         hora_pico = int(df_horas.loc[df_horas['Tickets'].idxmax(), 'HORA'])
-        col1, col2 = st.columns(2)
-        with col1:
-            st.caption("Hora pico")
-            st.markdown(f"**{hora_pico:02d}:00 hrs**")
-        with col2:
-            st.caption("Tickets en hora pico")
-            st.markdown(f"**{df_horas['Tickets'].max():,}**")
 
         fig_horas = px.line(
             df_horas,
@@ -207,12 +200,82 @@ with st.container(border=True):
             textposition='top center'
         )
         fig_horas.update_layout(
-            height=350,
+            height=300,
             xaxis_title='Hora del dia',
             yaxis_title='Tickets',
-            xaxis=dict(tickmode='linear', tick0=0, dtick=1),
+            xaxis=dict(tickmode='linear', tick0=0, dtick=1, range=[-0.5, 23.5]),
         )
         st.plotly_chart(fig_horas, use_container_width=True)
 
-if st.button("Regresar al dashboard", key="regresar_analisis"):
-    st.switch_page('app.py')
+        horas_disponibles = sorted(df_f['HORA'].dropna().astype(int).unique().tolist())
+        hora_sel = st.selectbox(
+            'Selecciona una hora para ver el detalle:',
+            options=horas_disponibles,
+            index=horas_disponibles.index(hora_pico) if hora_pico in horas_disponibles else 0,
+            format_func=lambda h: f"{h:02d}:00 hrs",
+            key='hora_sel'
+        )
+
+        df_hora = df_f[df_f['HORA'] == hora_sel]
+
+        col1, col2, col3, col4 = st.columns(4)
+        with col1:
+            with st.container(border=True):
+                st.caption("Tickets")
+                st.markdown(f"**{len(df_hora):,}**")
+        with col2:
+            with st.container(border=True):
+                st.caption("QRs unicos")
+                st.markdown(f"**{df_hora['QR'].nunique():,}**")
+        with col3:
+            with st.container(border=True):
+                st.caption("OLTs unicas")
+                st.markdown(f"**{df_hora['OLT_NCE'].nunique():,}**")
+        with col4:
+            with st.container(border=True):
+                st.caption("Falla mas frecuente")
+                st.markdown(f"**{df_hora['NIVEL2'].mode()[0] if not df_hora.empty else 'N/A'}**")
+
+        st.markdown("---")
+        col_fallas, col_qrs = st.columns(2)
+
+        with col_fallas:
+            st.caption("Top fallas en esta hora")
+            df_top_fallas = (
+                df_hora.groupby('NIVEL2')
+                .size()
+                .reset_index(name='Tickets')
+                .sort_values('Tickets', ascending=False)
+                .head(5)
+            )
+            st.dataframe(df_top_fallas, use_container_width=True, height=200)
+
+        with col_qrs:
+            st.caption("Top QRs en esta hora")
+            df_top_qrs = (
+                df_hora.groupby(['QR', 'OLT_NCE'])
+                .size()
+                .reset_index(name='Tickets')
+                .sort_values('Tickets', ascending=False)
+                .head(5)
+            )
+            st.dataframe(df_top_qrs, use_container_width=True, height=200)
+
+        st.markdown("---")
+        st.caption("Detalle de tickets en esta hora")
+        cols_hora = ['CUENTA', 'NIVEL2', 'ESTATUS', 'OLT_NCE', 'FSP', 'QR', 'CLUSTER INSTALACION']
+        cols_disp = [c for c in cols_hora if c in df_hora.columns]
+        st.dataframe(
+            df_hora[cols_disp].reset_index(drop=True),
+            use_container_width=True,
+            height=300
+        )
+
+        st.markdown("---")
+        st.caption("Mapa de QRs afectados en esta hora")
+        df_mapa_hora = df_hora[['Latitud', 'Longitud']].dropna().drop_duplicates()
+        df_mapa_hora = df_mapa_hora.rename(columns={'Latitud': 'lat', 'Longitud': 'lon'})
+        if not df_mapa_hora.empty:
+            st.map(df_mapa_hora, zoom=12)
+        else:
+            st.info("Sin coordenadas disponibles.")
