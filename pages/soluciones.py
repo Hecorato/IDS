@@ -144,7 +144,7 @@ with tab_materiales:
         use_container_width=True,
         height=400,
         column_config={
-            'Descripcion de Material': st.column_config.TextColumn('Material'),
+            'Descripcion de Material ': st.column_config.TextColumn('Material'),
             'Cantidad': st.column_config.NumberColumn('Cantidad', format="%d"),
             'OS': st.column_config.NumberColumn('OS', format="%d"),
             'Costo': st.column_config.NumberColumn('Costo', format="$%.2f"),
