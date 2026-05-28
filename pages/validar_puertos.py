@@ -4,7 +4,7 @@ import pandas as pd
 st.title("Validar Puertos")
 
 df_puertos = pd.read_csv('puertos.csv', dtype={'CUENTA': str})
-df_tickets = pd.read_csv('ids.csv', dtype={'CUENTA': str})
+df_puertos = pd.read_csv('coacalco_nce.csv', dtype={'CUENTA': str})
 
 df_tickets['CUENTA'] = df_tickets['CUENTA'].str.strip().str.replace('.0', '', regex=False).str.zfill(10)
 df_puertos['CUENTA'] = df_puertos['CUENTA'].str.strip().str.zfill(10)
