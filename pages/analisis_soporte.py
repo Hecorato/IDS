@@ -15,28 +15,20 @@ st.markdown("---")
 def cargar_join():
     df_tickets = pd.read_csv('ids.csv', dtype={'CUENTA': str})
     df_tickets['CUENTA'] = df_tickets['CUENTA'].str.strip().str.replace('.0', '', regex=False).str.zfill(10)
-
     df_infra = pd.read_csv('semana_detalle_coacalco.csv', dtype={'Cuenta': str})
     df_infra['Cuenta'] = df_infra['Cuenta'].str.strip().str.zfill(10)
     df = df_tickets.merge(df_infra, left_on='CUENTA', right_on='Cuenta', how='left')
     df = df[df['ESTATUS'] != 'Cancelado']
-
     df_puertos = pd.read_csv('coacalco_nce.csv')
     df_puertos['CUENTA'] = df_puertos['Alias'].str.split('_').str[0].str.strip().str.zfill(10)
     df_puertos['FSP'] = df_puertos['Frame'].astype(str) + '/' + df_puertos['Slot'].astype(str) + '/' + df_puertos['Port'].astype(str)
-    df_puertos = df_puertos.rename(columns={
-        'Device Name': 'OLT_NCE',
-        'Terminal Type': 'Modelo',
-        'SN': 'Serie'
-    })
+    df_puertos = df_puertos.rename(columns={'Device Name': 'OLT_NCE', 'Terminal Type': 'Modelo', 'SN': 'Serie'})
     df_puertos = df_puertos[['CUENTA', 'OLT_NCE', 'FSP', 'Modelo', 'Serie']]
     df = df.merge(df_puertos, on='CUENTA', how='left')
-
     df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION'])
     df['NUM_SEMANA'] = df['FECHA CREACION'].dt.isocalendar().week
     df['FECHA APERTURA'] = pd.to_datetime(df['FECHA APERTURA'], dayfirst=True, errors='coerce')
     df['HORA'] = df['FECHA APERTURA'].dt.hour
-
     col_qr = [c for c in df.columns if 'QR' in c]
     if col_qr:
         df = df.rename(columns={col_qr[0]: 'QR'})
@@ -95,68 +87,36 @@ tab_olt, tab_qr, tab_fsp, tab_detalle = st.tabs(["OLT", "QR", "FSP", "Detalle ti
 with tab_olt:
     df_olt = (
         df_f.groupby('OLT_NCE')
-        .agg(
-            Tickets=('CUENTA', 'count'),
-            Cuentas=('CUENTA', 'nunique'),
-            QRs=('QR', 'nunique'),
-            Falla=('NIVEL2', lambda x: x.mode()[0])
-        )
-        .reset_index()
-        .sort_values('Tickets', ascending=False)
+        .agg(Tickets=('CUENTA', 'count'), Cuentas=('CUENTA', 'nunique'), QRs=('QR', 'nunique'), Falla=('NIVEL2', lambda x: x.mode()[0]))
+        .reset_index().sort_values('Tickets', ascending=False)
     )
     st.dataframe(df_olt, use_container_width=True, height=400)
 
 with tab_qr:
     df_qr = (
         df_f.groupby(['QR', 'OLT_NCE'])
-        .agg(
-            Tickets=('CUENTA', 'count'),
-            Cuentas=('CUENTA', 'nunique'),
-            Falla=('NIVEL2', lambda x: x.mode()[0]),
-            Latitud=('Latitud', 'first'),
-            Longitud=('Longitud', 'first'),
-        )
-        .reset_index()
-        .sort_values('Tickets', ascending=False)
+        .agg(Tickets=('CUENTA', 'count'), Cuentas=('CUENTA', 'nunique'), Falla=('NIVEL2', lambda x: x.mode()[0]), Latitud=('Latitud', 'first'), Longitud=('Longitud', 'first'))
+        .reset_index().sort_values('Tickets', ascending=False)
     )
     df_qr['Mapa'] = df_qr.apply(
         lambda r: f"https://www.google.com/maps?q={r['Latitud']},{r['Longitud']}"
-        if pd.notna(r['Latitud']) and pd.notna(r['Longitud']) else None,
-        axis=1
+        if pd.notna(r['Latitud']) and pd.notna(r['Longitud']) else None, axis=1
     )
-    st.dataframe(
-        df_qr,
-        use_container_width=True,
-        height=400,
-        column_config={
-            'Latitud': None,
-            'Longitud': None,
-            'Mapa': st.column_config.LinkColumn('Mapa'),
-        }
-    )
+    st.dataframe(df_qr, use_container_width=True, height=400,
+        column_config={'Latitud': None, 'Longitud': None, 'Mapa': st.column_config.LinkColumn('Mapa')})
 
 with tab_fsp:
     df_fsp = (
         df_f.groupby(['OLT_NCE', 'FSP'])
-        .agg(
-            Tickets=('CUENTA', 'count'),
-            Cuentas=('CUENTA', 'nunique'),
-            QRs=('QR', 'nunique'),
-            Falla=('NIVEL2', lambda x: x.mode()[0])
-        )
-        .reset_index()
-        .sort_values('Tickets', ascending=False)
+        .agg(Tickets=('CUENTA', 'count'), Cuentas=('CUENTA', 'nunique'), QRs=('QR', 'nunique'), Falla=('NIVEL2', lambda x: x.mode()[0]))
+        .reset_index().sort_values('Tickets', ascending=False)
     )
     st.dataframe(df_fsp, use_container_width=True, height=400)
 
 with tab_detalle:
     cols = ['CUENTA', 'FECHA CREACION', 'NIVEL2', 'ESTATUS', 'OLT_NCE', 'FSP', 'QR', 'Modelo', 'CLUSTER INSTALACION']
     cols_disp = [c for c in cols if c in df_f.columns]
-    st.dataframe(
-        df_f[cols_disp].sort_values('FECHA CREACION', ascending=False).reset_index(drop=True),
-        use_container_width=True,
-        height=400
-    )
+    st.dataframe(df_f[cols_disp].sort_values('FECHA CREACION', ascending=False).reset_index(drop=True), use_container_width=True, height=400)
 
 st.markdown("---")
 
@@ -187,24 +147,9 @@ with st.container(border=True):
     else:
         hora_pico = int(df_horas.loc[df_horas['Tickets'].idxmax(), 'HORA'])
 
-        fig_horas = px.line(
-            df_horas,
-            x='HORA',
-            y='Tickets',
-            markers=True,
-            text='Tickets',
-        )
-        fig_horas.update_traces(
-            line=dict(shape='spline', smoothing=1.3, color='#1f77b4'),
-            marker=dict(size=8),
-            textposition='top center'
-        )
-        fig_horas.update_layout(
-            height=300,
-            xaxis_title='Hora del dia',
-            yaxis_title='Tickets',
-            xaxis=dict(tickmode='linear', tick0=0, dtick=1, range=[-0.5, 23.5]),
-        )
+        fig_horas = px.line(df_horas, x='HORA', y='Tickets', markers=True, text='Tickets')
+        fig_horas.update_traces(line=dict(shape='spline', smoothing=1.3, color='#1f77b4'), marker=dict(size=8), textposition='top center')
+        fig_horas.update_layout(height=300, xaxis_title='Hora del dia', yaxis_title='Tickets', xaxis=dict(tickmode='linear', tick0=0, dtick=1, range=[-0.5, 23.5]))
         st.plotly_chart(fig_horas, use_container_width=True)
 
         horas_disponibles = sorted(df_f['HORA'].dropna().astype(int).unique().tolist())
@@ -237,39 +182,40 @@ with st.container(border=True):
                 st.markdown(f"**{df_hora['NIVEL2'].mode()[0] if not df_hora.empty else 'N/A'}**")
 
         st.markdown("---")
+
+        # ── DIAGNOSTICO AUTOMATICO ────────────────────
+        fsp_counts = df_hora.groupby('FSP')['CUENTA'].count()
+        olt_counts = df_hora.groupby('OLT_NCE')['CUENTA'].count()
+        fsp_dominante = fsp_counts.idxmax() if not fsp_counts.empty else None
+        olt_dominante = olt_counts.idxmax() if not olt_counts.empty else None
+
+        with st.container(border=True):
+            st.caption("Diagnostico automatico")
+            if fsp_counts.max() >= 3:
+                st.error(f"Posible falla en puerto FSP {fsp_dominante} de OLT {olt_dominante} — {fsp_counts.max()} tickets concentrados")
+            elif olt_counts.max() >= 3:
+                st.warning(f"Posible falla en OLT {olt_dominante} — {olt_counts.max()} tickets en el mismo nodo")
+            else:
+                st.success("Soporte disperso — sin concentracion zonal detectada")
+
+        st.markdown("---")
         col_fallas, col_qrs = st.columns(2)
 
         with col_fallas:
             st.caption("Top fallas en esta hora")
-            df_top_fallas = (
-                df_hora.groupby('NIVEL2')
-                .size()
-                .reset_index(name='Tickets')
-                .sort_values('Tickets', ascending=False)
-                .head(5)
-            )
+            df_top_fallas = df_hora.groupby('NIVEL2').size().reset_index(name='Tickets').sort_values('Tickets', ascending=False).head(5)
             st.dataframe(df_top_fallas, use_container_width=True, height=200)
 
         with col_qrs:
             st.caption("Top QRs en esta hora")
-            df_top_qrs = (
-                df_hora.groupby(['QR', 'OLT_NCE'])
-                .size()
-                .reset_index(name='Tickets')
-                .sort_values('Tickets', ascending=False)
-                .head(5)
-            )
+            df_top_qrs = df_hora.groupby(['QR', 'OLT_NCE']).size().reset_index(name='Tickets').sort_values('Tickets', ascending=False).head(5)
             st.dataframe(df_top_qrs, use_container_width=True, height=200)
 
         st.markdown("---")
         st.caption("Detalle de tickets en esta hora")
         cols_hora = ['CUENTA', 'NIVEL2', 'ESTATUS', 'OLT_NCE', 'FSP', 'QR', 'CLUSTER INSTALACION']
         cols_disp = [c for c in cols_hora if c in df_hora.columns]
-        st.dataframe(
-            df_hora[cols_disp].reset_index(drop=True),
-            use_container_width=True,
-            height=300
-        )
+        st.dataframe(df_hora[cols_disp].reset_index(drop=True), use_container_width=True, height=300)
 
         st.markdown("---")
         st.caption("Mapa de QRs afectados en esta hora")
@@ -280,9 +226,8 @@ with st.container(border=True):
         else:
             st.info("Sin coordenadas disponibles.")
 
-              st.markdown("---")
+        st.markdown("---")
         st.caption("Ruta de campo para esta hora")
-
         df_ruta = df_hora[['QR', 'Latitud', 'Longitud', 'OLT_NCE', 'FSP']].dropna(subset=['Latitud', 'Longitud']).drop_duplicates(subset=['QR']).head(10)
 
         if df_ruta.empty:
@@ -290,9 +235,10 @@ with st.container(border=True):
         else:
             waypoints = '/'.join([f"{row['Latitud']},{row['Longitud']}" for _, row in df_ruta.iterrows()])
             url_ruta = f"https://www.google.com/maps/dir/{waypoints}"
-
             st.markdown(f"**{len(df_ruta)} splitters a visitar:**")
-            for i, row in df_ruta.iterrows():
+            for _, row in df_ruta.iterrows():
                 st.markdown(f"- **{row['QR']}** — OLT: {row['OLT_NCE']} — FSP: {row['FSP']}")
-
             st.link_button("Abrir ruta en Google Maps", url_ruta)
+
+if st.button("Regresar al dashboard", key="regresar_analisis"):
+    st.switch_page('app.py')
