@@ -127,7 +127,7 @@ else:
     with st.container(border=True):
         st.subheader(f"📡 Splitter: {qr_sel}")
 
-        col1, col2, col3, col4 = st.columns(4)
+        col1, col2, col3, col4, col5 = st.columns(5)
         with col1:
             st.caption("Total tickets")
             st.markdown(f"**{len(df_detalle):,}**")
@@ -138,6 +138,9 @@ else:
             st.caption("OLT")
             st.markdown(f"**{df_detalle['OLT'].iloc[0] if not df_detalle.empty else 'N/A'}**")
         with col4:
+            st.caption("FSP")
+            st.markdown(f"**{df_detalle['FSP'].iloc[0] if not df_detalle.empty else 'N/A'}**")
+        with col5:
             st.caption("Falla más frecuente")
             st.markdown(f"**{df_detalle['NIVEL2'].mode()[0] if not df_detalle.empty else 'N/A'}**")
 
