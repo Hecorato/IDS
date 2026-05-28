@@ -148,21 +148,21 @@ with st.container(border=True):
     df_reincidencia = (
         df_historial.groupby('CUENTA')
         .agg(
-            Total_tickets=('NIVEL2', 'count'),
-            Primer_ticket=('FECHA CREACION', 'min'),
-            Ultimo_ticket=('FECHA CREACION', 'max'),
+            Soportes_acumulados=('NIVEL2', 'count'),
+            Primer_soporte=('FECHA CREACION', 'min'),
+            Ultimo_soporte=('FECHA CREACION', 'max'),
             Falla_frecuente=('NIVEL2', lambda x: x.mode()[0]),
             OLT=('OLT_NCE', 'first'),
             QR=('QR', 'first'),
             Cluster=('CLUSTER INSTALACION', 'first'),
         )
         .reset_index()
-        .sort_values('Total_tickets', ascending=False)
+        .sort_values('Soportes_acumulados', ascending=False)
     )
 
-    df_reincidencia['Reincidente'] = df_reincidencia['Total_tickets'] > 1
+    df_reincidencia['Reincidente'] = df_reincidencia['Soportes_acumulados'] > 1
     df_reincidencia['Dias_entre_soporte'] = (
-        df_reincidencia['Ultimo_ticket'] - df_reincidencia['Primer_ticket']
+        df_reincidencia['Ultimo_soporte'] - df_reincidencia['Primer_soporte']
     ).dt.days
 
     reincidentes = df_reincidencia['Reincidente'].sum()
