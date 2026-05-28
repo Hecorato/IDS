@@ -36,6 +36,12 @@ def cargar_join():
 
 df = cargar_join()
 df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION'])
+df['FSP'] = (
+    df['F'].fillna(0).astype(int).astype(str) + '/' +
+    df['S'].fillna(0).astype(int).astype(str) + '/' +
+    df['P'].fillna(0).astype(int).astype(str)
+)
+df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION'])
 
 col1, col2, col3 = st.columns(3)
 with col1:
@@ -155,7 +161,8 @@ else:
                 df_detalle.groupby(df_detalle['FECHA CREACION'].dt.date)
                 .agg(
                     Tickets=('CUENTA', 'count'),
-                    Cuentas=('CUENTA', lambda x: ', '.join(x.unique()))
+                    Cuentas=('CUENTA', lambda x: ', '.join(x.unique())),
+                    FSP=('FSP', 'first')
                 )
                 .reset_index()
                 .rename(columns={'FECHA CREACION': 'Fecha'})
@@ -168,6 +175,7 @@ else:
                 column_config={
                     'Fecha': st.column_config.DateColumn('Fecha', format="DD/MM/YYYY"),
                     'Tickets': st.column_config.NumberColumn('Tickets', format="%d"),
+                    'FSP': st.column_config.TextColumn('FSP'),
                     'Cuentas': st.column_config.TextColumn('Cuentas afectadas'),
                 }
             )
