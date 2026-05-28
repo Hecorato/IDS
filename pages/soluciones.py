@@ -13,13 +13,18 @@ st.markdown("---")
 
 @st.cache_data(ttl=3600)
 def cargar_sap():
+    
     df = pd.read_csv('base_sap_soluciones.csv', dtype={'Cuenta de Cliente': str}, encoding='latin1')
     df['Cuenta de Cliente'] = df['Cuenta de Cliente'].str.strip().str.zfill(10)
     df['Fecha de Ingreso'] = pd.to_datetime(df['Fecha de Ingreso'], dayfirst=True, errors='coerce')
     df['Costo Total'] = pd.to_numeric(df['Costo Total'].astype(str).str.replace('$', '').str.replace(',', '').str.strip(), errors='coerce')
     df['Costo Unitario'] = pd.to_numeric(df['Costo Unitario'].astype(str).str.replace('$', '').str.replace(',', '').str.strip(), errors='coerce')
     return df
-
+@st.cache_data(ttl=3600)
+def cargar_sap():
+    df = pd.read_csv('base_sap_soluciones.csv', dtype={'Cuenta de Cliente': str}, encoding='latin1')
+    st.write(df.columns.tolist())
+    st.stop()
 @st.cache_data(ttl=3600)
 def cargar_tickets():
     df = pd.read_csv('ids.csv', dtype={'CUENTA': str})
@@ -27,6 +32,7 @@ def cargar_tickets():
     return df[['CUENTA', 'CLUSTER INSTALACION', 'NIVEL2']].drop_duplicates(subset='CUENTA')
 
 df_sap = cargar_sap()
+
 df_tickets = cargar_tickets()
 
 # ── JOIN CON TICKETS ──────────────────────────────────
