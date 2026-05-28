@@ -3,11 +3,15 @@ import pandas as pd
 
 st.title("Validar Puertos")
 
-df_puertos = pd.read_csv('coacalco_nce.csv', dtype={'CUENTA': str})
+df_puertos = pd.read_csv('coacalco_nce.csv')
 df_tickets = pd.read_csv('ids.csv', dtype={'CUENTA': str})
 
+st.write("Columnas puertos:", df_puertos.columns.tolist())
+st.write("Ejemplos Alias:", df_puertos['Alias'].head(5).tolist() if 'Alias' in df_puertos.columns else "No existe columna Alias")
+
+df_puertos['CUENTA'] = df_puertos['Alias'].str.split('_').str[0].str.strip().str.zfill(10)
+
 df_tickets['CUENTA'] = df_tickets['CUENTA'].str.strip().str.replace('.0', '', regex=False).str.zfill(10)
-df_puertos['CUENTA'] = df_puertos['CUENTA'].str.strip().str.zfill(10)
 
 st.write("Ejemplos CUENTA puertos:", df_puertos['CUENTA'].head(5).tolist())
 st.write("Ejemplos CUENTA tickets:", df_tickets['CUENTA'].head(5).tolist())
