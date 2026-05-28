@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import urllib.parse
 from components.auth import check_login
 
 st.set_page_config(page_title="Analisis de Soporte en Tiempo Real", layout="wide")
@@ -99,11 +100,11 @@ with tab_qr:
         .reset_index().sort_values('Tickets', ascending=False)
     )
     df_qr['Mapa'] = df_qr.apply(
-        lambda r: f"https://www.google.com/maps?q={r['Latitud']},{r['Longitud']}"
+        lambda r: f"https://www.google.com/maps/place/{r['Latitud']},{r['Longitud']}"
         if pd.notna(r['Latitud']) and pd.notna(r['Longitud']) else None, axis=1
     )
     st.dataframe(df_qr, use_container_width=True, height=400,
-        column_config={'Latitud': None, 'Longitud': None, 'Mapa': st.column_config.LinkColumn('Mapa')})
+        column_config={'Latitud': None, 'Longitud': None, 'Mapa': st.column_config.LinkColumn('Pin en Maps')})
 
 with tab_fsp:
     df_fsp = (
@@ -129,20 +130,13 @@ with st.container(border=True):
     else:
         st.info("Sin coordenadas disponibles.")
 
-if st.button("Regresar al dashboard", key="regresar_analisis"):
-    st.switch_page('app.py')
-
-
-    st.markdown("---")
+st.markdown("---")
 
 with st.container(border=True):
     st.subheader("Reincidencia por cuenta")
     st.caption("Cuentas del periodo seleccionado que ya tuvieron soporte en dias anteriores")
 
-    # Tickets del periodo filtrado
     cuentas_periodo = df_f['CUENTA'].unique()
-
-    # Buscar esas cuentas en TODO el historial
     df_historial = df[df['CUENTA'].isin(cuentas_periodo)].copy()
 
     df_reincidencia = (
@@ -155,6 +149,8 @@ with st.container(border=True):
             OLT=('OLT_NCE', 'first'),
             QR=('QR', 'first'),
             Cluster=('CLUSTER INSTALACION', 'first'),
+            Latitud=('Latitud', 'first'),
+            Longitud=('Longitud', 'first'),
         )
         .reset_index()
         .sort_values('Soportes_acumulados', ascending=False)
@@ -164,6 +160,10 @@ with st.container(border=True):
     df_reincidencia['Dias_entre_soporte'] = (
         df_reincidencia['Ultimo_soporte'] - df_reincidencia['Primer_soporte']
     ).dt.days
+    df_reincidencia['Ubicacion'] = df_reincidencia.apply(
+        lambda r: f"https://www.google.com/maps/place/{r['Latitud']},{r['Longitud']}"
+        if pd.notna(r['Latitud']) and pd.notna(r['Longitud']) else None, axis=1
+    )
 
     reincidentes = df_reincidencia['Reincidente'].sum()
     col1, col2 = st.columns(2)
@@ -177,19 +177,38 @@ with st.container(border=True):
             st.markdown(f"**{reincidentes/len(df_reincidencia)*100:.1f}%**")
 
     st.dataframe(
-        df_reincidencia,
+        df_reincidencia.drop(columns=['Latitud', 'Longitud']),
         use_container_width=True,
         height=400,
         column_config={
             'CUENTA': st.column_config.TextColumn('Cuenta'),
-            'Total_tickets': st.column_config.NumberColumn('Total tickets', format="%d"),
-            'Primer_ticket': st.column_config.DateColumn('Primer soporte', format="DD/MM/YYYY"),
-            'Ultimo_ticket': st.column_config.DateColumn('Ultimo soporte', format="DD/MM/YYYY"),
+            'Soportes_acumulados': st.column_config.NumberColumn('Soportes acumulados', format="%d"),
+            'Primer_soporte': st.column_config.DatetimeColumn('Primer soporte', format="DD/MM/YYYY HH:mm"),
+            'Ultimo_soporte': st.column_config.DatetimeColumn('Ultimo soporte', format="DD/MM/YYYY HH:mm"),
             'Dias_entre_soporte': st.column_config.NumberColumn('Dias entre soporte', format="%d"),
             'Falla_frecuente': st.column_config.TextColumn('Falla frecuente'),
             'OLT': st.column_config.TextColumn('OLT'),
             'QR': st.column_config.TextColumn('QR'),
             'Cluster': st.column_config.TextColumn('Cluster'),
             'Reincidente': st.column_config.CheckboxColumn('Reincidente'),
+            'Ubicacion': st.column_config.LinkColumn('📍 Ubicacion'),
         }
     )
+
+    if not df_reincidencia[df_reincidencia['Reincidente']].empty:
+        df_wa = df_reincidencia[df_reincidencia['Reincidente']].head(10)
+        mensaje = f"*Reincidencia de soporte - {pd.Timestamp.now().strftime('%d/%m/%Y %H:%M')}*\n\n"
+        for _, row in df_wa.iterrows():
+            mensaje += f"📍 *{row['CUENTA']}*\n"
+            mensaje += f"   Soportes acumulados: {int(row['Soportes_acumulados'])}\n"
+            mensaje += f"   Falla frecuente: {row['Falla_frecuente']}\n"
+            mensaje += f"   OLT: {row['OLT']} | QR: {row['QR']}\n"
+            mensaje += f"   Cluster: {row['Cluster']}\n"
+            if pd.notna(row.get('Latitud')) and pd.notna(row.get('Longitud')):
+                mensaje += f"   📌 https://www.google.com/maps/place/{row['Latitud']},{row['Longitud']}\n"
+            mensaje += "\n"
+        url_wa = f"https://wa.me/?text={urllib.parse.quote(mensaje)}"
+        st.link_button("📲 Enviar reincidentes por WhatsApp", url_wa)
+
+if st.button("Regresar al dashboard", key="regresar_analisis"):
+    st.switch_page('app.py')
