@@ -13,7 +13,7 @@ st.markdown("---")
 
 @st.cache_data(ttl=3600)
 def cargar_sap():
-    df = pd.read_csv('base_sap_soluciones.csv', dtype={'Cuenta de Cliente': str})
+    df = pd.read_csv('base_sap_soluciones.csv', dtype={'Cuenta de Cliente': str}, encoding='latin1')
     df['Cuenta de Cliente'] = df['Cuenta de Cliente'].str.strip().str.zfill(10)
     df['Fecha de Ingreso'] = pd.to_datetime(df['Fecha de Ingreso'], dayfirst=True, errors='coerce')
     df['Costo Total'] = pd.to_numeric(df['Costo Total'].astype(str).str.replace('$', '').str.replace(',', '').str.strip(), errors='coerce')
