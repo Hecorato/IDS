@@ -34,13 +34,35 @@ def cargar_join():
     df = df[df['ESTATUS'] != 'Cancelado']
     return df
 
+@st.cache_data(ttl=3600)
+def cargar_join():
+    df_tickets = pd.read_csv('ids.csv', dtype={'CUENTA': str})
+    df_tickets['CUENTA'] = (
+        df_tickets['CUENTA']
+        .str.strip()
+        .str.replace('.0', '', regex=False)
+        .str.zfill(10)
+    )
+    df_infra = pd.read_csv('semana_detalle_coacalco.csv', dtype={'Cuenta': str, 'F': str, 'S': str, 'P': str})
+    df_infra['Cuenta'] = df_infra['Cuenta'].str.strip().str.zfill(10)
+    df = df_tickets.merge(df_infra, left_on='CUENTA', right_on='Cuenta', how='left')
+    df = df[df['ESTATUS'] != 'Cancelado']
+
+    df_puertos = pd.read_csv('coacalco_nce.csv')
+    df_puertos['CUENTA'] = df_puertos['Alias'].str.split('_').str[0].str.strip().str.zfill(10)
+    df_puertos['FSP'] = df_puertos['Frame'].astype(str) + '/' + df_puertos['Slot'].astype(str) + '/' + df_puertos['Port'].astype(str)
+    df_puertos['es_FH'] = df_puertos['Terminal Type'].str.contains('FH', na=False)
+    df_puertos = df_puertos.rename(columns={
+        'Device Name': 'OLT_NCE',
+        'Running Status': 'Estado_ONT',
+        'Terminal Type': 'Modelo',
+        'SN': 'Serie'
+    })
+    df_puertos = df_puertos[['CUENTA', 'OLT_NCE', 'FSP', 'Estado_ONT', 'Modelo', 'Serie', 'es_FH']]
+    df = df.merge(df_puertos, on='CUENTA', how='left')
+    return df
+
 df = cargar_join()
-df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION'])
-df['FSP'] = (
-    df['F'].fillna(0).astype(int).astype(str) + '/' +
-    df['S'].fillna(0).astype(int).astype(str) + '/' +
-    df['P'].fillna(0).astype(int).astype(str)
-)
 df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION'])
 
 col1, col2, col3 = st.columns(3)
