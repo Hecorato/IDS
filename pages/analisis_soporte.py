@@ -131,3 +131,65 @@ with st.container(border=True):
 
 if st.button("Regresar al dashboard", key="regresar_analisis"):
     st.switch_page('app.py')
+
+
+    st.markdown("---")
+
+with st.container(border=True):
+    st.subheader("Reincidencia por cuenta")
+    st.caption("Cuentas del periodo seleccionado que ya tuvieron soporte en dias anteriores")
+
+    # Tickets del periodo filtrado
+    cuentas_periodo = df_f['CUENTA'].unique()
+
+    # Buscar esas cuentas en TODO el historial
+    df_historial = df[df['CUENTA'].isin(cuentas_periodo)].copy()
+
+    df_reincidencia = (
+        df_historial.groupby('CUENTA')
+        .agg(
+            Total_tickets=('NIVEL2', 'count'),
+            Primer_ticket=('FECHA CREACION', 'min'),
+            Ultimo_ticket=('FECHA CREACION', 'max'),
+            Falla_frecuente=('NIVEL2', lambda x: x.mode()[0]),
+            OLT=('OLT_NCE', 'first'),
+            QR=('QR', 'first'),
+            Cluster=('CLUSTER INSTALACION', 'first'),
+        )
+        .reset_index()
+        .sort_values('Total_tickets', ascending=False)
+    )
+
+    df_reincidencia['Reincidente'] = df_reincidencia['Total_tickets'] > 1
+    df_reincidencia['Dias_entre_soporte'] = (
+        df_reincidencia['Ultimo_ticket'] - df_reincidencia['Primer_ticket']
+    ).dt.days
+
+    reincidentes = df_reincidencia['Reincidente'].sum()
+    col1, col2 = st.columns(2)
+    with col1:
+        with st.container(border=True):
+            st.caption("Cuentas reincidentes")
+            st.markdown(f"**{reincidentes:,}**")
+    with col2:
+        with st.container(border=True):
+            st.caption("% reincidencia")
+            st.markdown(f"**{reincidentes/len(df_reincidencia)*100:.1f}%**")
+
+    st.dataframe(
+        df_reincidencia,
+        use_container_width=True,
+        height=400,
+        column_config={
+            'CUENTA': st.column_config.TextColumn('Cuenta'),
+            'Total_tickets': st.column_config.NumberColumn('Total tickets', format="%d"),
+            'Primer_ticket': st.column_config.DateColumn('Primer soporte', format="DD/MM/YYYY"),
+            'Ultimo_ticket': st.column_config.DateColumn('Ultimo soporte', format="DD/MM/YYYY"),
+            'Dias_entre_soporte': st.column_config.NumberColumn('Dias entre soporte', format="%d"),
+            'Falla_frecuente': st.column_config.TextColumn('Falla frecuente'),
+            'OLT': st.column_config.TextColumn('OLT'),
+            'QR': st.column_config.TextColumn('QR'),
+            'Cluster': st.column_config.TextColumn('Cluster'),
+            'Reincidente': st.column_config.CheckboxColumn('Reincidente'),
+        }
+    )
