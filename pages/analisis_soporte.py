@@ -14,17 +14,28 @@ st.markdown("---")
 def cargar_join():
     df_tickets = pd.read_csv('ids.csv', dtype={'CUENTA': str})
     df_tickets['CUENTA'] = df_tickets['CUENTA'].str.strip().str.replace('.0', '', regex=False).str.zfill(10)
+
     df_infra = pd.read_csv('semana_detalle_coacalco.csv', dtype={'Cuenta': str})
     df_infra['Cuenta'] = df_infra['Cuenta'].str.strip().str.zfill(10)
     df = df_tickets.merge(df_infra, left_on='CUENTA', right_on='Cuenta', how='left')
     df = df[df['ESTATUS'] != 'Cancelado']
+
+    df_puertos = pd.read_csv('coacalco_nce.csv')
+    df_puertos['CUENTA'] = df_puertos['Alias'].str.split('_').str[0].str.strip().str.zfill(10)
+    df_puertos['FSP'] = df_puertos['Frame'].astype(str) + '/' + df_puertos['Slot'].astype(str) + '/' + df_puertos['Port'].astype(str)
+    df_puertos['es_FH'] = df_puertos['Terminal Type'].str.contains('FH', na=False)
+    df_puertos = df_puertos.rename(columns={
+        'Device Name': 'OLT_NCE',
+        'Running Status': 'Estado_ONT',
+        'Terminal Type': 'Modelo',
+        'SN': 'Serie'
+    })
+    df_puertos = df_puertos[['CUENTA', 'OLT_NCE', 'FSP', 'Estado_ONT', 'Modelo', 'Serie', 'es_FH']]
+    df = df.merge(df_puertos, on='CUENTA', how='left')
+
     df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION'])
     df['NUM_SEMANA'] = df['FECHA CREACION'].dt.isocalendar().week
-    df['FSP'] = (
-        df['F'].fillna(0).astype(int).astype(str) + '/' +
-        df['S'].fillna(0).astype(int).astype(str) + '/' +
-        df['P'].fillna(0).astype(int).astype(str)
-    )
+
     col_qr = [c for c in df.columns if 'QR' in c]
     if col_qr:
         df = df.rename(columns={col_qr[0]: 'QR'})
@@ -70,91 +81,10 @@ with col2:
 with col3:
     with st.container(border=True):
         st.caption("OLTs afectadas")
-        st.markdown(f"**{df_f['OLT'].nunique():,}**")
+        st.markdown(f"**{df_f['OLT_NCE'].nunique():,}**")
 with col4:
     with st.container(border=True):
         st.caption("QRs afectados")
         st.markdown(f"**{df_f['QR'].nunique():,}**")
 
-st.markdown("---")
-
-tab_olt, tab_qr, tab_fsp, tab_detalle = st.tabs(["OLT", "QR", "FSP", "Detalle tickets"])
-
-with tab_olt:
-    df_olt = (
-        df_f.groupby('OLT')
-        .agg(
-            Tickets=('CUENTA', 'count'),
-            Cuentas=('CUENTA', 'nunique'),
-            QRs=('QR', 'nunique'),
-            Falla=('NIVEL2', lambda x: x.mode()[0])
-        )
-        .reset_index()
-        .sort_values('Tickets', ascending=False)
-    )
-    st.dataframe(df_olt, use_container_width=True, height=400)
-
-with tab_qr:
-    df_qr = (
-        df_f.groupby(['QR', 'OLT'])
-        .agg(
-            Tickets=('CUENTA', 'count'),
-            Cuentas=('CUENTA', 'nunique'),
-            Falla=('NIVEL2', lambda x: x.mode()[0]),
-            Latitud=('Latitud', 'first'),
-            Longitud=('Longitud', 'first'),
-        )
-        .reset_index()
-        .sort_values('Tickets', ascending=False)
-    )
-    df_qr['Mapa'] = df_qr.apply(
-        lambda r: f"https://www.google.com/maps?q={r['Latitud']},{r['Longitud']}"
-        if pd.notna(r['Latitud']) and pd.notna(r['Longitud']) else None,
-        axis=1
-    )
-    st.dataframe(
-        df_qr,
-        use_container_width=True,
-        height=400,
-        column_config={
-            'Latitud': None,
-            'Longitud': None,
-            'Mapa': st.column_config.LinkColumn('Mapa'),
-        }
-    )
-
-with tab_fsp:
-    df_fsp = (
-        df_f.groupby(['OLT', 'FSP'])
-        .agg(
-            Tickets=('CUENTA', 'count'),
-            Cuentas=('CUENTA', 'nunique'),
-            QRs=('QR', 'nunique'),
-            Falla=('NIVEL2', lambda x: x.mode()[0])
-        )
-        .reset_index()
-        .sort_values('Tickets', ascending=False)
-    )
-    st.dataframe(df_fsp, use_container_width=True, height=400)
-
-with tab_detalle:
-    cols = ['CUENTA', 'FECHA CREACION', 'NIVEL2', 'ESTATUS', 'OLT', 'QR', 'CLUSTER INSTALACION']
-    st.dataframe(
-        df_f[cols].sort_values('FECHA CREACION', ascending=False).reset_index(drop=True),
-        use_container_width=True,
-        height=400
-    )
-
-st.markdown("---")
-
-with st.container(border=True):
-    st.subheader("Mapa de afectacion")
-    df_mapa = df_f[['Latitud', 'Longitud']].dropna().drop_duplicates()
-    df_mapa = df_mapa.rename(columns={'Latitud': 'lat', 'Longitud': 'lon'})
-    if not df_mapa.empty:
-        st.map(df_mapa, zoom=11)
-    else:
-        st.info("Sin coordenadas disponibles.")
-
-if st.button("Regresar al dashboard", key="regresar_analisis"):
-    st.switch_page('app.py')
+st.m
