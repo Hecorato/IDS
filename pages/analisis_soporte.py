@@ -279,3 +279,20 @@ with st.container(border=True):
             st.map(df_mapa_hora, zoom=12)
         else:
             st.info("Sin coordenadas disponibles.")
+
+              st.markdown("---")
+        st.caption("Ruta de campo para esta hora")
+
+        df_ruta = df_hora[['QR', 'Latitud', 'Longitud', 'OLT_NCE', 'FSP']].dropna(subset=['Latitud', 'Longitud']).drop_duplicates(subset=['QR']).head(10)
+
+        if df_ruta.empty:
+            st.info("Sin coordenadas para generar ruta.")
+        else:
+            waypoints = '/'.join([f"{row['Latitud']},{row['Longitud']}" for _, row in df_ruta.iterrows()])
+            url_ruta = f"https://www.google.com/maps/dir/{waypoints}"
+
+            st.markdown(f"**{len(df_ruta)} splitters a visitar:**")
+            for i, row in df_ruta.iterrows():
+                st.markdown(f"- **{row['QR']}** — OLT: {row['OLT_NCE']} — FSP: {row['FSP']}")
+
+            st.link_button("Abrir ruta en Google Maps", url_ruta)
