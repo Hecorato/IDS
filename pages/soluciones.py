@@ -22,6 +22,7 @@ def cargar_sap():
     return df
 @st.cache_data(ttl=3600)
 def cargar_sap():
+    df.columns = df.columns.str.strip()
     df = pd.read_csv('base_sap_soluciones.csv', dtype={'Cuenta de Cliente': str}, encoding='latin1')
     st.write(df.columns.tolist())
     st.stop()
@@ -144,7 +145,7 @@ with tab_materiales:
         use_container_width=True,
         height=400,
         column_config={
-            'Descripcion de Material ': st.column_config.TextColumn('Material'),
+            'Descripcion de Material': st.column_config.TextColumn('Material'),
             'Cantidad': st.column_config.NumberColumn('Cantidad', format="%d"),
             'OS': st.column_config.NumberColumn('OS', format="%d"),
             'Costo': st.column_config.NumberColumn('Costo', format="$%.2f"),
