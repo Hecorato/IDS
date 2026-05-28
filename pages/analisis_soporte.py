@@ -76,4 +76,96 @@ with col1:
 with col2:
     with st.container(border=True):
         st.caption("Cuentas unicas")
-        st.markdown(f"**{
+        st.markdown(f"**{df_f['CUENTA'].nunique():,}**")
+with col3:
+    with st.container(border=True):
+        st.caption("OLTs afectadas")
+        st.markdown(f"**{df_f['OLT_NCE'].nunique():,}**")
+with col4:
+    with st.container(border=True):
+        st.caption("QRs afectados")
+        st.markdown(f"**{df_f['QR'].nunique():,}**")
+
+st.markdown("---")
+
+tab_olt, tab_qr, tab_fsp, tab_detalle = st.tabs(["OLT", "QR", "FSP", "Detalle tickets"])
+
+with tab_olt:
+    df_olt = (
+        df_f.groupby('OLT_NCE')
+        .agg(
+            Tickets=('CUENTA', 'count'),
+            Cuentas=('CUENTA', 'nunique'),
+            QRs=('QR', 'nunique'),
+            Falla=('NIVEL2', lambda x: x.mode()[0])
+        )
+        .reset_index()
+        .sort_values('Tickets', ascending=False)
+    )
+    st.dataframe(df_olt, use_container_width=True, height=400)
+
+with tab_qr:
+    df_qr = (
+        df_f.groupby(['QR', 'OLT_NCE'])
+        .agg(
+            Tickets=('CUENTA', 'count'),
+            Cuentas=('CUENTA', 'nunique'),
+            Falla=('NIVEL2', lambda x: x.mode()[0]),
+            Latitud=('Latitud', 'first'),
+            Longitud=('Longitud', 'first'),
+        )
+        .reset_index()
+        .sort_values('Tickets', ascending=False)
+    )
+    df_qr['Mapa'] = df_qr.apply(
+        lambda r: f"https://www.google.com/maps?q={r['Latitud']},{r['Longitud']}"
+        if pd.notna(r['Latitud']) and pd.notna(r['Longitud']) else None,
+        axis=1
+    )
+    st.dataframe(
+        df_qr,
+        use_container_width=True,
+        height=400,
+        column_config={
+            'Latitud': None,
+            'Longitud': None,
+            'Mapa': st.column_config.LinkColumn('Mapa'),
+        }
+    )
+
+with tab_fsp:
+    df_fsp = (
+        df_f.groupby(['OLT_NCE', 'FSP'])
+        .agg(
+            Tickets=('CUENTA', 'count'),
+            Cuentas=('CUENTA', 'nunique'),
+            QRs=('QR', 'nunique'),
+            Falla=('NIVEL2', lambda x: x.mode()[0])
+        )
+        .reset_index()
+        .sort_values('Tickets', ascending=False)
+    )
+    st.dataframe(df_fsp, use_container_width=True, height=400)
+
+with tab_detalle:
+    cols = ['CUENTA', 'FECHA CREACION', 'NIVEL2', 'ESTATUS', 'OLT_NCE', 'FSP', 'QR', 'Estado_ONT', 'Modelo', 'CLUSTER INSTALACION']
+    cols_disp = [c for c in cols if c in df_f.columns]
+    st.dataframe(
+        df_f[cols_disp].sort_values('FECHA CREACION', ascending=False).reset_index(drop=True),
+        use_container_width=True,
+        height=400
+    )
+
+st.markdown("---")
+
+with st.container(border=True):
+    st.subheader("Mapa de afectacion")
+    df_mapa = df_f[['Latitud', 'Longitud']].dropna().drop_duplicates()
+    df_mapa = df_mapa.rename(columns={'Latitud': 'lat', 'Longitud': 'lon'})
+    if not df_mapa.empty:
+        st.map(df_mapa, zoom=11)
+    else:
+        st.info("Sin coordenadas disponibles.")
+
+if st.button("Regresar al dashboard", key="regresar_analisis"):
+    st.switch_page('app.py')
