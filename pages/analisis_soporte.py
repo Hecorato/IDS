@@ -160,7 +160,7 @@ with st.container(border=True):
     df_reincidencia['Dias_entre_soporte'] = (
         df_reincidencia['Ultimo_soporte'] - df_reincidencia['Primer_soporte']
     ).dt.days
-    df_reincidencia['Ubicacion'] = df_reincidencia.apply(
+    df_reincidencia['Ubicacion_splitter'] = df_reincidencia.apply(
         lambda r: f"https://www.google.com/maps/place/{r['Latitud']},{r['Longitud']}"
         if pd.notna(r['Latitud']) and pd.notna(r['Longitud']) else None, axis=1
     )
@@ -191,7 +191,7 @@ with st.container(border=True):
             'QR': st.column_config.TextColumn('QR'),
             'Cluster': st.column_config.TextColumn('Cluster'),
             'Reincidente': st.column_config.CheckboxColumn('Reincidente'),
-            'Ubicacion': st.column_config.LinkColumn('📍 Ubicacion'),
+            'Ubicacion_splitter': st.column_config.LinkColumn('📍 Ubicacion splitter'),
         }
     )
 
@@ -205,7 +205,7 @@ with st.container(border=True):
             mensaje += f"   OLT: {row['OLT']} | QR: {row['QR']}\n"
             mensaje += f"   Cluster: {row['Cluster']}\n"
             if pd.notna(row.get('Latitud')) and pd.notna(row.get('Longitud')):
-                mensaje += f"   📌 https://www.google.com/maps/place/{row['Latitud']},{row['Longitud']}\n"
+                mensaje += f"   📌 Ubicacion splitter {row['QR']}: https://www.google.com/maps/place/{row['Latitud']},{row['Longitud']}\n"
             mensaje += "\n"
         url_wa = f"https://wa.me/?text={urllib.parse.quote(mensaje)}"
         st.link_button("📲 Enviar reincidentes por WhatsApp", url_wa)
