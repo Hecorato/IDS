@@ -160,7 +160,6 @@ with st.container(border=True):
         .sort_values('Soportes_acumulados', ascending=False)
     )
 
-    df_reincidencia['Reincidente'] = df_reincidencia['Soportes_acumulados'] > 1
     df_reincidencia['Dias_entre_soporte'] = (
         df_reincidencia['Ultimo_soporte'] - df_reincidencia['Primer_soporte']
     ).dt.days
