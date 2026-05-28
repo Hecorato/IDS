@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
 from components.auth import check_login
 
 st.set_page_config(page_title="Analisis de Soporte en Tiempo Real", layout="wide")
@@ -33,6 +34,8 @@ def cargar_join():
 
     df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION'])
     df['NUM_SEMANA'] = df['FECHA CREACION'].dt.isocalendar().week
+    df['FECHA APERTURA'] = pd.to_datetime(df['FECHA APERTURA'], dayfirst=True, errors='coerce')
+    df['HORA'] = df['FECHA APERTURA'].dt.hour
 
     col_qr = [c for c in df.columns if 'QR' in c]
     if col_qr:
@@ -165,6 +168,51 @@ with st.container(border=True):
         st.map(df_mapa, zoom=11)
     else:
         st.info("Sin coordenadas disponibles.")
+
+st.markdown("---")
+
+with st.container(border=True):
+    st.subheader("Analisis por hora del dia")
+
+    df_horas = (
+        df_f.dropna(subset=['HORA'])
+        .groupby('HORA')
+        .size()
+        .reset_index(name='Tickets')
+        .sort_values('HORA')
+    )
+
+    if df_horas.empty:
+        st.info("Sin datos de hora disponibles.")
+    else:
+        hora_pico = int(df_horas.loc[df_horas['Tickets'].idxmax(), 'HORA'])
+        col1, col2 = st.columns(2)
+        with col1:
+            st.caption("Hora pico")
+            st.markdown(f"**{hora_pico:02d}:00 hrs**")
+        with col2:
+            st.caption("Tickets en hora pico")
+            st.markdown(f"**{df_horas['Tickets'].max():,}**")
+
+        fig_horas = px.line(
+            df_horas,
+            x='HORA',
+            y='Tickets',
+            markers=True,
+            text='Tickets',
+        )
+        fig_horas.update_traces(
+            line=dict(shape='spline', smoothing=1.3, color='#1f77b4'),
+            marker=dict(size=8),
+            textposition='top center'
+        )
+        fig_horas.update_layout(
+            height=350,
+            xaxis_title='Hora del dia',
+            yaxis_title='Tickets',
+            xaxis=dict(tickmode='linear', tick0=0, dtick=1),
+        )
+        st.plotly_chart(fig_horas, use_container_width=True)
 
 if st.button("Regresar al dashboard", key="regresar_analisis"):
     st.switch_page('app.py')
