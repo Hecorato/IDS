@@ -12,14 +12,12 @@ st.markdown("---")
 
 @st.cache_data(ttl=3600)
 def cargar_datos():
-    # IDS
     df_ids = pd.read_csv('ids.csv', dtype={'CUENTA': str})
     df_ids['CUENTA'] = df_ids['CUENTA'].str.strip().str.replace('.0', '', regex=False).str.zfill(10)
     df_ids = df_ids[df_ids['ESTATUS'] != 'Cancelado']
     df_ids['FECHA CREACION'] = pd.to_datetime(df_ids['FECHA CREACION'])
     df_ids['NUM_SEMANA'] = df_ids['FECHA CREACION'].dt.isocalendar().week
 
-    # SAP
     df_sap = pd.read_csv('base_sap_soluciones.csv', dtype={'Cuenta de Cliente': str}, encoding='latin1')
     df_sap.columns = df_sap.columns.str.strip()
     df_sap['Cuenta de Cliente'] = df_sap['Cuenta de Cliente'].str.strip().str.zfill(10)
@@ -28,27 +26,18 @@ def cargar_datos():
         df_sap['Costo Total'].astype(str).str.replace('$', '').str.replace(',', '').str.strip(), errors='coerce'
     )
 
-    # Costo por OS
-    df_costo_os = df_sap.groupby('Orden de Servicio')['Costo Total'].sum().reset_index()
-    df_costo_os.columns = ['Orden de Servicio', 'Costo_OS']
+    df_sap_os = df_sap.drop_duplicates(subset='Orden de Servicio')[['Cuenta de Cliente', 'Orden de Servicio', 'Causa del Soporte', 'Tipo de Servicio']]
+    df_costo = df_sap.groupby('Orden de Servicio')['Costo Total'].sum().reset_index()
+    df_costo.columns = ['Orden de Servicio', 'Costo_OS']
+    df_sap_os = df_sap_os.merge(df_costo, on='Orden de Servicio', how='left')
 
-    # SAP deduplicado por OS
-    df_sap_os = df_sap.drop_duplicates(subset='Orden de Servicio')
-    df_sap_os = df_sap_os.merge(df_costo_os, on='Orden de Servicio', how='left')
-
-    # JOIN IDS + SAP
-    df = df_ids.merge(
-        df_sap_os[['Cuenta de Cliente', 'Orden de Servicio', 'Causa del Soporte', 'Tipo de Servicio', 'Geocerca', 'Costo_OS']],
-        left_on='CUENTA',
-        right_on='Cuenta de Cliente',
-        how='left'
-    )
+    df = df_ids.merge(df_sap_os, left_on='CUENTA', right_on='Cuenta de Cliente', how='left')
 
     return df, df_sap
 
 df, df_sap = cargar_datos()
 
-# ── FILTROS ───────────────────────────────────────────
+# ── FILTRO SEMANA ─────────────────────────────────────
 semanas = sorted(df['NUM_SEMANA'].unique(), reverse=True)
 sem_sel = st.multiselect('Semana:', options=semanas, default=[semanas[0]])
 
@@ -60,7 +49,6 @@ if df_f.empty:
 
 st.markdown("---")
 
-# ── KPIs ──────────────────────────────────────────────
 col1, col2, col3, col4 = st.columns(4)
 with col1:
     with st.container(border=True):
@@ -78,57 +66,120 @@ with col4:
     with st.container(border=True):
         st.caption("Costo total")
         costo = df_f['Costo_OS'].sum()
-        st.markdown(f"**${costo:,.2f}**" if costo > 0 else "**$0.00**")
+        st.markdown(f"**${costo:,.2f}**")
 
 st.markdown("---")
 
-# ── ARBOL: CAUSA → CUENTA → OS → MATERIALES ──────────
+# ── PASO 1: SELECCIONAR CAUSA ─────────────────────────
 with st.container(border=True):
-    st.subheader("Arbol de soporte por causa")
-
+    st.subheader("Paso 1 — Selecciona una causa")
     causas = sorted(df_f['NIVEL2'].dropna().unique().tolist())
-    causa_sel = st.selectbox("Selecciona una causa:", options=causas)
+    causa_sel = st.selectbox("Causa:", options=causas, key="causa_sel")
 
     df_causa = df_f[df_f['NIVEL2'] == causa_sel]
 
     col1, col2 = st.columns(2)
     with col1:
-        st.caption("Tickets con esta causa")
-        st.markdown(f"**{len(df_causa):,}**")
+        with st.container(border=True):
+            st.caption("Tickets con esta causa")
+            st.markdown(f"**{len(df_causa):,}**")
     with col2:
-        st.caption("Cuentas afectadas")
-        st.markdown(f"**{df_causa['CUENTA'].nunique():,}**")
+        with st.container(border=True):
+            st.caption("Cuentas afectadas")
+            st.markdown(f"**{df_causa['CUENTA'].nunique():,}**")
 
-    st.markdown("---")
+st.markdown("---")
 
-    cuentas_causa = sorted(df_causa['CUENTA'].unique().tolist())
-    cuenta_sel = st.selectbox("Selecciona una cuenta:", options=cuentas_causa, key="cuenta_arbol")
+# ── PASO 2: SOLUCIONES APLICADAS ──────────────────────
+with st.container(border=True):
+    st.subheader("Paso 2 — Soluciones aplicadas")
 
-    df_cuenta = df_causa[df_causa['CUENTA'] == cuenta_sel]
+    df_soluciones = (
+        df_causa.dropna(subset=['Causa del Soporte'])
+        .groupby('Causa del Soporte')
+        .agg(
+            OS=('Orden de Servicio', 'nunique'),
+            Cuentas=('CUENTA', 'nunique'),
+            Costo=('Costo_OS', 'sum')
+        )
+        .reset_index()
+        .sort_values('OS', ascending=False)
+    )
 
-    st.markdown(f"**Cuenta: {cuenta_sel}**")
-    st.caption(f"Cluster: {df_cuenta['CLUSTER INSTALACION'].iloc[0] if 'CLUSTER INSTALACION' in df_cuenta.columns else 'N/A'}")
-
-    os_list = df_cuenta['Orden de Servicio'].dropna().unique().tolist()
-
-    if not os_list:
-        st.info("Esta cuenta no tiene OS en SAP para el periodo seleccionado.")
+    if df_soluciones.empty:
+        st.info("Sin soluciones registradas en SAP para esta causa.")
     else:
-        for os in os_list:
-            with st.expander(f"OS: {os}"):
-                df_os = df_sap[df_sap['Orden de Servicio'] == os]
-                if not df_os.empty:
-                    causa_sap = df_os['Causa del Soporte'].iloc[0]
-                    tipo = df_os['Tipo de Servicio'].iloc[0]
-                    costo_total = df_os['Costo Total'].sum()
-                    st.markdown(f"**Causa SAP:** {causa_sap}")
-                    st.markdown(f"**Tipo:** {tipo}")
-                    st.markdown(f"**Costo total:** ${costo_total:,.2f}")
-                    st.dataframe(
-                        df_os[['Descripcion de Material', 'Cantidad', 'Costo Total']].reset_index(drop=True),
-                        use_container_width=True,
-                        height=200
-                    )
+        st.dataframe(
+            df_soluciones,
+            use_container_width=True,
+            height=250,
+            column_config={
+                'Causa del Soporte': st.column_config.TextColumn('Solucion aplicada'),
+                'OS': st.column_config.NumberColumn('OS', format="%d"),
+                'Cuentas': st.column_config.NumberColumn('Cuentas', format="%d"),
+                'Costo': st.column_config.NumberColumn('Costo', format="$%.2f"),
+            }
+        )
+
+st.markdown("---")
+
+# ── PASO 3: CUENTAS AFECTADAS ─────────────────────────
+with st.container(border=True):
+    st.subheader("Paso 3 — Cuentas afectadas")
+
+    df_cuentas = (
+        df_causa.groupby('CUENTA')
+        .agg(
+            Tickets=('NIVEL2', 'count'),
+            Cluster=('CLUSTER INSTALACION', 'first'),
+            OS=('Orden de Servicio', 'first'),
+            Solucion=('Causa del Soporte', 'first'),
+            Costo=('Costo_OS', 'sum')
+        )
+        .reset_index()
+        .sort_values('Tickets', ascending=False)
+    )
+
+    df_cuentas.insert(0, 'Ver detalle', False)
+
+    edited = st.data_editor(
+        df_cuentas,
+        use_container_width=True,
+        height=350,
+        column_config={
+            'Ver detalle': st.column_config.CheckboxColumn('Ver', width='small'),
+            'CUENTA': st.column_config.TextColumn('Cuenta'),
+            'Tickets': st.column_config.NumberColumn('Tickets', format="%d"),
+            'Cluster': st.column_config.TextColumn('Cluster'),
+            'OS': st.column_config.TextColumn('OS'),
+            'Solucion': st.column_config.TextColumn('Solucion'),
+            'Costo': st.column_config.NumberColumn('Costo', format="$%.2f"),
+        },
+        disabled=[c for c in df_cuentas.columns if c != 'Ver detalle'],
+        key="tabla_cuentas"
+    )
+
+    seleccionadas = edited[edited['Ver detalle'] == True]
+
+    if not seleccionadas.empty:
+        st.markdown("---")
+        for _, row in seleccionadas.iterrows():
+            cuenta = row['CUENTA']
+            with st.expander(f"Detalle cuenta: {cuenta} — {row['Cluster']}", expanded=True):
+                os_cuenta = df_sap[df_sap['Cuenta de Cliente'] == cuenta]
+                if os_cuenta.empty:
+                    st.info("Sin materiales registrados en SAP.")
+                else:
+                    for os_id in os_cuenta['Orden de Servicio'].unique():
+                        df_os = os_cuenta[os_cuenta['Orden de Servicio'] == os_id]
+                        causa_sap = df_os['Causa del Soporte'].iloc[0]
+                        costo_os = df_os['Costo Total'].sum()
+                        st.markdown(f"**OS:** {os_id} | **Solucion:** {causa_sap} | **Costo:** ${costo_os:,.2f}")
+                        st.dataframe(
+                            df_os[['Descripcion de Material', 'Cantidad', 'Costo Total']].reset_index(drop=True),
+                            use_container_width=True,
+                            height=180
+                        )
 
 if st.button("Regresar al dashboard", key="regresar_semanal"):
     st.switch_page('app.py')
