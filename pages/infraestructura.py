@@ -129,7 +129,7 @@ with st.container(border=True):
             'Mapa': st.column_config.LinkColumn('📍 Mapa', width='small'),
             'Estado': st.column_config.SelectboxColumn(
                 'Estado',
-                options=['Sin asignar', 'Trabajado', 'En espera de accesos', 'VM'],
+                options=['Sin asignar', 'Trabajado','Finalizado', 'En espera de accesos', 'VM'],
                 width='medium'
             ),
         },
