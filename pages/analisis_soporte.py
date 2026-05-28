@@ -25,11 +25,10 @@ def cargar_join():
     df_puertos['FSP'] = df_puertos['Frame'].astype(str) + '/' + df_puertos['Slot'].astype(str) + '/' + df_puertos['Port'].astype(str)
     df_puertos = df_puertos.rename(columns={
         'Device Name': 'OLT_NCE',
-        'Running Status': 'Estado_ONT',
         'Terminal Type': 'Modelo',
         'SN': 'Serie'
     })
-    df_puertos = df_puertos[['CUENTA', 'OLT_NCE', 'FSP', 'Estado_ONT', 'Modelo', 'Serie']]
+    df_puertos = df_puertos[['CUENTA', 'OLT_NCE', 'FSP', 'Modelo', 'Serie']]
     df = df.merge(df_puertos, on='CUENTA', how='left')
 
     df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION'])
@@ -148,7 +147,7 @@ with tab_fsp:
     st.dataframe(df_fsp, use_container_width=True, height=400)
 
 with tab_detalle:
-    cols = ['CUENTA', 'FECHA CREACION', 'NIVEL2', 'ESTATUS', 'OLT_NCE', 'FSP', 'QR', 'Estado_ONT', 'Modelo', 'CLUSTER INSTALACION']
+    cols = ['CUENTA', 'FECHA CREACION', 'NIVEL2', 'ESTATUS', 'OLT_NCE', 'FSP', 'QR', 'Modelo', 'CLUSTER INSTALACION']
     cols_disp = [c for c in cols if c in df_f.columns]
     st.dataframe(
         df_f[cols_disp].sort_values('FECHA CREACION', ascending=False).reset_index(drop=True),
