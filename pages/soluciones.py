@@ -37,7 +37,6 @@ def cargar_datos():
 
 df, df_sap = cargar_datos()
 
-# ── FILTRO SEMANA ─────────────────────────────────────
 semanas = sorted(df['NUM_SEMANA'].unique(), reverse=True)
 sem_sel = st.multiselect('Semana:', options=semanas, default=[semanas[0]])
 
@@ -70,12 +69,10 @@ with col4:
 
 st.markdown("---")
 
-# ── PASO 1: SELECCIONAR CAUSA ─────────────────────────
 with st.container(border=True):
     st.subheader("Paso 1 — Selecciona una causa")
     causas = sorted(df_f['NIVEL2'].dropna().unique().tolist())
     causa_sel = st.selectbox("Causa:", options=causas, key="causa_sel")
-
     df_causa = df_f[df_f['NIVEL2'] == causa_sel]
 
     col1, col2 = st.columns(2)
@@ -90,8 +87,6 @@ with st.container(border=True):
 
 st.markdown("---")
 
-
-# ── PASO 2: SOLUCIONES APLICADAS ──────────────────────
 with st.container(border=True):
     st.subheader("Paso 2 — Soluciones aplicadas")
 
@@ -118,26 +113,10 @@ with st.container(border=True):
                 'OS': st.column_config.NumberColumn('OS', format="%d"),
                 'Cuentas': st.column_config.NumberColumn('Cuentas', format="%d"),
             }
-        ))
-
-    if df_soluciones.empty:
-        st.info("Sin soluciones registradas en SAP para esta causa.")
-    else:
-        st.dataframe(
-            df_soluciones,
-            use_container_width=True,
-            height=250,
-            column_config={
-                'Causa del Soporte': st.column_config.TextColumn('Solucion aplicada'),
-                'OS': st.column_config.NumberColumn('OS', format="%d"),
-                'Cuentas': st.column_config.NumberColumn('Cuentas', format="%d"),
-                'Costo': st.column_config.NumberColumn('Costo', format="$%.2f"),
-            }
         )
 
 st.markdown("---")
 
-# ── PASO 3: CUENTAS AFECTADAS ─────────────────────────
 with st.container(border=True):
     st.subheader("Paso 3 — Cuentas afectadas")
 
