@@ -90,6 +90,7 @@ with st.container(border=True):
 
 st.markdown("---")
 
+
 # ── PASO 2: SOLUCIONES APLICADAS ──────────────────────
 with st.container(border=True):
     st.subheader("Paso 2 — Soluciones aplicadas")
@@ -100,11 +101,24 @@ with st.container(border=True):
         .agg(
             OS=('Orden de Servicio', 'nunique'),
             Cuentas=('CUENTA', 'nunique'),
-            Costo=('Costo_OS', 'sum')
         )
         .reset_index()
         .sort_values('OS', ascending=False)
     )
+
+    if df_soluciones.empty:
+        st.info("Sin soluciones registradas en SAP para esta causa.")
+    else:
+        st.dataframe(
+            df_soluciones,
+            use_container_width=True,
+            height=250,
+            column_config={
+                'Causa del Soporte': st.column_config.TextColumn('Solucion aplicada'),
+                'OS': st.column_config.NumberColumn('OS', format="%d"),
+                'Cuentas': st.column_config.NumberColumn('Cuentas', format="%d"),
+            }
+        ))
 
     if df_soluciones.empty:
         st.info("Sin soluciones registradas en SAP para esta causa.")
