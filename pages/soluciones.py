@@ -108,11 +108,11 @@ with st.container(border=True):
             df_soluciones,
             use_container_width=True,
             height=250,
-            ccolumn_config={
-            'Causa del Soporte': st.column_config.TextColumn('Solucion aplicada', width='large'),
-            'OS': st.column_config.NumberColumn('OS', format="%d", width='small'),
-            'Cuentas': st.column_config.NumberColumn('Cuentas', format="%d", width='small'),
-        }
+            column_config={
+                'Causa del Soporte': st.column_config.TextColumn('Solucion aplicada'),
+                'OS': st.column_config.NumberColumn('OS', format="%d"),
+                'Cuentas': st.column_config.NumberColumn('Cuentas', format="%d"),
+            }
         )
 
 st.markdown("---")
