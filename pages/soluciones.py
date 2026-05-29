@@ -109,9 +109,9 @@ with st.container(border=True):
             use_container_width=True,
             height=250,
             column_config={
-                'Causa del Soporte': st.column_config.TextColumn('Solucion aplicada'),
-                'OS': st.column_config.NumberColumn('OS', format="%d"),
-                'Cuentas': st.column_config.NumberColumn('Cuentas', format="%d"),
+                'Causa del Soporte': st.column_config.TextColumn('Solucion aplicada', width='large'),
+                'OS': st.column_config.ProgressColumn('OS', min_value=0, max_value=int(df_soluciones['OS'].max()), format="%d"),
+                'Cuentas': st.column_config.ProgressColumn('Cuentas', min_value=0, max_value=int(df_soluciones['Cuentas'].max()), format="%d"),
             }
         )
 
