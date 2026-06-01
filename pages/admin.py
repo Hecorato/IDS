@@ -60,7 +60,7 @@ def procesar_archivo(archivo):
     # Filtrar solo tus clusters
     df = df[df['CLUSTER INSTALACION'].isin(CLUSTERS)]
     # Agregar columna fecha limpia y semana
-    df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION']).dt.date
+    df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION'], dayfirst=True, errors='coerce').dt.date
     df['SEMANA'] = pd.to_datetime(df['FECHA CREACION']).dt.isocalendar().week
     return df
 
