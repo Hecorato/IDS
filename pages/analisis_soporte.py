@@ -112,7 +112,30 @@ with tab_fsp:
         .agg(Tickets=('CUENTA', 'count'), Cuentas=('CUENTA', 'nunique'), QRs=('QR', 'nunique'), Falla=('NIVEL2', lambda x: x.mode()[0]))
         .reset_index().sort_values('Tickets', ascending=False)
     )
-    st.dataframe(df_fsp, use_container_width=True, height=400)
+
+    seleccion_fsp = st.dataframe(
+        df_fsp,
+        use_container_width=True,
+        height=400,
+        on_select='rerun',
+        selection_mode='single-row',
+        key='tabla_fsp'
+    )
+
+    if seleccion_fsp.selection.rows:
+        fila = df_fsp.iloc[seleccion_fsp.selection.rows[0]]
+        olt_sel = fila['OLT_NCE']
+        fsp_sel = fila['FSP']
+
+        with st.container(border=True):
+            st.subheader(f"Detalle: {olt_sel} — FSP {fsp_sel}")
+
+            df_detalle_fsp = df_f[
+                (df_f['OLT_NCE'] == olt_sel) &
+                (df_f['FSP'] == fsp_sel)
+            ][['CUENTA', 'FECHA CREACION', 'NIVEL2', 'ESTATUS', 'QR', 'CLUSTER INSTALACION']].sort_values('FECHA CREACION', ascending=False).reset_index(drop=True)
+
+            st.dataframe(df_detalle_fsp, use_container_width=True, height=300)
 
 with tab_detalle:
     cols = ['CUENTA', 'FECHA CREACION', 'NIVEL2', 'ESTATUS', 'OLT_NCE', 'FSP', 'QR', 'Modelo', 'CLUSTER INSTALACION']
