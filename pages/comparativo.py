@@ -145,7 +145,6 @@ with st.container(border=True):
         st.warning("Selecciona al menos una semana.")
         st.stop()
 
-    # Mapeo de estatus
     mapa_estatus = {
         'En trabajo': ['Agendado', 'Confirmado', 'Inicio'],
         'Cerrados': ['Completado'],
@@ -163,6 +162,29 @@ with st.container(border=True):
         with cols_kpi[i]:
             with st.container(border=True):
                 st.metric(f"Sem {sem}", f"{total:,} tickets")
+
+    df_base = df_hora_filtrado[
+        (df_hora_filtrado['DIA_SEMANA'] == dia_en_seleccionado) &
+        (df_hora_filtrado['NUM_SEMANA'].isin(sems_seleccionadas))
+    ]
+
+    en_trabajo = df_base[df_base['ESTATUS'].isin(mapa_estatus['En trabajo'])]
+    cerrados = df_base[df_base['ESTATUS'].isin(mapa_estatus['Cerrados'])]
+    cancelados = df_base[df_base['ESTATUS'].isin(mapa_estatus['Cancelados'])]
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        with st.container(border=True):
+            st.caption("En trabajo")
+            st.markdown(f"**{len(en_trabajo):,}**")
+    with col2:
+        with st.container(border=True):
+            st.caption("Cerrados")
+            st.markdown(f"**{len(cerrados):,}**")
+    with col3:
+        with st.container(border=True):
+            st.caption("Cancelados")
+            st.markdown(f"**{len(cancelados):,}**")
 
     df_horas = pd.concat([
         df_hora_filtrado[(df_hora_filtrado['NUM_SEMANA'] == sem) & (df_hora_filtrado['DIA_SEMANA'] == dia_en_seleccionado)]
