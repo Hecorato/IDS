@@ -163,7 +163,7 @@ with st.container(border=True):
             with st.container(border=True):
                 st.metric(f"Sem {sem}", f"{total:,} tickets")
 
-     df_base = df[
+    df_base = df[
         (df['DIA_SEMANA'] == dia_en_seleccionado) &
         (df['NUM_SEMANA'] == sem_actual)
     ]
