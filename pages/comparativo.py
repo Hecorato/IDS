@@ -198,6 +198,15 @@ with st.container(border=True):
     )
     st.plotly_chart(fig_hora, use_container_width=True)
 
+     import io
+    img_bytes = fig_hora.to_image(format="png", width=1200, height=500, scale=2)
+    st.download_button(
+        label="📥 Descargar grafica para WhatsApp",
+        data=img_bytes,
+        file_name="tickets_por_hora.png",
+        mime="image/png"
+    )
+
 st.markdown("---")
 
 with st.container(border=True):
