@@ -210,11 +210,31 @@ with st.container(border=True):
 
     buffer = io.StringIO()
     fig_hora.write_html(buffer)
+    grafica_html = buffer.getvalue()
+
+    resumen_html = f"""<!DOCTYPE html>
+<html>
+<head><meta charset='utf-8'><title>Resumen Soporte</title></head>
+<body style='font-family:Arial;padding:20px'>
+<h2>Resumen de soporte — {dia_seleccionado} Sem {sem_actual} — Corte {hora_corte}</h2>
+<table style='font-size:18px;border-collapse:collapse;width:100%'>
+<tr>
+<td style='padding:15px;border:1px solid #ddd;text-align:center'><b>En trabajo</b><br><span style='font-size:36px;font-weight:bold'>{len(en_trabajo):,}</span></td>
+<td style='padding:15px;border:1px solid #ddd;text-align:center'><b>Cerrados</b><br><span style='font-size:36px;font-weight:bold'>{len(cerrados):,}</span></td>
+<td style='padding:15px;border:1px solid #ddd;text-align:center'><b>Cancelados</b><br><span style='font-size:36px;font-weight:bold'>{len(cancelados):,}</span></td>
+</tr>
+</table>
+<br>
+{grafica_html}
+</body>
+</html>"""
+
     st.download_button(
-        label="📥 Descargar grafica",
-        data=buffer.getvalue(),
-        file_name="tickets_por_hora.html",
-        mime="text/html"
+        label="📥 Descargar resumen + grafica",
+        data=resumen_html,
+        file_name=f"resumen_sem{sem_actual}_{dia_seleccionado}.html",
+        mime="text/html",
+        key="download_todo"
     )
 
 st.markdown("---")
