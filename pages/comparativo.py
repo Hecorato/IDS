@@ -127,11 +127,17 @@ st.markdown("---")
 with st.container(border=True):
     st.subheader(f"Tickets por hora del dia — Corte {hora_corte}")
 
-    col_dia, col_sems = st.columns([1, 2])
+    col_dia, col_sems, col_estatus = st.columns([1, 2, 1])
     with col_dia:
         dia_seleccionado = st.selectbox('Dia:', options=dias_es, index=0, key='filtro_hora_dia')
     with col_sems:
         sems_seleccionadas = st.multiselect('Semanas a comparar:', options=semanas, default=semanas[:2])
+    with col_estatus:
+        estatus_grupos = st.multiselect(
+            'Estatus:',
+            options=['En trabajo', 'Cerrados', 'Cancelados'],
+            default=['En trabajo', 'Cerrados', 'Cancelados']
+        )
 
     dia_en_seleccionado = dias_orden[dias_es.index(dia_seleccionado)]
 
@@ -139,15 +145,27 @@ with st.container(border=True):
         st.warning("Selecciona al menos una semana.")
         st.stop()
 
+    # Mapeo de estatus
+    mapa_estatus = {
+        'En trabajo': ['Agendado', 'Confirmado', 'Inicio'],
+        'Cerrados': ['Completado'],
+        'Cancelados': ['Cancelado']
+    }
+    estatus_sel = []
+    for grupo in estatus_grupos:
+        estatus_sel += mapa_estatus[grupo]
+
+    df_hora_filtrado = df[df['ESTATUS'].isin(estatus_sel)] if estatus_sel else df
+
     cols_kpi = st.columns(len(sems_seleccionadas))
     for i, sem in enumerate(sems_seleccionadas):
-        total = len(df[(df['NUM_SEMANA'] == sem) & (df['DIA_SEMANA'] == dia_en_seleccionado)])
+        total = len(df_hora_filtrado[(df_hora_filtrado['NUM_SEMANA'] == sem) & (df_hora_filtrado['DIA_SEMANA'] == dia_en_seleccionado)])
         with cols_kpi[i]:
             with st.container(border=True):
                 st.metric(f"Sem {sem}", f"{total:,} tickets")
 
     df_horas = pd.concat([
-        df[(df['NUM_SEMANA'] == sem) & (df['DIA_SEMANA'] == dia_en_seleccionado)]
+        df_hora_filtrado[(df_hora_filtrado['NUM_SEMANA'] == sem) & (df_hora_filtrado['DIA_SEMANA'] == dia_en_seleccionado)]
         .groupby('HORA').size().reset_index(name='Tickets').assign(Semana=f'Sem {sem}')
         for sem in sems_seleccionadas
     ])
