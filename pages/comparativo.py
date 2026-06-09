@@ -175,16 +175,13 @@ with st.container(border=True):
     col1, col2, col3 = st.columns(3)
     with col1:
         with st.container(border=True):
-            st.caption("En trabajo")
-            st.markdown(f"**{len(en_trabajo):,}**")
+            st.markdown(f"<p style='color:gray;font-size:13px;margin-bottom:4px'>En trabajo</p><p style='font-size:36px;font-weight:bold;text-align:center;margin:0'>{len(en_trabajo):,}</p>", unsafe_allow_html=True)
     with col2:
         with st.container(border=True):
-            st.caption("Cerrados")
-            st.markdown(f"**{len(cerrados):,}**")
+            st.markdown(f"<p style='color:gray;font-size:13px;margin-bottom:4px'>Cerrados</p><p style='font-size:36px;font-weight:bold;text-align:center;margin:0'>{len(cerrados):,}</p>", unsafe_allow_html=True)
     with col3:
         with st.container(border=True):
-            st.caption("Cancelados")
-            st.markdown(f"**{len(cancelados):,}**")
+            st.markdown(f"<p style='color:gray;font-size:13px;margin-bottom:4px'>Cancelados</p><p style='font-size:36px;font-weight:bold;text-align:center;margin:0'>{len(cancelados):,}</p>", unsafe_allow_html=True)
 
     df_horas = pd.concat([
         df_hora_filtrado[(df_hora_filtrado['NUM_SEMANA'] == sem) & (df_hora_filtrado['DIA_SEMANA'] == dia_en_seleccionado)]
