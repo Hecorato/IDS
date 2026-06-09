@@ -2,6 +2,7 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 import requests
+import io
 from datetime import timezone, timedelta
 from components.auth import check_login
 from data.loader import cargar_datos
@@ -197,15 +198,15 @@ with st.container(border=True):
         legend=dict(orientation='h', y=1.1)
     )
     st.plotly_chart(fig_hora, use_container_width=True)
-    import io
-    img_bytes = fig_hora.to_image(format="png", width=1200, height=500, scale=2)
+
+    buffer = io.StringIO()
+    fig_hora.write_html(buffer)
     st.download_button(
-        label="📥 Descargar grafica para WhatsApp",
-        data=img_bytes,
-        file_name="tickets_por_hora.png",
-        mime="image/png"
+        label="📥 Descargar grafica",
+        data=buffer.getvalue(),
+        file_name="tickets_por_hora.html",
+        mime="text/html"
     )
-    
 
 st.markdown("---")
 
