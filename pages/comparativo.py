@@ -163,9 +163,9 @@ with st.container(border=True):
             with st.container(border=True):
                 st.metric(f"Sem {sem}", f"{total:,} tickets")
 
-    df_base = df_hora_filtrado[
-        (df_hora_filtrado['DIA_SEMANA'] == dia_en_seleccionado) &
-        (df_hora_filtrado['NUM_SEMANA'].isin(sems_seleccionadas))
+     df_base = df[
+        (df['DIA_SEMANA'] == dia_en_seleccionado) &
+        (df['NUM_SEMANA'] == sem_actual)
     ]
 
     en_trabajo = df_base[df_base['ESTATUS'].isin(mapa_estatus['En trabajo'])]
