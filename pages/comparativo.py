@@ -192,6 +192,15 @@ with st.container(border=True):
 
     fig_hora = px.line(df_horas, x='HORA', y='Tickets', color='Semana', markers=True, text='Tickets')
     fig_hora.update_traces(line=dict(shape='spline', smoothing=1.3), marker=dict(size=8), textposition='top center')
+    fig_hora.update_traces(
+        selector=dict(name=f'Sem {sems_seleccionadas[0]}'),
+        line=dict(color='#1f77b4', shape='spline', smoothing=1.3)
+    )
+    if len(sems_seleccionadas) > 1:
+        fig_hora.update_traces(
+            selector=dict(name=f'Sem {sems_seleccionadas[1]}'),
+            line=dict(color='#a8c8e8', shape='spline', smoothing=1.3)
+        )
     fig_hora.update_layout(
         height=450, xaxis_title='Hora del dia', yaxis_title='Total Tickets',
         xaxis=dict(tickmode='linear', tick0=0, dtick=1),
