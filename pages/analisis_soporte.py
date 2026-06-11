@@ -133,9 +133,14 @@ with tab_fsp:
             df_detalle_fsp = df_f[
                 (df_f['OLT_NCE'] == olt_sel) &
                 (df_f['FSP'] == fsp_sel)
-            ][['CUENTA', 'FECHA CREACION', 'NIVEL2', 'ESTATUS', 'OS','QR', 'CLUSTER INSTALACION']].sort_values('FECHA CREACION', ascending=False).reset_index(drop=True)
+            ][['CUENTA', 'FECHA APERTURA', 'NIVEL2', 'ESTATUS', 'OS', 'QR', 'CLUSTER INSTALACION']].sort_values('FECHA APERTURA', ascending=False).reset_index(drop=True)
 
-            st.dataframe(df_detalle_fsp, use_container_width=True, height=300)
+            st.dataframe(
+                df_detalle_fsp,
+                use_container_width=True,
+                height=300,
+                column_config={'FECHA APERTURA': st.column_config.DatetimeColumn('Fecha apertura', format="DD/MM/YYYY HH:mm")}
+            )
 
 with tab_detalle:
     cols = ['CUENTA', 'FECHA CREACION', 'NIVEL2', 'ESTATUS', 'OLT_NCE', 'FSP', 'QR', 'Modelo', 'CLUSTER INSTALACION']
