@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import io
 from components.auth import check_login
 
 st.set_page_config(page_title="Soporte vs Resolucion", layout="wide")
@@ -136,16 +137,20 @@ with st.container(border=True):
             column_config={'Fecha termino': st.column_config.DatetimeColumn('Fecha termino', format="DD/MM/YYYY HH:mm")}
         )
 
-if st.button("Regresar al dashboard", key="regresar_resultado"):
-    st.switch_page('app.py')
-
-   st.markdown("---")
+st.markdown("---")
 
 with st.container(border=True):
     st.subheader("Resumen del dia: causas vs soluciones")
-    st.caption(f"Dia: {dia_sel}")
+
+    dias_disponibles = sorted(df_ids['DIA'].dropna().unique(), reverse=True)
+    dia_sel = st.selectbox("Dia:", options=dias_disponibles, index=0, key="dia_resumen")
+
+    df_dia = df_ids[df_ids['DIA'] == dia_sel]
 
     col_izq, col_der = st.columns(2)
+
+    fig_causas = None
+    fig_sol = None
 
     with col_izq:
         st.markdown("**Causas del soporte ingresado**")
@@ -205,12 +210,12 @@ with st.container(border=True):
 
     st.markdown("---")
 
-    if not df_causas_dia.empty or not df_sol_dia.empty:
+    if fig_causas is not None or fig_sol is not None:
         buffer_c = io.StringIO()
         buffer_s = io.StringIO()
-        if not df_causas_dia.empty:
+        if fig_causas is not None:
             fig_causas.write_html(buffer_c)
-        if not df_sol_dia.empty:
+        if fig_sol is not None:
             fig_sol.write_html(buffer_s)
 
         resumen_html = f"""<!DOCTYPE html>
@@ -232,3 +237,6 @@ with st.container(border=True):
             mime="text/html",
             key="download_resumen_causas_sol"
         )
+
+if st.button("Regresar al dashboard", key="regresar_resultado"):
+    st.switch_page('app.py')
