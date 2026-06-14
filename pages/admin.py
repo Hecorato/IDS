@@ -25,11 +25,11 @@ CLUSTERS = [
     "TEOLOYUCAN_2_A"
 ]
 
-# ── FUNCIÓN: SUBIR A GITHUB ───────────────────────────
-def subir_a_github(df):
+# ── FUNCIÓN: SUBIR ARCHIVO A GITHUB (GENERICA) ────────
+def subir_a_github(df, nombre_archivo, mensaje):
     token = st.secrets["github"]["token"]
     repo = st.secrets["github"]["repo"]
-    url = f"https://api.github.com/repos/{repo}/contents/ids.csv"
+    url = f"https://api.github.com/repos/{repo}/contents/{nombre_archivo}"
     headers = {"Authorization": f"token {token}"}
 
     r = requests.get(url, headers=headers)
@@ -39,7 +39,7 @@ def subir_a_github(df):
     contenido_b64 = base64.b64encode(contenido).decode()
 
     payload = {
-        "message": "Actualización automática ids.csv",
+        "message": mensaje,
         "content": contenido_b64,
         "sha": sha
     }
@@ -47,21 +47,39 @@ def subir_a_github(df):
     r = requests.put(url, headers=headers, json=payload)
     return r.status_code in [200, 201]
 
-# ── FUNCIÓN: LEER Y LIMPIAR XLSX ──────────────────────
+# ── FUNCIÓN: LEER Y LIMPIAR IDS.XLSX ──────────────────
 def procesar_archivo(archivo):
     df = pd.read_excel(archivo,
         sheet_name='Reporte ingresos soportes',
         header=1
     )
-    # Eliminar columnas vacías
     df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
-    # Eliminar filas vacías
     df = df.dropna(how='all')
-    # Filtrar solo tus clusters
     df = df[df['CLUSTER INSTALACION'].isin(CLUSTERS)]
-    # Agregar columna fecha limpia y semana
     df['FECHA CREACION'] = pd.to_datetime(df['FECHA CREACION'], dayfirst=True, errors='coerce').dt.date
     df['SEMANA'] = pd.to_datetime(df['FECHA CREACION']).dt.isocalendar().week
+    return df
+
+# ── FUNCIÓN: LEER Y LIMPIAR REPORTE CIERRE DIARIO ─────
+def procesar_cierre(archivo):
+    df = pd.read_excel(archivo,
+        sheet_name='Reporte Cierre Diario',
+        header=1
+    )
+    df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
+    df = df.dropna(how='all')
+    df.columns = df.columns.str.strip()
+
+    df['Cuenta'] = df['Cuenta'].astype(str).str.strip().str.replace('.0', '', regex=False).str.zfill(10)
+
+    cols_fecha = [
+        'Fecha creacion FFM', 'Fecha asignacion', 'Fecha transito',
+        'Fecha sitio', 'Fecha trabajo', 'Fecha termino', 'Fecha registro activacion'
+    ]
+    for col in cols_fecha:
+        if col in df.columns:
+            df[col] = pd.to_datetime(df[col], dayfirst=True, errors='coerce')
+
     return df
 
 # ── PÁGINA ────────────────────────────────────────────
@@ -74,10 +92,10 @@ st.title("⚙️ Administración")
 st.markdown("---")
 
 with st.container(border=True):
-    st.subheader("📤 Cargar reporte del día")
+    st.subheader("📤 Cargar reporte del día (IDS)")
     st.caption("Sube el archivo xlsx tal como lo descargas, sin modificarlo")
 
-    archivo = st.file_uploader("Selecciona el archivo", type=["xlsx", "xls"])
+    archivo = st.file_uploader("Selecciona el archivo", type=["xlsx", "xls"], key="ids_uploader")
 
     if archivo:
         with st.spinner("Procesando archivo..."):
@@ -87,7 +105,7 @@ with st.container(border=True):
         st.dataframe(df_nuevo.head(10), use_container_width=True)
 
         st.markdown("---")
-        if st.button("⬆️ Actualizar dashboard", use_container_width=True):
+        if st.button("⬆️ Actualizar dashboard", use_container_width=True, key="btn_ids"):
             with st.spinner("Fusionando y subiendo a GitHub..."):
                 try:
                     df_base = pd.read_csv('ids.csv')
@@ -103,9 +121,54 @@ with st.container(border=True):
                 except:
                     df_total = df_nuevo
 
-                if subir_a_github(df_total):
+                if subir_a_github(df_total, "ids.csv", "Actualización automática ids.csv"):
                     st.success(
                         f"🎉 Dashboard actualizado con {len(df_total)} registros totales"
+                    )
+                    st.balloons()
+                else:
+                    st.error("❌ Error al subir a GitHub, intenta de nuevo")
+
+st.markdown("---")
+
+with st.container(border=True):
+    st.subheader("📤 Cargar Reporte Cierre Diario")
+    st.caption("Sube el archivo xls tal como lo descargas, sin modificarlo")
+
+    archivo_cierre = st.file_uploader("Selecciona el archivo", type=["xlsx", "xls"], key="cierre_uploader")
+
+    if archivo_cierre:
+        with st.spinner("Procesando archivo..."):
+            df_cierre_nuevo = procesar_cierre(archivo_cierre)
+
+        st.success(f"✅ {len(df_cierre_nuevo)} registros encontrados")
+        st.dataframe(df_cierre_nuevo.head(10), use_container_width=True)
+
+        st.markdown("---")
+        if st.button("⬆️ Actualizar Reporte Cierre Diario", use_container_width=True, key="btn_cierre"):
+            with st.spinner("Fusionando y subiendo a GitHub..."):
+                try:
+                    df_cierre_base = pd.read_csv('reporteCierreDiario.csv', dtype={'Cuenta': str})
+                    cols_fecha = [
+                        'Fecha creacion FFM', 'Fecha asignacion', 'Fecha transito',
+                        'Fecha sitio', 'Fecha trabajo', 'Fecha termino', 'Fecha registro activacion'
+                    ]
+                    for col in cols_fecha:
+                        if col in df_cierre_base.columns:
+                            df_cierre_base[col] = pd.to_datetime(df_cierre_base[col], errors='coerce')
+
+                    df_cierre_total = pd.concat(
+                        [df_cierre_base, df_cierre_nuevo], ignore_index=True
+                    )
+                    df_cierre_total = df_cierre_total.drop_duplicates(
+                        subset=['OS'], keep='last'
+                    )
+                except Exception:
+                    df_cierre_total = df_cierre_nuevo
+
+                if subir_a_github(df_cierre_total, "reporteCierreDiario.csv", "Actualización automática reporteCierreDiario.csv"):
+                    st.success(
+                        f"🎉 Reporte Cierre Diario actualizado con {len(df_cierre_total)} registros totales"
                     )
                     st.balloons()
                 else:
