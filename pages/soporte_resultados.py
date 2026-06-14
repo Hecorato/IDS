@@ -138,3 +138,54 @@ with st.container(border=True):
 
 if st.button("Regresar al dashboard", key="regresar_resultado"):
     st.switch_page('app.py')
+
+    st.markdown("---")
+
+with st.container(border=True):
+    st.subheader("Validacion de soporte del dia")
+    st.caption("Tickets que ingresaron en el dia seleccionado y si ya tienen solucion registrada")
+
+    dias_disponibles = sorted(df_ids['DIA'].dropna().unique(), reverse=True)
+    dia_sel = st.selectbox("Dia:", options=dias_disponibles, index=0, key="dia_validacion")
+
+    df_dia = df_ids[df_ids['DIA'] == dia_sel]
+
+    cuentas_con_solucion = set(df_cierre['Cuenta'].unique())
+
+    df_dia = df_dia.copy()
+    df_dia['Tiene_solucion'] = df_dia['CUENTA'].isin(cuentas_con_solucion)
+
+    con_sol = df_dia['Tiene_solucion'].sum()
+    sin_sol = (~df_dia['Tiene_solucion']).sum()
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        with st.container(border=True):
+            st.caption("Ingresados")
+            st.markdown(f"**{len(df_dia):,}**")
+    with col2:
+        with st.container(border=True):
+            st.caption("Con solucion")
+            st.markdown(f"**{con_sol:,}**")
+    with col3:
+        with st.container(border=True):
+            st.caption("Sin solucion")
+            st.markdown(f"**{sin_sol:,}**")
+
+    df_barra = pd.DataFrame({
+        'Estatus': ['Con solucion', 'Sin solucion'],
+        'Tickets': [con_sol, sin_sol]
+    })
+
+    fig_val = px.bar(
+        df_barra, x='Estatus', y='Tickets', text='Tickets', color='Estatus',
+        color_discrete_map={'Con solucion': '#1f77b4', 'Sin solucion': '#e63946'}
+    )
+    fig_val.update_traces(textposition='outside')
+    fig_val.update_layout(height=350, showlegend=False, xaxis_title='', yaxis_title='Tickets')
+    st.plotly_chart(fig_val, use_container_width=True)
+
+    st.markdown("---")
+    st.caption("Detalle de tickets sin solucion")
+    df_sin_sol = df_dia[~df_dia['Tiene_solucion']][['CUENTA', 'NIVEL2', 'ESTATUS', 'CLUSTER INSTALACION', 'FECHA CREACION']]
+    st.dataframe(df_sin_sol.reset_index(drop=True), use_container_width=True, height=300)
