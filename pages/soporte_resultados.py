@@ -220,3 +220,32 @@ with st.container(border=True):
     st.caption("Detalle de tickets sin solucion")
     df_sin_sol = df_dia[~df_dia['Tiene_solucion']][['CUENTA', 'NIVEL2', 'ESTATUS', 'CLUSTER INSTALACION', 'FECHA CREACION']]
     st.dataframe(df_sin_sol.reset_index(drop=True), use_container_width=True, height=300)
+
+    st.markdown("---")
+
+with st.container(border=True):
+    st.subheader("Soluciones aplicadas por hora del dia")
+
+    df_cierre_dia = df_cierre[df_cierre['DIA'] == dia_sel].copy()
+    df_cierre_dia['HORA'] = df_cierre_dia['Fecha termino'].dt.hour
+
+    df_horas_sol = (
+        df_cierre_dia.dropna(subset=['HORA'])
+        .groupby('HORA')
+        .size()
+        .reset_index(name='Soluciones')
+        .sort_values('HORA')
+    )
+
+    if df_horas_sol.empty:
+        st.info("Sin soluciones registradas para este dia.")
+    else:
+        fig_sol_hora = px.bar(
+            df_horas_sol, x='HORA', y='Soluciones', text='Soluciones'
+        )
+        fig_sol_hora.update_traces(textposition='outside', marker_color='#1f77b4')
+        fig_sol_hora.update_layout(
+            height=350, xaxis_title='Hora del dia', yaxis_title='Soluciones aplicadas',
+            xaxis=dict(tickmode='linear', tick0=0, dtick=1)
+        )
+        st.plotly_chart(fig_sol_hora, use_container_width=True)
