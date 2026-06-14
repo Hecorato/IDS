@@ -74,11 +74,21 @@ def procesar_cierre(archivo):
 
     cols_fecha = [
         'Fecha creacion FFM', 'Fecha asignacion', 'Fecha transito',
-        'Fecha sitio', 'Fecha trabajo', 'Fecha termino', 'Fecha registro activacion'
+        'Fecha sitio', 'Fecha trabajo', 'Fecha termino'
     ]
     for col in cols_fecha:
         if col in df.columns:
             df[col] = pd.to_datetime(df[col], dayfirst=True, errors='coerce')
+
+    cols_necesarias = [
+        'Cuenta', 'OS', 'OT', 'Tipo', 'Subtipo', 'Cluster',
+        'Nombre tecnico', 'Usuario instalador',
+        'Fecha creacion FFM', 'Fecha trabajo', 'Fecha termino',
+        'Estatus', 'Estado', 'Falla', 'Causa', 'Solucion',
+        'Potencia inicial', 'Potencia final', 'QR asignado'
+    ]
+    cols_disp = [c for c in cols_necesarias if c in df.columns]
+    df = df[cols_disp]
 
     return df
 
