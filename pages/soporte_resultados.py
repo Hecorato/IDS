@@ -186,6 +186,37 @@ with st.container(border=True):
     st.plotly_chart(fig_val, use_container_width=True)
 
     st.markdown("---")
+    st.caption("Soluciones aplicadas a tickets con solucion")
+
+    cuentas_dia_con_sol = df_dia[df_dia['Tiene_solucion']]['CUENTA'].unique()
+    df_sol_dia = df_cierre[df_cierre['Cuenta'].isin(cuentas_dia_con_sol)]
+
+    df_resumen_sol = (
+        df_sol_dia.dropna(subset=['Solucion'])
+        .groupby('Solucion')
+        .agg(
+            Cuentas=('Cuenta', 'nunique'),
+            OS=('OS', 'nunique')
+        )
+        .reset_index()
+        .sort_values('Cuentas', ascending=False)
+    )
+
+    if df_resumen_sol.empty:
+        st.info("Sin detalle de soluciones disponible.")
+    else:
+        st.dataframe(
+            df_resumen_sol,
+            use_container_width=True,
+            height=250,
+            column_config={
+                'Solucion': st.column_config.TextColumn('Solucion aplicada'),
+                'Cuentas': st.column_config.NumberColumn('Cuentas', format="%d"),
+                'OS': st.column_config.NumberColumn('OS', format="%d"),
+            }
+        )
+
+    st.markdown("---")
     st.caption("Detalle de tickets sin solucion")
     df_sin_sol = df_dia[~df_dia['Tiene_solucion']][['CUENTA', 'NIVEL2', 'ESTATUS', 'CLUSTER INSTALACION', 'FECHA CREACION']]
     st.dataframe(df_sin_sol.reset_index(drop=True), use_container_width=True, height=300)
