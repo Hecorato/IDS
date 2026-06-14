@@ -20,12 +20,14 @@ def cargar_datos():
     df_ids['FECHA CREACION'] = pd.to_datetime(df_ids['FECHA CREACION'])
     df_ids['NUM_SEMANA'] = df_ids['FECHA CREACION'].dt.isocalendar().week
     df_ids['DIA'] = df_ids['FECHA CREACION'].dt.date
+    df_ids['MES'] = df_ids['FECHA CREACION'].dt.strftime('%Y-%m')
 
     df_cierre = pd.read_csv('reporteCierreDiario.csv', dtype={'Cuenta': str})
     df_cierre['Cuenta'] = df_cierre['Cuenta'].str.strip().str.zfill(10)
     df_cierre['Fecha termino'] = pd.to_datetime(df_cierre['Fecha termino'], errors='coerce')
     df_cierre['NUM_SEMANA'] = df_cierre['Fecha termino'].dt.isocalendar().week
     df_cierre['DIA'] = df_cierre['Fecha termino'].dt.date
+    df_cierre['MES'] = df_cierre['Fecha termino'].dt.strftime('%Y-%m')
 
     return df_ids, df_cierre
 
@@ -140,12 +142,28 @@ with st.container(border=True):
 st.markdown("---")
 
 with st.container(border=True):
-    st.subheader("Resumen del dia: causas vs soluciones")
+    st.subheader("Resumen: causas vs soluciones")
 
-    dias_disponibles = sorted(df_ids['DIA'].dropna().unique(), reverse=True)
-    dia_sel = st.selectbox("Dia:", options=dias_disponibles, index=0, key="dia_resumen")
+    periodo = st.radio("Ver por:", options=['Dia', 'Semana', 'Mes'], horizontal=True, key="periodo_resumen")
 
-    df_dia = df_ids[df_ids['DIA'] == dia_sel]
+    if periodo == 'Dia':
+        opciones = sorted(df_ids['DIA'].dropna().unique(), reverse=True)
+        valor_sel = st.selectbox("Selecciona dia:", options=opciones, index=0, key="filtro_resumen")
+        df_periodo_ids = df_ids[df_ids['DIA'] == valor_sel]
+        df_periodo_cierre = df_cierre[df_cierre['DIA'] == valor_sel]
+        etiqueta = f"Dia {valor_sel}"
+    elif periodo == 'Semana':
+        opciones = sorted(df_ids['NUM_SEMANA'].dropna().unique(), reverse=True)
+        valor_sel = st.selectbox("Selecciona semana:", options=opciones, index=0, key="filtro_resumen")
+        df_periodo_ids = df_ids[df_ids['NUM_SEMANA'] == valor_sel]
+        df_periodo_cierre = df_cierre[df_cierre['NUM_SEMANA'] == valor_sel]
+        etiqueta = f"Semana {valor_sel}"
+    else:
+        opciones = sorted(df_ids['MES'].dropna().unique(), reverse=True)
+        valor_sel = st.selectbox("Selecciona mes:", options=opciones, index=0, key="filtro_resumen")
+        df_periodo_ids = df_ids[df_ids['MES'] == valor_sel]
+        df_periodo_cierre = df_cierre[df_cierre['MES'] == valor_sel]
+        etiqueta = f"Mes {valor_sel}"
 
     col_izq, col_der = st.columns(2)
 
@@ -155,14 +173,14 @@ with st.container(border=True):
     with col_izq:
         st.markdown("**Causas del soporte ingresado**")
         df_causas_dia = (
-            df_dia.groupby('NIVEL2')
+            df_periodo_ids.groupby('NIVEL2')
             .size()
             .reset_index(name='Tickets')
             .sort_values('Tickets', ascending=True)
             .tail(10)
         )
         if df_causas_dia.empty:
-            st.info("Sin tickets ingresados este dia.")
+            st.info("Sin tickets ingresados en este periodo.")
         else:
             colores_causa = {
                 c: '#e63946' if i == len(df_causas_dia) - 1 else '#1f77b4'
@@ -181,9 +199,8 @@ with st.container(border=True):
 
     with col_der:
         st.markdown("**Soluciones aplicadas**")
-        df_cierre_dia = df_cierre[df_cierre['DIA'] == dia_sel]
         df_sol_dia = (
-            df_cierre_dia.dropna(subset=['Solucion'])
+            df_periodo_cierre.dropna(subset=['Solucion'])
             .groupby('Solucion')
             .size()
             .reset_index(name='Cierres')
@@ -191,7 +208,7 @@ with st.container(border=True):
             .tail(10)
         )
         if df_sol_dia.empty:
-            st.info("Sin soluciones registradas este dia.")
+            st.info("Sin soluciones registradas en este periodo.")
         else:
             colores_sol = {
                 s: '#e63946' if i == len(df_sol_dia) - 1 else '#1f77b4'
@@ -220,9 +237,9 @@ with st.container(border=True):
 
         resumen_html = f"""<!DOCTYPE html>
 <html>
-<head><meta charset='utf-8'><title>Resumen {dia_sel}</title></head>
+<head><meta charset='utf-8'><title>Resumen {etiqueta}</title></head>
 <body style='font-family:Arial;padding:20px'>
-<h2>Resumen de soporte — {dia_sel}</h2>
+<h2>Resumen de soporte — {etiqueta}</h2>
 <h3>Causas del soporte ingresado</h3>
 {buffer_c.getvalue()}
 <h3>Soluciones aplicadas</h3>
@@ -233,7 +250,7 @@ with st.container(border=True):
         st.download_button(
             label="📥 Descargar resumen (causas + soluciones)",
             data=resumen_html,
-            file_name=f"resumen_causas_soluciones_{dia_sel}.html",
+            file_name=f"resumen_causas_soluciones_{valor_sel}.html",
             mime="text/html",
             key="download_resumen_causas_sol"
         )
