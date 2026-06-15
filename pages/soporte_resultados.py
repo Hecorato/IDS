@@ -254,6 +254,62 @@ with st.container(border=True):
             mime="text/html",
             key="download_resumen_causas_sol"
         )
+st.markdown("---")
 
+with st.container(border=True):
+    st.subheader("Reincidencia por Conectores")
+    st.caption("Cuentas con mas de una intervencion relacionada a conectores y el tecnico que la atendio")
+
+    df_conectores = df_cierre[df_cierre['Solucion'].str.contains('Conector', case=False, na=False)].copy()
+
+    if df_conectores.empty:
+        st.info("Sin registros relacionados a conectores.")
+    else:
+        df_rec_conectores = (
+            df_conectores.groupby('Cuenta')
+            .agg(
+                Veces=('OS', 'count'),
+                Tecnicos=('Nombre tecnico', lambda x: ', '.join(sorted(set(x.dropna())))),
+                Primera_fecha=('Fecha termino', 'min'),
+                Ultima_fecha=('Fecha termino', 'max'),
+                Cluster=('Cluster', 'first'),
+                Solucion=('Solucion', lambda x: ', '.join(sorted(set(x.dropna())))),
+            )
+            .reset_index()
+            .sort_values('Veces', ascending=False)
+        )
+
+        df_rec_conectores['Reincidente'] = df_rec_conectores['Veces'] > 1
+
+        reincidentes = df_rec_conectores['Reincidente'].sum()
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            with st.container(border=True):
+                st.caption("Cuentas con conectores")
+                st.markdown(f"**{len(df_rec_conectores):,}**")
+        with col2:
+            with st.container(border=True):
+                st.caption("Reincidentes")
+                st.markdown(f"**{reincidentes:,}**")
+        with col3:
+            with st.container(border=True):
+                st.caption("% reincidencia")
+                st.markdown(f"**{reincidentes/len(df_rec_conectores)*100:.1f}%**")
+
+        st.dataframe(
+            df_rec_conectores,
+            use_container_width=True,
+            height=400,
+            column_config={
+                'Cuenta': st.column_config.TextColumn('Cuenta'),
+                'Veces': st.column_config.NumberColumn('Veces', format="%d"),
+                'Tecnicos': st.column_config.TextColumn('Tecnicos'),
+                'Primera_fecha': st.column_config.DatetimeColumn('Primera vez', format="DD/MM/YYYY HH:mm"),
+                'Ultima_fecha': st.column_config.DatetimeColumn('Ultima vez', format="DD/MM/YYYY HH:mm"),
+                'Cluster': st.column_config.TextColumn('Cluster'),
+                'Solucion': st.column_config.TextColumn('Soluciones aplicadas'),
+                'Reincidente': st.column_config.CheckboxColumn('Reincidente'),
+            }
+        )
 if st.button("Regresar al dashboard", key="regresar_resultado"):
     st.switch_page('app.py')
