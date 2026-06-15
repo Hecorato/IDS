@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
 import urllib.parse
 
 st.set_page_config(page_title="Soporte en Campo", layout="wide")
@@ -29,6 +30,13 @@ def cargar_datos():
     if col_qr:
         df = df.rename(columns={col_qr[0]: 'QR'})
     return df
+
+@st.cache_data(ttl=300)
+def cargar_cierre():
+    df_cierre = pd.read_csv('reporteCierreDiario.csv', dtype={'Cuenta': str})
+    df_cierre['Cuenta'] = df_cierre['Cuenta'].str.strip().str.zfill(10)
+    df_cierre['Fecha termino'] = pd.to_datetime(df_cierre['Fecha termino'], errors='coerce')
+    return df_cierre
 
 df = cargar_datos()
 
@@ -127,6 +135,88 @@ if not df_campo.empty:
         if pd.notna(row.get('Latitud')) and pd.notna(row.get('Longitud')):
             mensaje += f"   📌 Splitter {row['QR']}: https://www.google.com/maps/place/{row['Latitud']},{row['Longitud']}\n"
         mensaje += "\n"
-    import urllib.parse
     url_wa = f"https://wa.me/?text={urllib.parse.quote(mensaje)}"
     st.link_button("📲 Compartir por WhatsApp", url_wa)
+
+st.markdown("---")
+
+with st.container(border=True):
+    st.subheader("Auditoria de Conectores — Top tecnicos")
+    st.caption("Tecnicos con reincidencias de conectores en un lapso de 60 dias o menos")
+
+    df_cierre = cargar_cierre()
+    df_conectores = df_cierre[df_cierre['Solucion'].str.contains('Conector', case=False, na=False)].copy()
+    df_conectores = df_conectores.dropna(subset=['Fecha termino']).sort_values(['Cuenta', 'Fecha termino'])
+
+    if df_conectores.empty:
+        st.info("Sin registros relacionados a conectores.")
+    else:
+        df_conectores['Dias_desde_anterior'] = (
+            df_conectores.groupby('Cuenta')['Fecha termino'].diff().dt.days
+        )
+        df_conectores['Reincidencia_60d'] = df_conectores['Dias_desde_anterior'] <= 60
+
+        cuentas_reincidentes = df_conectores[df_conectores['Reincidencia_60d']]['Cuenta'].unique()
+
+        if len(cuentas_reincidentes) == 0:
+            st.info("Sin reincidencias en 60 dias.")
+        else:
+            df_conectores['Tecnico_anterior'] = df_conectores.groupby('Cuenta')['Nombre tecnico'].shift(1)
+            df_fallas = df_conectores[df_conectores['Reincidencia_60d']].dropna(subset=['Tecnico_anterior'])
+
+            df_top_tecnicos = (
+                df_fallas.groupby('Tecnico_anterior')
+                .agg(
+                    Reincidencias=('OS', 'count'),
+                    Cuentas=('Cuenta', 'nunique')
+                )
+                .reset_index()
+                .sort_values('Reincidencias', ascending=True)
+                .tail(10)
+            )
+
+            colores_tec = {
+                t: '#e63946' if i == len(df_top_tecnicos) - 1 else '#1f77b4'
+                for i, t in enumerate(df_top_tecnicos['Tecnico_anterior'])
+            }
+
+            fig_tecnicos = px.bar(
+                df_top_tecnicos, x='Reincidencias', y='Tecnico_anterior', orientation='h',
+                text='Reincidencias', color='Tecnico_anterior', color_discrete_map=colores_tec
+            )
+            fig_tecnicos.update_traces(textposition='outside')
+            fig_tecnicos.update_layout(
+                height=80 + 10 * 35, xaxis_title='Reincidencias (60 dias)', yaxis_title='',
+                showlegend=False, margin=dict(l=10, r=40, t=10, b=10)
+            )
+            st.plotly_chart(fig_tecnicos, use_container_width=True)
+
+            st.markdown("---")
+            st.caption("Linea de tiempo por cuenta (Tecnico - Fecha)")
+
+            df_cuentas_rec = df_conectores[df_conectores['Cuenta'].isin(cuentas_reincidentes)].sort_values(['Cuenta', 'Fecha termino'])
+            max_atenciones = df_cuentas_rec.groupby('Cuenta').size().max()
+
+            filas = []
+            for cuenta, grupo in df_cuentas_rec.groupby('Cuenta'):
+                grupo = grupo.reset_index(drop=True)
+                fila = {'Cuenta': cuenta, 'Cluster': grupo.iloc[0]['Cluster']}
+                for i, row in grupo.iterrows():
+                    num = i + 1
+                    fecha_str = row['Fecha termino'].strftime('%d/%m/%Y %H:%M')
+                    tecnico = row['Nombre tecnico'] if pd.notna(row['Nombre tecnico']) else 'N/A'
+                    fila[f'{num}a atencion'] = f"{tecnico} — {fecha_str}"
+                    if num > 1 and pd.notna(row['Dias_desde_anterior']):
+                        fila[f'{num}a atencion'] += f" ({int(row['Dias_desde_anterior'])} dias despues)"
+                filas.append(fila)
+
+            df_timeline = pd.DataFrame(filas)
+            cols_atencion = [f'{i}a atencion' for i in range(1, max_atenciones + 1) if f'{i}a atencion' in df_timeline.columns]
+            cols_orden = ['Cuenta', 'Cluster'] + cols_atencion
+            df_timeline = df_timeline[cols_orden]
+
+            st.dataframe(
+                df_timeline,
+                use_container_width=True,
+                height=400
+            )
