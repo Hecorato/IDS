@@ -142,7 +142,7 @@ st.markdown("---")
 
 with st.container(border=True):
     st.subheader("Auditoria de Conectores — Top tecnicos")
-    st.caption("Tecnicos con reincidencias de conectores en un lapso de 60 dias o menos")
+    st.caption("Tecnicos cuyo trabajo previo derivo en una reincidencia dentro de 60 dias")
 
     df_cierre = cargar_cierre()
     df_conectores = df_cierre[df_cierre['Solucion'].str.contains('Conector', case=False, na=False)].copy()
@@ -186,9 +186,10 @@ with st.container(border=True):
             )
             fig_tecnicos.update_traces(textposition='outside')
             fig_tecnicos.update_layout(
-                height=80 + 10 * 35, xaxis_title='Reincidencias (60 dias)', yaxis_title='',
+                height=80 + 10 * 35, xaxis_title='Instalaciones que tuvieron retrabajo (60 dias)', yaxis_title='',
                 showlegend=False, margin=dict(l=10, r=40, t=10, b=10)
             )
+
             evento_tec = st.plotly_chart(
                 fig_tecnicos,
                 use_container_width=True,
@@ -200,11 +201,14 @@ with st.container(border=True):
                 tecnico_sel = evento_tec.selection.points[0]['y']
 
                 with st.container(border=True):
-                    st.markdown(f"**Cuentas reincidentes atendidas por: {tecnico_sel}**")
+                    st.markdown(f"**Instalaciones de {tecnico_sel} que requirieron retrabajo (60 dias)**")
 
-                    df_cuentas_tec = df_fallas[df_fallas['Tecnico_anterior'] == tecnico_sel][
-                        ['Cuenta', 'Cluster', 'Fecha termino', 'Nombre tecnico', 'Dias_desde_anterior']
-                    ].rename(columns={'Nombre tecnico': 'Tecnico_reincidencia'}).sort_values('Fecha termino', ascending=False)
+                    df_cuentas_tec = df_fallas[df_fallas['Tecnico_anterior'] == tecnico_sel].copy()
+                    df_cuentas_tec['Primera_atencion'] = df_cuentas_tec['Fecha termino'] - pd.to_timedelta(df_cuentas_tec['Dias_desde_anterior'], unit='D')
+
+                    df_cuentas_tec = df_cuentas_tec[
+                        ['Cuenta', 'Cluster', 'Primera_atencion', 'Fecha termino', 'Nombre tecnico', 'Dias_desde_anterior']
+                    ].rename(columns={'Nombre tecnico': 'Tecnico_que_regreso'}).sort_values('Fecha termino', ascending=False)
 
                     st.dataframe(
                         df_cuentas_tec,
@@ -213,9 +217,10 @@ with st.container(border=True):
                         column_config={
                             'Cuenta': st.column_config.TextColumn('Cuenta'),
                             'Cluster': st.column_config.TextColumn('Cluster'),
-                            'Fecha termino': st.column_config.DatetimeColumn('Fecha reincidencia', format="DD/MM/YYYY HH:mm"),
-                            'Tecnico_reincidencia': st.column_config.TextColumn('Quien reincidio'),
-                            'Dias_desde_anterior': st.column_config.NumberColumn('Dias', format="%d"),
+                            'Primera_atencion': st.column_config.DatetimeColumn(f'{tecnico_sel} atendio el', format="DD/MM/YYYY HH:mm"),
+                            'Fecha termino': st.column_config.DatetimeColumn('Regreso por falla el', format="DD/MM/YYYY HH:mm"),
+                            'Tecnico_que_regreso': st.column_config.TextColumn('Quien regreso'),
+                            'Dias_desde_anterior': st.column_config.NumberColumn('Dias entre visitas', format="%d"),
                         }
                     )
 
