@@ -189,7 +189,35 @@ with st.container(border=True):
                 height=80 + 10 * 35, xaxis_title='Reincidencias (60 dias)', yaxis_title='',
                 showlegend=False, margin=dict(l=10, r=40, t=10, b=10)
             )
-            st.plotly_chart(fig_tecnicos, use_container_width=True)
+            evento_tec = st.plotly_chart(
+                fig_tecnicos,
+                use_container_width=True,
+                on_select="rerun",
+                key="chart_tecnicos"
+            )
+
+            if evento_tec and evento_tec.selection and evento_tec.selection.points:
+                tecnico_sel = evento_tec.selection.points[0]['y']
+
+                with st.container(border=True):
+                    st.markdown(f"**Cuentas reincidentes atendidas por: {tecnico_sel}**")
+
+                    df_cuentas_tec = df_fallas[df_fallas['Tecnico_anterior'] == tecnico_sel][
+                        ['Cuenta', 'Cluster', 'Fecha termino', 'Nombre tecnico', 'Dias_desde_anterior']
+                    ].rename(columns={'Nombre tecnico': 'Tecnico_reincidencia'}).sort_values('Fecha termino', ascending=False)
+
+                    st.dataframe(
+                        df_cuentas_tec,
+                        use_container_width=True,
+                        height=250,
+                        column_config={
+                            'Cuenta': st.column_config.TextColumn('Cuenta'),
+                            'Cluster': st.column_config.TextColumn('Cluster'),
+                            'Fecha termino': st.column_config.DatetimeColumn('Fecha reincidencia', format="DD/MM/YYYY HH:mm"),
+                            'Tecnico_reincidencia': st.column_config.TextColumn('Quien reincidio'),
+                            'Dias_desde_anterior': st.column_config.NumberColumn('Dias', format="%d"),
+                        }
+                    )
 
             st.markdown("---")
             st.caption("Linea de tiempo por cuenta (Tecnico - Fecha)")
