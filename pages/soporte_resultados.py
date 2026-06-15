@@ -258,58 +258,91 @@ st.markdown("---")
 
 with st.container(border=True):
     st.subheader("Reincidencia por Conectores")
-    st.caption("Cuentas con mas de una intervencion relacionada a conectores y el tecnico que la atendio")
+    st.caption("Cuentas con dos o mas cierres de conector en un lapso de 60 dias o menos")
 
     df_conectores = df_cierre[df_cierre['Solucion'].str.contains('Conector', case=False, na=False)].copy()
+    df_conectores = df_conectores.dropna(subset=['Fecha termino']).sort_values(['Cuenta', 'Fecha termino'])
 
     if df_conectores.empty:
         st.info("Sin registros relacionados a conectores.")
     else:
-        df_rec_conectores = (
-            df_conectores.groupby('Cuenta')
-            .agg(
-                Veces=('OS', 'count'),
-                Tecnicos=('Nombre tecnico', lambda x: ', '.join(sorted(set(x.dropna())))),
-                Primera_fecha=('Fecha termino', 'min'),
-                Ultima_fecha=('Fecha termino', 'max'),
-                Cluster=('Cluster', 'first'),
-                Solucion=('Solucion', lambda x: ', '.join(sorted(set(x.dropna())))),
-            )
-            .reset_index()
-            .sort_values('Veces', ascending=False)
+        df_conectores['Dias_desde_anterior'] = (
+            df_conectores.groupby('Cuenta')['Fecha termino'].diff().dt.days
         )
+        df_conectores['Reincidencia_60d'] = df_conectores['Dias_desde_anterior'] <= 60
 
-        df_rec_conectores['Reincidente'] = df_rec_conectores['Veces'] > 1
+        cuentas_reincidentes = df_conectores[df_conectores['Reincidencia_60d']]['Cuenta'].unique()
 
-        reincidentes = df_rec_conectores['Reincidente'].sum()
         col1, col2, col3 = st.columns(3)
         with col1:
             with st.container(border=True):
                 st.caption("Cuentas con conectores")
-                st.markdown(f"**{len(df_rec_conectores):,}**")
+                st.markdown(f"**{df_conectores['Cuenta'].nunique():,}**")
         with col2:
             with st.container(border=True):
-                st.caption("Reincidentes")
-                st.markdown(f"**{reincidentes:,}**")
+                st.caption("Reincidentes (60 dias)")
+                st.markdown(f"**{len(cuentas_reincidentes):,}**")
         with col3:
             with st.container(border=True):
                 st.caption("% reincidencia")
-                st.markdown(f"**{reincidentes/len(df_rec_conectores)*100:.1f}%**")
+                pct = len(cuentas_reincidentes) / df_conectores['Cuenta'].nunique() * 100
+                st.markdown(f"**{pct:.1f}%**")
 
-        st.dataframe(
-            df_rec_conectores,
-            use_container_width=True,
-            height=400,
-            column_config={
-                'Cuenta': st.column_config.TextColumn('Cuenta'),
-                'Veces': st.column_config.NumberColumn('Veces', format="%d"),
-                'Tecnicos': st.column_config.TextColumn('Tecnicos'),
-                'Primera_fecha': st.column_config.DatetimeColumn('Primera vez', format="DD/MM/YYYY HH:mm"),
-                'Ultima_fecha': st.column_config.DatetimeColumn('Ultima vez', format="DD/MM/YYYY HH:mm"),
-                'Cluster': st.column_config.TextColumn('Cluster'),
-                'Solucion': st.column_config.TextColumn('Soluciones aplicadas'),
-                'Reincidente': st.column_config.CheckboxColumn('Reincidente'),
-            }
-        )
+        st.markdown("---")
+
+        if len(cuentas_reincidentes) == 0:
+            st.info("Sin reincidencias en 60 dias.")
+        else:
+            cuenta_sel = st.selectbox(
+                "Selecciona una cuenta reincidente:",
+                options=sorted(cuentas_reincidentes),
+                key="cuenta_conector_sel"
+            )
+
+            df_linea = df_conectores[df_conectores['Cuenta'] == cuenta_sel][
+                ['Fecha termino', 'Nombre tecnico', 'Solucion', 'Cluster', 'Dias_desde_anterior']
+            ].reset_index(drop=True)
+
+            st.dataframe(
+                df_linea,
+                use_container_width=True,
+                height=200,
+                column_config={
+                    'Fecha termino': st.column_config.DatetimeColumn('Fecha', format="DD/MM/YYYY HH:mm"),
+                    'Nombre tecnico': st.column_config.TextColumn('Tecnico'),
+                    'Solucion': st.column_config.TextColumn('Solucion'),
+                    'Cluster': st.column_config.TextColumn('Cluster'),
+                    'Dias_desde_anterior': st.column_config.NumberColumn('Dias desde anterior', format="%d"),
+                }
+            )
+
+            st.markdown("---")
+            st.caption("Resumen general de reincidentes")
+
+            df_resumen_rec = (
+                df_conectores[df_conectores['Cuenta'].isin(cuentas_reincidentes)]
+                .groupby('Cuenta')
+                .agg(
+                    Veces=('OS', 'count'),
+                    Primera_vez=('Fecha termino', 'min'),
+                    Ultima_vez=('Fecha termino', 'max'),
+                    Cluster=('Cluster', 'first'),
+                )
+                .reset_index()
+                .sort_values('Veces', ascending=False)
+            )
+
+            st.dataframe(
+                df_resumen_rec,
+                use_container_width=True,
+                height=300,
+                column_config={
+                    'Cuenta': st.column_config.TextColumn('Cuenta'),
+                    'Veces': st.column_config.NumberColumn('Veces', format="%d"),
+                    'Primera_vez': st.column_config.DatetimeColumn('Primera vez', format="DD/MM/YYYY HH:mm"),
+                    'Ultima_vez': st.column_config.DatetimeColumn('Ultima vez', format="DD/MM/YYYY HH:mm"),
+                    'Cluster': st.column_config.TextColumn('Cluster'),
+                }
+            )
 if st.button("Regresar al dashboard", key="regresar_resultado"):
     st.switch_page('app.py')
