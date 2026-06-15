@@ -225,32 +225,70 @@ with st.container(border=True):
                     )
 
             st.markdown("---")
-            st.caption("Linea de tiempo por cuenta (Tecnico - Fecha)")
+           st.markdown("---")
 
-            df_cuentas_rec = df_conectores[df_conectores['Cuenta'].isin(cuentas_reincidentes)].sort_values(['Cuenta', 'Fecha termino'])
-            max_atenciones = df_cuentas_rec.groupby('Cuenta').size().max()
+with st.container(border=True):
+    st.subheader("Linea de tiempo por cuenta")
+    st.caption("Cuentas ordenadas por numero de toques (atenciones de conector)")
 
-            filas = []
-            for cuenta, grupo in df_cuentas_rec.groupby('Cuenta'):
-                grupo = grupo.reset_index(drop=True)
-                fila = {'Cuenta': cuenta, 'Cluster': grupo.iloc[0]['Cluster']}
-                for i, row in grupo.iterrows():
-                    num = i + 1
-                    fecha_str = row['Fecha termino'].strftime('%d/%m/%Y %H:%M')
-                    tecnico = row['Nombre tecnico'] if pd.notna(row['Nombre tecnico']) else 'N/A'
-                    empresa = row['Empresa(proveedor)'] if pd.notna(row.get('Empresa(proveedor)')) else ''
-                    fila[f'{num}a atencion'] = f"{tecnico} ({empresa}) — {fecha_str}"
-                    if num > 1 and pd.notna(row['Dias_desde_anterior']):
-                        fila[f'{num}a atencion'] += f" ({int(row['Dias_desde_anterior'])} dias despues)"
-                filas.append(fila)
+    df_cuentas_rec = df_conectores[df_conectores['Cuenta'].isin(cuentas_reincidentes)].sort_values(['Cuenta', 'Fecha termino'])
 
-            df_timeline = pd.DataFrame(filas)
-            cols_atencion = [f'{i}a atencion' for i in range(1, max_atenciones + 1) if f'{i}a atencion' in df_timeline.columns]
-            cols_orden = ['Cuenta', 'Cluster'] + cols_atencion
-            df_timeline = df_timeline[cols_orden]
+    df_resumen_toques = (
+        df_cuentas_rec.groupby('Cuenta')
+        .agg(Toques=('OS', 'count'), Cluster=('Cluster', 'first'))
+        .reset_index()
+        .sort_values('Toques', ascending=False)
+    )
 
-            st.dataframe(
-                df_timeline,
-                use_container_width=True,
-                height=400
-            )
+    opciones_cuenta = df_resumen_toques['Cuenta'].tolist()
+
+    cuenta_sel_tl = st.selectbox(
+        "Selecciona una cuenta:",
+        options=opciones_cuenta,
+        format_func=lambda c: f"{c} — {df_resumen_toques[df_resumen_toques['Cuenta']==c]['Cluster'].values[0]} ({df_resumen_toques[df_resumen_toques['Cuenta']==c]['Toques'].values[0]} toques)",
+        key="cuenta_timeline_sel"
+    )
+
+    df_cuenta_tl = df_cuentas_rec[df_cuentas_rec['Cuenta'] == cuenta_sel_tl].reset_index(drop=True)
+
+    col1, col2 = st.columns(2)
+    with col1:
+        with st.container(border=True):
+            st.caption("Toques totales")
+            st.markdown(f"**{len(df_cuenta_tl):,}**")
+    with col2:
+        with st.container(border=True):
+            st.caption("Cluster")
+            st.markdown(f"**{df_cuenta_tl['Cluster'].iloc[0]}**")
+
+    st.markdown("---")
+
+    df_vertical = df_cuenta_tl[['Fecha termino', 'Nombre tecnico', 'Empresa(proveedor)', 'Solucion', 'Dias_desde_anterior']].copy()
+    df_vertical.insert(0, 'Atencion', range(1, len(df_vertical) + 1))
+
+    st.dataframe(
+        df_vertical,
+        use_container_width=True,
+        height=250,
+        column_config={
+            'Atencion': st.column_config.NumberColumn('No.', format="%d"),
+            'Fecha termino': st.column_config.DatetimeColumn('Fecha', format="DD/MM/YYYY HH:mm"),
+            'Nombre tecnico': st.column_config.TextColumn('Tecnico'),
+            'Empresa(proveedor)': st.column_config.TextColumn('Empresa'),
+            'Solucion': st.column_config.TextColumn('Solucion'),
+            'Dias_desde_anterior': st.column_config.NumberColumn('Dias desde anterior', format="%d"),
+        }
+    )
+
+    st.markdown("---")
+    st.caption("Resumen de todas las cuentas con reincidencia (ordenado por toques)")
+    st.dataframe(
+        df_resumen_toques,
+        use_container_width=True,
+        height=300,
+        column_config={
+            'Cuenta': st.column_config.TextColumn('Cuenta'),
+            'Toques': st.column_config.NumberColumn('Toques', format="%d"),
+            'Cluster': st.column_config.TextColumn('Cluster'),
+        }
+    )
