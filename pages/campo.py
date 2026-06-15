@@ -162,6 +162,7 @@ with st.container(border=True):
             st.info("Sin reincidencias en 60 dias.")
         else:
             df_conectores['Tecnico_anterior'] = df_conectores.groupby('Cuenta')['Nombre tecnico'].shift(1)
+            df_conectores['Fecha_anterior'] = df_conectores.groupby('Cuenta')['Fecha termino'].shift(1)
             df_fallas = df_conectores[df_conectores['Reincidencia_60d']].dropna(subset=['Tecnico_anterior'])
 
             df_top_tecnicos = (
@@ -204,11 +205,10 @@ with st.container(border=True):
                     st.markdown(f"**Instalaciones de {tecnico_sel} que requirieron retrabajo (60 dias)**")
 
                     df_cuentas_tec = df_fallas[df_fallas['Tecnico_anterior'] == tecnico_sel].copy()
-                    df_cuentas_tec['Primera_atencion'] = df_cuentas_tec['Fecha termino'] - pd.to_timedelta(df_cuentas_tec['Dias_desde_anterior'], unit='D')
 
                     df_cuentas_tec = df_cuentas_tec[
-                        ['Cuenta', 'Cluster', 'Primera_atencion', 'Fecha termino', 'Nombre tecnico', 'Dias_desde_anterior']
-                    ].rename(columns={'Nombre tecnico': 'Tecnico_que_regreso'}).sort_values('Fecha termino', ascending=False)
+                        ['Cuenta', 'Cluster', 'Fecha_anterior', 'Fecha termino', 'Nombre tecnico', 'Dias_desde_anterior']
+                    ].rename(columns={'Nombre tecnico': 'Tecnico_que_regreso', 'Fecha_anterior': 'Primera_atencion'}).sort_values('Fecha termino', ascending=False)
 
                     st.dataframe(
                         df_cuentas_tec,
