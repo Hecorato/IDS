@@ -224,27 +224,53 @@ with st.container(border=True):
                         }
                     )
 
-            
-            st.markdown("---")
-    st.markdown(f"### 📍 Cuenta {cuenta_sel_tl} — {df_cuenta_tl['Cluster'].iloc[0]}")
+if not df_conectores.empty and len(cuentas_reincidentes) > 0:
     st.markdown("---")
 
-    for i, row in df_cuenta_tl.iterrows():
-        num = i + 1
-        fecha_str = row['Fecha termino'].strftime('%d de %B, %H:%M hrs')
-        tecnico = row['Nombre tecnico'] if pd.notna(row['Nombre tecnico']) else 'Sin nombre'
-        empresa = row['Empresa(proveedor)'] if pd.notna(row.get('Empresa(proveedor)')) else 'Sin empresa'
-        solucion = row['Solucion'] if pd.notna(row['Solucion']) else 'Sin solucion registrada'
+    with st.container(border=True):
+        st.subheader("Linea de tiempo por cuenta")
+        st.caption("Cuentas ordenadas por numero de toques (atenciones de conector)")
 
-        with st.container(border=True):
-            st.markdown(f"## 🔧 Atencion {num}")
-            st.markdown(f"**📅 Fecha:** {fecha_str}")
-            st.markdown(f"**👷 Tecnico:** {tecnico}")
-            st.markdown(f"**🏢 Empresa:** {empresa}")
-            st.markdown(f"**🛠️ Lo que se hizo:** {solucion}")
-            if num > 1 and pd.notna(row['Dias_desde_anterior']):
-                dias = int(row['Dias_desde_anterior'])
-                st.error(f"⚠️ Volvio a fallar {dias} dias despues de la atencion anterior")
+        df_cuentas_rec = df_conectores[df_conectores['Cuenta'].isin(cuentas_reincidentes)].sort_values(['Cuenta', 'Fecha termino'])
 
-        if num < len(df_cuenta_tl):
-            st.markdown("<div style='text-align:center; font-size:30px'>⬇️</div>", unsafe_allow_html=True)
+        df_resumen_toques = (
+            df_cuentas_rec.groupby('Cuenta')
+            .agg(Toques=('OS', 'count'), Cluster=('Cluster', 'first'))
+            .reset_index()
+            .sort_values('Toques', ascending=False)
+        )
+
+        opciones_cuenta = df_resumen_toques['Cuenta'].tolist()
+
+        cuenta_sel_tl = st.selectbox(
+            "Selecciona una cuenta:",
+            options=opciones_cuenta,
+            format_func=lambda c: f"Cuenta {c} — {df_resumen_toques[df_resumen_toques['Cuenta']==c]['Cluster'].values[0]} ({df_resumen_toques[df_resumen_toques['Cuenta']==c]['Toques'].values[0]} toques)",
+            key="cuenta_timeline_sel"
+        )
+
+        df_cuenta_tl = df_cuentas_rec[df_cuentas_rec['Cuenta'] == cuenta_sel_tl].reset_index(drop=True)
+
+        st.markdown("---")
+        st.markdown(f"### 📍 Cuenta {cuenta_sel_tl} — {df_cuenta_tl['Cluster'].iloc[0]}")
+        st.markdown("---")
+
+        for i, row in df_cuenta_tl.iterrows():
+            num = i + 1
+            fecha_str = row['Fecha termino'].strftime('%d de %B, %H:%M hrs')
+            tecnico = row['Nombre tecnico'] if pd.notna(row['Nombre tecnico']) else 'Sin nombre'
+            empresa = row['Empresa(proveedor)'] if pd.notna(row.get('Empresa(proveedor)')) else 'Sin empresa'
+            solucion = row['Solucion'] if pd.notna(row['Solucion']) else 'Sin solucion registrada'
+
+            with st.container(border=True):
+                st.markdown(f"## 🔧 Atencion {num}")
+                st.markdown(f"**📅 Fecha:** {fecha_str}")
+                st.markdown(f"**👷 Tecnico:** {tecnico}")
+                st.markdown(f"**🏢 Empresa:** {empresa}")
+                st.markdown(f"**🛠️ Lo que se hizo:** {solucion}")
+                if num > 1 and pd.notna(row['Dias_desde_anterior']):
+                    dias = int(row['Dias_desde_anterior'])
+                    st.error(f"⚠️ Volvio a fallar {dias} dias despues de la atencion anterior")
+
+            if num < len(df_cuenta_tl):
+                st.markdown("<div style='text-align:center; font-size:30px'>⬇️</div>", unsafe_allow_html=True)
