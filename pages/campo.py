@@ -224,8 +224,8 @@ with st.container(border=True):
                         }
                     )
 
+            
             st.markdown("---")
-           st.markdown("---")
 
 with st.container(border=True):
     st.subheader("Linea de tiempo por cuenta")
@@ -292,3 +292,4 @@ with st.container(border=True):
             'Cluster': st.column_config.TextColumn('Cluster'),
         }
     )
+            
