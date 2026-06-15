@@ -293,54 +293,52 @@ with st.container(border=True):
         if len(cuentas_reincidentes) == 0:
             st.info("Sin reincidencias en 60 dias.")
         else:
-            cuenta_sel = st.selectbox(
-                "Selecciona una cuenta reincidente:",
-                options=sorted(cuentas_reincidentes),
-                key="cuenta_conector_sel"
-            )
+            df_conectores['Tecnico_anterior'] = df_conectores.groupby('Cuenta')['Nombre tecnico'].shift(1)
+            df_fallas = df_conectores[df_conectores['Reincidencia_60d']].dropna(subset=['Tecnico_anterior'])
 
-            df_linea = df_conectores[df_conectores['Cuenta'] == cuenta_sel][
-                ['Fecha termino', 'Nombre tecnico', 'Solucion', 'Cluster', 'Dias_desde_anterior']
-            ].reset_index(drop=True)
-
-            st.dataframe(
-                df_linea,
-                use_container_width=True,
-                height=200,
-                column_config={
-                    'Fecha termino': st.column_config.DatetimeColumn('Fecha', format="DD/MM/YYYY HH:mm"),
-                    'Nombre tecnico': st.column_config.TextColumn('Tecnico'),
-                    'Solucion': st.column_config.TextColumn('Solucion'),
-                    'Cluster': st.column_config.TextColumn('Cluster'),
-                    'Dias_desde_anterior': st.column_config.NumberColumn('Dias desde anterior', format="%d"),
-                }
-            )
-
-            st.markdown("---")
-            st.caption("Resumen general de reincidentes")
-
-            df_resumen_rec = (
-                df_conectores[df_conectores['Cuenta'].isin(cuentas_reincidentes)]
-                .groupby('Cuenta')
+            df_top_tecnicos = (
+                df_fallas.groupby('Tecnico_anterior')
                 .agg(
-                    Veces=('OS', 'count'),
-                    Primera_vez=('Fecha termino', 'min'),
-                    Ultima_vez=('Fecha termino', 'max'),
-                    Cluster=('Cluster', 'first'),
+                    Reincidencias=('OS', 'count'),
+                    Cuentas=('Cuenta', 'nunique')
                 )
                 .reset_index()
-                .sort_values('Veces', ascending=False)
+                .sort_values('Reincidencias', ascending=True)
+                .tail(10)
             )
 
+            colores_tec = {
+                t: '#e63946' if i == len(df_top_tecnicos) - 1 else '#1f77b4'
+                for i, t in enumerate(df_top_tecnicos['Tecnico_anterior'])
+            }
+
+            fig_tecnicos = px.bar(
+                df_top_tecnicos, x='Reincidencias', y='Tecnico_anterior', orientation='h',
+                text='Reincidencias', color='Tecnico_anterior', color_discrete_map=colores_tec
+            )
+            fig_tecnicos.update_traces(textposition='outside')
+            fig_tecnicos.update_layout(
+                height=80 + 10 * 35, xaxis_title='Reincidencias (60 dias)', yaxis_title='',
+                showlegend=False, margin=dict(l=10, r=40, t=10, b=10)
+            )
+            st.plotly_chart(fig_tecnicos, use_container_width=True)
+
+            st.markdown("---")
+            st.caption("Detalle de reincidencias por tecnico")
+            df_detalle_fallas = df_fallas[
+                ['Cuenta', 'Tecnico_anterior', 'Nombre tecnico', 'Fecha termino', 'Dias_desde_anterior', 'Cluster']
+            ].rename(columns={'Nombre tecnico': 'Tecnico_reincidencia'}).sort_values('Dias_desde_anterior')
+
             st.dataframe(
-                df_resumen_rec,
+                df_detalle_fallas,
                 use_container_width=True,
                 height=300,
                 column_config={
                     'Cuenta': st.column_config.TextColumn('Cuenta'),
-                    'Veces': st.column_config.NumberColumn('Veces', format="%d"),
-                    'Primera_vez': st.column_config.DatetimeColumn('Primera vez', format="DD/MM/YYYY HH:mm"),
-                    'Ultima_vez': st.column_config.DatetimeColumn('Ultima vez', format="DD/MM/YYYY HH:mm"),
+                    'Tecnico_anterior': st.column_config.TextColumn('Tecnico que instalo (audita)'),
+                    'Tecnico_reincidencia': st.column_config.TextColumn('Tecnico que reincidio'),
+                    'Fecha termino': st.column_config.DatetimeColumn('Fecha reincidencia', format="DD/MM/YYYY HH:mm"),
+                    'Dias_desde_anterior': st.column_config.NumberColumn('Dias', format="%d"),
                     'Cluster': st.column_config.TextColumn('Cluster'),
                 }
             )
