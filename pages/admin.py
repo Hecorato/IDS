@@ -82,7 +82,7 @@ def procesar_cierre(archivo):
 
     cols_necesarias = [
         'Cuenta', 'OS', 'OT', 'Tipo', 'Subtipo', 'Cluster',
-        'Nombre tecnico', 'Usuario instalador',
+        'Nombre tecnico', 'Usuario instalador', 'Empresa(proveedor)',
         'Fecha creacion FFM', 'Fecha trabajo', 'Fecha termino',
         'Estatus', 'Estado', 'Falla', 'Causa', 'Solucion',
         'Potencia inicial', 'Potencia final', 'QR asignado'

@@ -205,7 +205,8 @@ with st.container(border=True):
                     num = i + 1
                     fecha_str = row['Fecha termino'].strftime('%d/%m/%Y %H:%M')
                     tecnico = row['Nombre tecnico'] if pd.notna(row['Nombre tecnico']) else 'N/A'
-                    fila[f'{num}a atencion'] = f"{tecnico} — {fecha_str}"
+                    empresa = row['Empresa(proveedor)'] if pd.notna(row.get('Empresa(proveedor)')) else ''
+                    fila[f'{num}a atencion'] = f"{tecnico} ({empresa}) — {fecha_str}"
                     if num > 1 and pd.notna(row['Dias_desde_anterior']):
                         fila[f'{num}a atencion'] += f" ({int(row['Dias_desde_anterior'])} dias despues)"
                 filas.append(fila)
