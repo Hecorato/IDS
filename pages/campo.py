@@ -195,7 +195,7 @@ with st.container(border=True):
                 fig_tecnicos,
                 use_container_width=True,
                 on_select="rerun",
-                key="chart_tecnicos"
+                key="chart_tecnicos2"
             )
 
             if evento_tec and evento_tec.selection and evento_tec.selection.points:
