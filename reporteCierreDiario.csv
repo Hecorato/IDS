@@ -58899,24 +58899,56 @@ Cuenta,OS,OT,Tipo,Subtipo,Cluster,Nombre tecnico,Usuario instalador,Empresa(prov
 		Martinez Martin",RCEE3CMXT5371,RCE 3,2026-06-16 14:04:06,2026-06-17 16:05:36,2026-06-17 17:28:19,Terminada,Completa,,,,,,TPCP32088
 0142148603,OS-63442704,35804951,Cambio De Plan,Upgrade. Instalacion Equipos,SAN PABLO DE LAS SALINAS II,"Valente Andres
 		Estrada Cruz",RCEE3CMXT4599,RCE 3,2026-06-15 12:49:52,2026-06-17 12:51:12,2026-06-17 13:45:31,Terminada,Completa,,,,,,
+0107925957,OS-63552689,35917333,Soporte,Soporte Sin Potencia Huawei,AMPLIACION MELCHOR OCAMPO 1,"Oscar
+		Gonzalez Varela",RCEE3CMXT5457,RCE 3,2026-06-18 14:31:40,2026-06-18 18:24:59,2026-06-18 19:05:21,Terminada,Completa,Falla En ONT,Falla En Puerto Óptico,Cambio ONT,-19.5,-19.5,
+0140577733,OS-63554145,35919056,Soporte,Soporte Sin Potencia Huawei,SAN PABLO DE LAS SALINAS II,"Zenon Jesus
+		Martinez Rodriguez",CCQE3CMXT0342,CCQ 3,2026-06-18 15:28:44,2026-06-18 16:16:55,2026-06-18 17:53:26,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Reasignación de Splitter 2N (Cambio de Acometida),-19.0,-24.0,TP578056
+0141928360,OS-63553596,35918416,Soporte,Soporte Sin Potencia Huawei,PASEOS DEL VALLE,"Heydi Gabriela
+		Ortega Salazar",RCEE3CMXT4864,RCE 3,2026-06-18 15:06:17,2026-06-18 15:59:36,2026-06-18 17:43:17,Terminada,Completa,No Se Encontro Falla,Asesoría uso servicio de Internet,Redes 2.4G y 5G,-18.48,-18.48,
+0107547285,OS-63548107,35911925,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Diego Atzail
+		Rivera Ontiveros",RCEE3CMXT1824,RCE 3,2026-06-18 11:53:11,2026-06-18 14:30:37,2026-06-18 17:49:34,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-19.0,-19.0,TP478639
+0109426699,OS-63548782,35912719,Soporte,Soporte Sin Potencia Huawei,SAN PABLO DE LAS SALINAS II,"Alan Mauricio
+		Juarez Aburto",PANE3CMXT5640,PANI 3,2026-06-18 12:17:38,2026-06-18 15:09:30,2026-06-18 18:54:17,Terminada,Completa,Falla En ONT,Falla En Fuente De Poder,Cambio de Fuente de Poder,-26.0,-25.5,
 0106010376,OS-63525397,35890527,Soporte,Soporte Con Potencia Huawei,SAN PABLO DE LAS SALINAS II,"Jhovany
 		Salgado Torres",CCQM3CX2T0144,CCQ 3,2026-06-17 15:52:30,2026-06-18 10:25:27,2026-06-18 11:37:30,Terminada,Completa,"Falla Cableado (UTP, Telefonico)","Desgaste de Cableado (Clima, Tiempo de Vida)",Cambio de Cableado UTP/Telefónico,-23.9,-25.0,TP414574
 0200906807,OS-63525677,35890827,Empresarial,Cfo Empresarial,SAN PABLO DE LAS SALINAS I,"Gabriel
 		Ortega Morales",RCEE3CMXT4174,RCE 3,2026-06-17 16:02:22,2026-06-18 10:40:24,2026-06-18 11:38:20,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-18.0,-18.0,
 0140785361,OS-63529896,35895742,Soporte,Soporte Sin Potencia Huawei,AMPLIACION MELCHOR OCAMPO 1,"Salomon Abdi
 		Gonzalez Campos",RCEE3CMXT3996,RCE 3,2026-06-17 18:49:04,2026-06-18 10:23:49,2026-06-18 12:32:53,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-0.0,-22.0,
+0120005781,OS-63532866,35898869,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Ricardo
+		Laurent Rangel",RCEE3CMXT5142,RCE 3,2026-06-17 21:47:03,2026-06-18 18:32:59,2026-06-18 19:00:56,Terminada,Completa,Falla En STB,STB No Configurada (Sin Servicio),Reaprovisionamiento STB,-19.5,-21.0,
+0200541048,OS-63557309,35922766,Empresarial,Cfo Empresarial,AMPLIACION MELCHOR OCAMPO 1,"Gabriel
+		Ortega Morales",RCEE3CMXT4174,RCE 3,2026-06-18 17:28:36,2026-06-19 09:30:27,2026-06-19 10:26:34,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-18.0,-18.0,
+0103993789,OS-63543833,35906853,Soporte,Soporte Sin Potencia Huawei,VILLA DE LAS FLORES,"Marco Antonio
+		Cortes Rodriguez",CCQE3CMXT0228,CCQ 3,2026-06-18 08:57:07,2026-06-18 12:17:45,2026-06-18 14:53:33,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Daño por trabajos de Otro Carrier (incluye Municipio, CFE, etc)",Reasignación de Splitter 2N (Cambio de Acometida),-22.3,-22.0,TP792920
 0140153030,OS-63544338,35907547,Soporte,Soporte Sin Potencia Huawei,VILLA DE LAS FLORES,"Carlos Alberto
 		Resendiz Gonzalez",CCQM3CX2T0112,CCQ 3,2026-06-18 09:25:39,2026-06-18 11:43:40,2026-06-18 12:21:50,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Ambos Conectores Prepulidos,-21.02,-20.97,
 0140539745,OS-63501256,35867228,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Diego Imanol
 		Rojas Ramirez",BRAM3CX2T0129,BRAME 3,2026-06-16 19:21:44,2026-06-18 11:18:54,2026-06-18 13:03:42,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Ambos Conectores Prepulidos,-21.0,-17.88,
 0105794447,OS-63531705,35897666,Soporte,Soporte Sin Potencia Huawei,SAN PABLO DE LAS SALINAS I,"Carlos
 		Molina Espinoza",CCQM3CX2T0103,CCQ 3,2026-06-17 20:20:45,2026-06-18 12:47:31,2026-06-18 13:17:34,Terminada,Completa,No Se Encontro Falla,"Asesoría dispositivos cliente (PC, Caonsolas, Laptop, etc)",Redes 2.4G y 5G,-24.0,-24.0,
+0103928224,OS-63527017,35892407,Soporte,Soporte Con Potencia Huawei,MELCHOR OCAMPO,"Javier
+		Hernandez Rocha",RCEE3CMXT5431,RCE 3,2026-06-17 16:54:45,2026-06-18 15:22:49,2026-06-18 16:24:32,Terminada,Completa,Falla En ONT,Falla En Fuente De Poder,Cambio ONT,-22.5,-22.5,TP586026
 0118448395,OS-63543108,35906054,Soporte,Soporte Sin Potencia Huawei,PASEOS DEL VALLE,"Miguel Angel
 		Rodriguez Duran",RCEE3CMXT5308,RCE 3,2026-06-18 07:50:05,2026-06-18 11:10:47,2026-06-18 13:30:36,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-20.81,-20.76,
+0119926649,OS-63532415,35898410,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Brandon Stif
+		Garcia Gonzalez",CCQM3CX2T0110,CCQ 3,2026-06-17 21:06:50,2026-06-18 19:10:13,2026-06-18 19:13:57,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Ambos Conectores Prepulidos,-22.22,-22.22,
+0104484086,OS-63551395,35915792,Soporte,Soporte Sin Potencia Huawei,VILLA DE LAS FLORES,"Mauricio Suriel
+		Martinez Puga",RCEE3CMXT4872,RCE 3,2026-06-18 13:45:53,2026-06-18 16:53:20,2026-06-18 19:20:36,Terminada,Completa,No Se Encontro Falla,Asesoría uso servicio de Telefonía,Como conectar su telefono a la ONT,-20.66,-20.66,
+0130305539,OS-63557549,35923033,Soporte,Soporte Con Potencia Huawei,PASEOS DEL VALLE,"Omar Ronaldo
+		Rivera Gutierrez",RCEE3CMXT5202,RCE 3,2026-06-18 17:36:16,2026-06-18 18:03:23,2026-06-18 19:34:40,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Ambos Conectores Prepulidos,-50.5,-21.5,
+0111148887,OS-63550146,35914308,Soporte,Soporte Sin Potencia Huawei,COACALCO,"Bernardo Said
+		Martinez Guzman",RCEE3CMXT4119,RCE 3,2026-06-18 13:02:39,2026-06-18 14:21:52,2026-06-18 16:06:31,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-22.44,-22.44,TP537748
+0117529396,OS-63530581,35896501,Soporte,Soporte Sin Potencia Huawei,TEOLOYUCAN,"Hugo Jhovany
+		Gomez Solis",RCEE3CMXT5451,RCE 3,2026-06-17 19:22:22,2026-06-19 09:44:19,2026-06-19 10:32:55,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Ambos Conectores Prepulidos,-20.0,-20.0,TP645327
 0135964420,OS-63525020,35890079,Soporte,Soporte Con Potencia Huawei,VILLA DE LAS FLORES,"Fernando
 		Gomez Sanchez",BRAM3CX2T0124,BRAME 3,2026-06-17 15:38:23,2026-06-18 09:15:44,2026-06-18 13:00:36,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,Robo De Puerto,Reasignación de Splitter 2N (Cambio de Acometida),-0.0,-25.0,TP578098
 0140301834,OS-63532349,35898343,Soporte,Soporte Sin Potencia Huawei,AMPLIACION MELCHOR OCAMPO 2,"Edgar Ivan
 		Navarrete Anaya",RCEE3CMXT5275,RCE 3,2026-06-17 21:02:32,2026-06-18 11:49:48,2026-06-18 13:11:30,Terminada,Completa,No Se Encontro Falla,Asesoría servicio Contratado,Validación de velocidad contratada,-24.0,-24.0,TP538013
+0118075859,OS-63549105,35913079,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Carlos Leonel
+		Gonzalez Lopez",CCQM3CX2T0124,CCQ 3,2026-06-18 12:29:01,2026-06-18 14:08:39,2026-06-18 14:57:28,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Ambos Conectores Prepulidos,-0.0,-17.0,
+0104252505,OS-63553174,35917915,Soporte,Soporte Con Potencia Huawei,SAN PABLO DE LAS SALINAS II,"Alan Mauricio
+		Juarez Aburto",PANE3CMXT5640,PANI 3,2026-06-18 14:49:41,2026-06-19 09:29:25,2026-06-19 10:12:15,Terminada,Completa,Falla En ONT,Falla Logica / Manipulación Lógica Imputable Cliente,Configuración De Equipo,-22.0,-22.0,
 0103298860,OS-63528959,35894692,Soporte,Soporte Sin Potencia Huawei,COACALCO,"Alan Mauricio
 		Juarez Aburto",PANE3CMXT5640,PANI 3,2026-06-17 18:11:03,2026-06-18 10:39:16,2026-06-18 10:48:30,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido ONT,-25.0,-25.0,TP579091
 0103731240,OS-63527340,35892819,Soporte,Soporte Con Potencia Huawei,COACALCO,"Edgar Raul
@@ -58943,14 +58975,36 @@ Cuenta,OS,OT,Tipo,Subtipo,Cluster,Nombre tecnico,Usuario instalador,Empresa(prov
 		Aguilera Gomez",CCQE3CMXT0457,CCQ 3,2026-06-17 18:37:37,2026-06-18 13:24:13,2026-06-18 13:28:05,Terminada,Completa,Falla En ONT,Problema De Ancho De Banda,Reinicio de Equipo,-20.0,-20.0,
 0142734553,OS-63543638,35906622,Soporte,Soporte Sin Potencia Huawei,SAN PABLO DE LAS SALINAS I,"Josue Rodrigo
 		Garcia Bautista",CCQM3CX2T0157,CCQ 3,2026-06-18 08:40:58,2026-06-18 11:59:56,2026-06-18 13:38:56,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Ambos Conectores Prepulidos,-22.0,-17.64,
+0141556179,OS-63516136,35879437,Soporte,Soporte Sin Potencia Huawei,SAN PABLO DE LAS SALINAS I,"Jose Bryan
+		Garcia Jasso",CCQM3CX2T0137,CCQ 3,2026-06-17 09:57:15,2026-06-18 12:15:19,2026-06-18 14:31:04,Terminada,Completa,No Se Encontro Falla,Asesoría uso de servicio de Televisión,Asesoría del uso del control remoto,-19.51,-19.51,
+0132625112,OS-63551427,35915833,Soporte,Soporte Sin Potencia Huawei,PASEOS DEL VALLE,"Erick Gael
+		Calderon Marquez",RCEE3CMXT4814,RCE 3,2026-06-18 13:46:56,2026-06-18 14:39:35,2026-06-18 16:02:35,Terminada,Completa,Falla En ONT,"Daño Físico (Descarga Eléctrica, Insectos, Humedad, otro)",Cambio ONT,-22.2,-22.2,
+0105830975,OS-63527219,35892653,Soporte,Soporte Sin Potencia Huawei,TEOLOYUCAN,"Daniel
+		Perez Garcia",VOHM3CX3T0102,VOHEMA 3,2026-06-17 17:01:38,2026-06-18 13:09:24,2026-06-18 14:43:12,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido ONT,-27.96,-25.6,
+0107850113,OS-63518313,35882047,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Jose Manuel
+		Torres Huidobro",RCEE3CMXT5361,RCE 3,2026-06-17 11:30:09,2026-06-18 18:28:49,2026-06-18 19:47:08,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-24.0,-24.5,
 0102230270,OS-63543681,35906668,Soporte,Soporte Sin Potencia Huawei,TULTEPEC,"Jesus Alberto
 		Guzman Gabriel",BRAM3CX2T0121,BRAME 3,2026-06-18 08:44:26,2026-06-18 13:24:34,2026-06-18 13:51:24,Terminada,Completa,Falla En ONT,Falla En Puerto Óptico,Cambio ONT,-24.0,-24.0,
 0142590926,OS-63536146,35901997,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Brandon
 		Luevano Montalvo",RCEE3CMXT5107,RCE 3,2026-06-18 04:48:49,2026-06-18 13:10:01,2026-06-18 14:08:56,Terminada,Completa,Falla En ONT,Falla Logica / Manipulación Lógica Imputable Cliente,Actualización Firmware,-22.69,,
+0114070047,OS-63545382,35908803,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Javier
+		Mejia Lopez",RCEE3CMXT4843,RCE 3,2026-06-18 10:13:51,2026-06-18 14:01:48,2026-06-18 14:44:21,Terminada,Completa,"Falla Cableado (UTP, Telefonico)","Desgaste de Cableado (Clima, Tiempo de Vida)",Cambio de Cableado UTP/Telefónico,-19.75,-19.71,
+0106866415,OS-63550710,35914985,Soporte,Soporte Sin Potencia Huawei,VILLA DE LAS FLORES,"Andriu David
+		Eslava Cruz",CCQM3CX2T0114,CCQ 3,2026-06-18 13:22:41,2026-06-18 13:51:04,2026-06-18 14:56:51,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Ambos Conectores Prepulidos,-25.0,-25.0,
+0142430588,OS-63532758,35898749,Soporte,Soporte Sin Potencia Huawei,COACALCO,"Rafael Adrian
+		Aguilera Gomez",CCQE3CMXT0457,CCQ 3,2026-06-17 21:36:40,2026-06-19 10:34:05,2026-06-19 11:36:33,Terminada,Completa,Falla En ONT,Falla En Fuente De Poder,Cambio de Fuente de Poder,-24.0,-24.0,
+0118302094,OS-63572109,35937402,Soporte,Soporte Sin Potencia Huawei,PASEOS DEL VALLE,"Edgar Raul
+		Menez Vilchis",CCQM3CX2T0135,CCQ 3,2026-06-19 10:12:14,2026-06-19 11:24:37,2026-06-19 11:42:20,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido Splitter,-19.0,-19.0,
+0143190213,OS-63573046,35938503,Soporte,Soporte Sin Potencia Huawei,PASEOS DEL VALLE,"Luis Gabriel
+		Fernandez Islas",RCEE3CMXT0997,RCE 3,2026-06-19 10:53:27,2026-06-19 11:07:33,2026-06-19 11:43:12,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-19.28,-19.32,
 0109754656,OS-63545274,35908680,Soporte,Soporte Sin Potencia Huawei,COACALCO,"Francisco Javier
 		Mendez Armas",RCEE3CMXT1637,RCE 3,2026-06-18 10:09:42,2026-06-18 12:33:52,2026-06-18 14:14:05,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Daño por trabajos de Otro Carrier (incluye Municipio, CFE, etc)",Cambio de Acometida Unifibra,-17.0,-22.3,TP631805
 0142360167,OS-63525276,35890381,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Omar Ronaldo
 		Rivera Gutierrez",RCEE3CMXT5202,RCE 3,2026-06-17 15:47:28,2026-06-18 11:21:41,2026-06-18 11:42:51,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Daño por trabajos de Otro Carrier (incluye Municipio, CFE, etc)",Cambio de Acometida Unifibra,-5.0,-24.1,
+0132497636,OS-63550915,35915218,Soporte,Soporte Sin Potencia Huawei,COACALCO,"Daniel Akatzin
+		Aguilar Pineda",CCQM3CX2T0113,CCQ 3,2026-06-18 13:29:56,2026-06-18 14:41:56,2026-06-18 18:29:46,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,Poda de Arboles,Cambio de Acometida Unifibra,-25.0,-25.0,TP794247
+0140475259,OS-63551876,35916378,Soporte,Soporte Sin Potencia Huawei,AMPLIACION MELCHOR OCAMPO 2,"Hector Enrique
+		Martinez Martin",RCEE3CMXT5371,RCE 3,2026-06-18 14:02:53,2026-06-19 09:51:09,2026-06-19 10:36:39,Terminada,Completa,No Se Encontro Falla,Asesoría uso servicio de Internet,Pruebas de ancho de banda,-23.3,-25.0,
 0143192653,OS-63528375,35894007,Soporte,Soporte Con Potencia Huawei,AMPLIACION MELCHOR OCAMPO 1,"Carlos Norberto
 		Ontiveros Vera",RCEE3CMXT4947,RCE 3,2026-06-17 17:46:35,2026-06-18 11:47:40,2026-06-18 11:58:36,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-19.23,-19.23,
 0104257732,OS-63532659,35898662,Soporte,Soporte Con Potencia Huawei,COACALCO,"Zenon Jesus
@@ -58961,6 +59015,12 @@ Cuenta,OS,OT,Tipo,Subtipo,Cluster,Nombre tecnico,Usuario instalador,Empresa(prov
 		Perez Garcia",VOHM3CX3T0102,VOHEMA 3,2026-06-17 20:28:45,2026-06-18 11:00:30,2026-06-18 12:31:56,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,Vandalismo,Cambio de Acometida Unifibra,-28.0,-21.3,TPPV001967
 0133048669,OS-63546832,35910473,Soporte,Soporte Sin Potencia Huawei,TULTEPEC,"Oscar
 		Gonzalez Varela",RCEE3CMXT5457,RCE 3,2026-06-18 11:09:28,2026-06-18 12:16:00,2026-06-18 13:28:07,Terminada,Completa,No Se Encontro Falla,Asesoría servicio Contratado,Validación de promociones contratadas,-22.0,-22.0,TP478977
+0141040665,OS-63532319,35898312,Soporte,Soporte Sin Potencia Huawei,AMPLIACION MELCHOR OCAMPO 1,"Luis Alberto
+		Aguilar Salinas",RCEE3CMXT3931,RCE 3,2026-06-17 21:00:19,2026-06-18 12:59:42,2026-06-18 16:00:14,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-22.0,-22.0,
+0103013636,OS-63553285,35918046,Soporte,Soporte Con Potencia Huawei,TULTEPEC,"Marco Antonio
+		Cortes Rodriguez",CCQE3CMXT0228,CCQ 3,2026-06-18 14:54:13,2026-06-18 15:29:04,2026-06-18 16:17:57,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido Splitter,-25.85,-25.85,
+0121723481,OS-63561554,35927326,Soporte,Soporte Sin Potencia Huawei,SAN PABLO DE LAS SALINAS II,"Carlos Alberto
+		Resendiz Gonzalez",CCQM3CX2T0112,CCQ 3,2026-06-18 21:12:19,2026-06-19 10:48:54,2026-06-19 11:13:02,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Ambos Conectores Prepulidos,-21.0,-18.5,
 0143140658,OS-63526147,35891358,Soporte,Soporte Con Potencia Huawei,TEOLOYUCAN,"Hugo Isaac
 		Bailon Pareja",RCEE3CMXT5206,RCE 3,2026-06-17 16:20:06,2026-06-18 11:12:06,2026-06-18 12:27:32,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido ONT,-22.3,-22.3,TP645311
 0105972696,OS-63441665,35803751,Soporte,Soporte Sin Potencia Huawei,AMPLIACION SAN PABLO DE LAS SALINAS II,"Cristopher
@@ -58969,8 +59029,34 @@ Cuenta,OS,OT,Tipo,Subtipo,Cluster,Nombre tecnico,Usuario instalador,Empresa(prov
 		Rivera Ontiveros",RCEE3CMXT1824,RCE 3,2026-06-17 15:00:07,2026-06-18 09:11:41,2026-06-18 09:38:08,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,Poda de Arboles,Cambio de Trayectoria Acometida,-18.76,-18.76,TP478553
 0104991005,OS-63531477,35897444,Soporte,Soporte Con Potencia Huawei,VILLA DE LAS FLORES,"Andres
 		Juarez Vazquez",CCQE3CMXT0399,CCQ 3,2026-06-17 20:07:33,2026-06-18 10:19:39,2026-06-18 10:39:47,Terminada,Completa,Falla En ONT,"Daño Físico (Descarga Eléctrica, Insectos, Humedad, otro)",Cambio ONT,-23.0,-23.0,
+0141064065,OS-63549826,35913933,Soporte,Soporte Sin Potencia Huawei,PASEOS DEL VALLE,"Heydi Gabriela
+		Ortega Salazar",RCEE3CMXT4864,RCE 3,2026-06-18 12:52:43,2026-06-18 14:06:47,2026-06-18 14:41:04,Terminada,Completa,No Se Encontro Falla,Asesoría uso servicio de Internet,Redes 2.4G y 5G,-17.12,-17.12,
+0142255853,OS-63547365,35911053,Soporte,Soporte Sin Potencia Huawei,AMPLIACION MELCHOR OCAMPO 1,"Alberto Esli
+		Suarez Muniz",BRAM3CX2T0114,BRAME 3,2026-06-18 11:26:24,2026-06-18 12:35:54,2026-06-18 14:42:34,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido Splitter,-23.0,-23.0,
 0140478862,OS-63521458,35885832,Soporte,Soporte Con Potencia Huawei,TEOLOYUCAN,"Hugo Isaac
 		Bailon Pareja",RCEE3CMXT5206,RCE 3,2026-06-17 13:22:20,2026-06-18 12:47:31,2026-06-18 13:54:05,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido ONT,-18.0,-18.0,
+0140951470,OS-63542880,35905827,Soporte,Soporte Sin Potencia Huawei,TEOLOYUCAN,"Daniel
+		Perez Garcia",VOHM3CX3T0102,VOHEMA 3,2026-06-18 07:03:29,2026-06-18 16:21:01,2026-06-18 16:57:15,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido ONT,-21.0,-21.0,
+0142806633,OS-63543343,35906308,Soporte,Soporte Sin Potencia Huawei,TEOLOYUCAN,"Adrian
+		Ramirez Guzman",VOHM3CX3T0104,VOHEMA 3,2026-06-18 08:18:45,2026-06-18 17:32:04,2026-06-18 18:06:04,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido Splitter,-22.2,-22.2,
+0140901885,OS-63533164,35899171,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Alejandro
+		Jarquin Altamirano",RCEE3CMXT1070,RCE 3,2026-06-17 22:24:48,2026-06-18 17:31:37,2026-06-18 19:48:55,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-21.0,-21.0,
+0105135315,OS-63422824,35783375,Soporte,Soporte Sin Potencia Huawei,COACALCO,"Joan Alexander
+		Hernandez Zamudio",RCEE3CMXT4385,RCE 3,2026-06-14 12:31:43,2026-06-18 15:59:08,2026-06-18 19:41:04,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-22.0,-22.0,TP976012
+0141052345,OS-63553746,35918581,Soporte,Soporte Sin Potencia Huawei,SAN PABLO DE LAS SALINAS I,"Jose Bryan
+		Garcia Jasso",CCQM3CX2T0137,CCQ 3,2026-06-18 15:12:10,2026-06-18 15:45:35,2026-06-18 18:37:48,Terminada,Completa,No Se Encontro Falla,Asesoría servicio Contratado,Validación de promociones contratadas,-16.0,-16.0,
+0140715351,OS-63545316,35908721,Soporte,Soporte Sin Potencia Huawei,AMPLIACION SAN PABLO DE LAS SALINAS II,"Jhovany
+		Salgado Torres",CCQM3CX2T0144,CCQ 3,2026-06-18 10:11:03,2026-06-18 17:48:28,2026-06-18 18:55:09,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,Poda de Arboles,Cambio de Acometida Unifibra,-20.1,-19.0,TP792676
+0141709239,OS-63553685,35918517,Soporte,Soporte Con Potencia Huawei,AMPLIACION MELCHOR OCAMPO 2_A,"Luis Gabriel
+		Fernandez Islas",RCEE3CMXT0997,RCE 3,2026-06-18 15:09:48,2026-06-18 18:24:47,2026-06-18 19:04:53,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-23.8,-25.0,
+0131493745,OS-63504463,35870506,Soporte,Soporte Sin Potencia Huawei,TEOLOYUCAN,"Arturo
+		Garcia Xalanda",RCEE3CMXT4838,RCE 3,2026-06-16 23:35:05,2026-06-18 17:44:51,2026-06-18 18:51:07,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-23.47,-23.47,
+0143095787,OS-63555281,35920338,Soporte,Soporte Con Potencia Huawei,AMPLIACION SAN PABLO DE LAS SALINAS II,"Erick Samuel
+		Ordonez Rodriguez",CCQE3CMXT0505,CCQ 3,2026-06-18 16:10:13,2026-06-18 16:26:48,2026-06-18 18:51:32,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-20.0,-20.0,
+0141394163,OS-63551429,35915842,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Daniel
+		Vazquez Martinez",RCEE3CMXT5146,RCE 3,2026-06-18 13:47:06,2026-06-18 18:33:18,2026-06-18 20:13:47,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-17.0,-17.0,
+0104038543,OS-63556986,35922406,Soporte,Soporte Con Potencia Huawei,VILLA DE LAS FLORES,"Jose Arturo
+		Carreon Tapia",RCEE3CMXT3883,RCE 3,2026-06-18 17:16:08,2026-06-18 20:26:13,2026-06-18 20:44:40,Terminada,Completa,No Se Encontro Falla,Asesoría uso servicio de Internet,Redes 2.4G y 5G,-23.0,-22.0,
 0102050041,OS-63494803,35859850,Soporte,Soporte Sin Potencia Huawei,AMPLIACION MELCHOR OCAMPO 2,"Ricardo
 		Vega Flores",RCEE3CMXT5343,RCE 3,2026-06-16 15:31:46,2026-06-18 08:52:34,2026-06-18 10:17:11,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Daño por trabajos de Otro Carrier (incluye Municipio, CFE, etc)",Cambio de Trayectoria Acometida,-22.0,-23.37,TP463214
 0102698320,OS-63528680,35894342,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Jaziel Abraham
@@ -58985,12 +59071,52 @@ Cuenta,OS,OT,Tipo,Subtipo,Cluster,Nombre tecnico,Usuario instalador,Empresa(prov
 		Martinez Guzman",RCEE3CMXT4119,RCE 3,2026-06-18 11:45:38,2026-06-18 13:04:03,2026-06-18 13:44:16,Terminada,Completa,Falla En VSB,Falla Comando de Voz/Audio,Cambio VSB,-19.0,-19.0,
 0140827024,OS-63544747,35908046,Soporte,Soporte Sin Potencia Huawei,SAN PABLO DE LAS SALINAS I,"Aaron
 		Suarez Muniz",BRAM3CX2T0127,BRAME 3,2026-06-18 09:45:19,2026-06-18 12:22:45,2026-06-18 13:23:55,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido Splitter,-16.0,-15.0,
+0126986937,OS-63547836,35911635,Soporte,Soporte Sin Potencia Huawei,TULTEPEC,"Andres
+		Juarez Vazquez",CCQE3CMXT0399,CCQ 3,2026-06-18 11:43:54,2026-06-18 14:30:12,2026-06-18 15:11:32,Terminada,Completa,No Se Encontro Falla,Asesoría uso servicio de Internet,Redes 2.4G y 5G,-27.0,-25.0,TP586012
+0104321758,OS-63554100,35919009,Soporte,Soporte Con Potencia Huawei,SAN PABLO DE LAS SALINAS II,"Nicolas Ceferino
+		Trinidad Aguirre",CCQM3CX2T0116,CCQ 3,2026-06-18 15:26:38,2026-06-18 16:57:36,2026-06-18 19:18:23,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Daño por trabajos de Otro Carrier (incluye Municipio, CFE, etc)",Reasignación de Splitter 2N (Cambio de Acometida),-22.0,-17.0,TP414651
 0102993209,OS-63544010,35907066,Soporte,Soporte Sin Potencia Huawei,AMPLIACION MELCHOR OCAMPO 1,"Juan Carlos
 		Valerio Lozano",CCQM3CX2T0101,CCQ 3,2026-06-18 09:06:51,2026-06-18 11:00:02,2026-06-18 12:09:02,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Ambos Conectores Prepulidos,-20.0,-20.0,
 0102234904,OS-63545399,35908822,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Erick Abraham
 		Cruz Espinosa",RCEE3CMXT4992,RCE 3,2026-06-18 10:14:41,2026-06-18 12:46:04,2026-06-18 13:55:55,Terminada,Completa,No Se Encontro Falla,Asesoría uso servicio de Internet,Redes 2.4G y 5G,-24.0,-24.0,
+0101148627,OS-63546663,35910282,Soporte,Soporte Con Potencia Huawei,TULTEPEC,"Samuel Abinadi
+		Gonzalez Rios",RCEE3CMXT1827,RCE 3,2026-06-18 11:03:40,2026-06-18 14:36:37,2026-06-18 15:10:05,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-23.0,-21.0,
+0112497501,OS-63531274,35897242,Soporte,Soporte Con Potencia Huawei,SAN PABLO DE LAS SALINAS II,"Fernando
+		Gomez Sanchez",BRAM3CX2T0124,BRAME 3,2026-06-17 19:58:02,2026-06-18 15:02:15,2026-06-18 16:04:49,Terminada,Completa,Falla En ONT,Problema De Ancho De Banda,Cambio ONT,-21.016,-21.16,
+0141256550,OS-63500212,35866068,Soporte,Soporte Sin Potencia Huawei,AMPLIACION MELCHOR OCAMPO 2,"Luis Gabriel
+		Fernandez Islas",RCEE3CMXT0997,RCE 3,2026-06-16 18:39:17,2026-06-18 14:08:16,2026-06-18 16:37:29,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,Vandalismo,Cambio de Acometida Unifibra,-26.0,-23.8,TP84240
+0102759690,OS-63552955,35917631,Soporte,Soporte Sin Potencia Huawei,COACALCO,"Jose Ulises
+		Reyes Benitez",CCQE3CMXT0289,CCQ 3,2026-06-18 14:42:28,2026-06-18 15:48:19,2026-06-18 16:35:57,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido Splitter,-32.0,-20.0,TP579726
+0118470538,OS-63554831,35919851,Soporte,Soporte Sin Potencia Huawei,PASEOS DEL VALLE,"Sergio Alberto
+		Reyes Sanchez",RCEE3CMXT4604,RCE 3,2026-06-18 15:55:24,2026-06-18 16:48:12,2026-06-18 21:03:41,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-19.71,-19.71,
+0102741890,OS-63490907,35855212,Soporte,Soporte Con Potencia Huawei,COACALCO,"Miguel Angel
+		Castillo Guzman",CCQE3CMXT0412,CCQ 3,2026-06-16 13:11:32,2026-06-19 09:14:36,2026-06-19 10:01:03,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Ambos Conectores Prepulidos,-22.0,-22.0,TP792512
+0132281045,OS-63545619,35909078,Soporte,Soporte Con Potencia Huawei,AMPLIACION MELCHOR OCAMPO 1,"Emeterio
+		Rosas Ruiz",RCEE3CMXT4794,RCE 3,2026-06-18 10:23:18,2026-06-19 08:49:55,2026-06-19 10:09:12,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-23.0,-23.0,
+0140456469,OS-63549858,35913971,Soporte,Soporte Sin Potencia Huawei,TEOLOYUCAN,"Mario Fernando
+		Roldan Soto",RCEE3CMXT5373,RCE 3,2026-06-18 12:53:49,2026-06-19 09:30:44,2026-06-19 10:18:54,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-23.0,-23.0,TP645655
+0117079772,OS-63542942,35905890,Soporte,Soporte Sin Potencia Huawei,TEOLOYUCAN,"Adrian
+		Ramirez Guzman",VOHM3CX3T0104,VOHEMA 3,2026-06-18 07:21:52,2026-06-19 10:31:11,2026-06-19 10:45:20,Terminada,Completa,Falla En ONT,Falla En Puerto Óptico,Cambio ONT,-22.2,-22.2,
+0142797570,OS-63558156,35923709,Soporte,Soporte Sin Potencia Huawei,SAN PABLO DE LAS SALINAS II,"Jhovany
+		Salgado Torres",CCQM3CX2T0144,CCQ 3,2026-06-18 17:59:10,2026-06-19 10:11:28,2026-06-19 10:51:37,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido Splitter,-18.89,-18.89,TP414910
+0103830636,OS-63553620,35918439,Soporte,Soporte Sin Potencia Huawei,TULTEPEC,"Salvador
+		Huerta Martinez",RCEE3CMXT4755,RCE 3,2026-06-18 15:07:26,2026-06-18 16:56:08,2026-06-18 17:23:20,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido Splitter,-23.0,-23.0,
+0114776076,OS-63551860,35916360,Soporte,Soporte Sin Potencia Huawei,AMPLIACION MELCHOR OCAMPO 1,"Eduardo Antonio
+		Navarro Sanchez",RCEE3CMXT5458,RCE 3,2026-06-18 14:02:07,2026-06-18 17:18:51,2026-06-18 17:51:00,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido ONT,-21.0,-21.61,
 0142874034,OS-63495349,35860551,Soporte,Soporte Sin Potencia Huawei,AMPLIACION MELCHOR OCAMPO 2,"Hector Enrique
 		Martinez Martin",RCEE3CMXT5371,RCE 3,2026-06-16 15:56:36,2026-06-18 09:31:10,2026-06-18 10:25:01,Terminada,Completa,No Se Encontro Falla,Asesoría uso servicio de Internet,Pruebas de ancho de banda,-23.3,-23.3,
+0140641730,OS-63561838,35927624,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Jesus Alberto
+		Guzman Gabriel",BRAM3CX2T0121,BRAME 3,2026-06-18 21:40:19,2026-06-19 10:48:25,2026-06-19 11:10:34,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido Splitter,-20.6,-20.6,
+0143187725,OS-63457578,35821895,Soporte,Soporte Con Potencia Huawei,PASEOS DEL VALLE,"Miguel Angel
+		Rodriguez Duran",RCEE3CMXT5308,RCE 3,2026-06-15 22:38:32,2026-06-19 10:51:54,2026-06-19 11:41:34,Terminada,Completa,No Se Encontro Falla,Asesoría uso de servicio de Televisión,Explicación del uso de la Guía de TV,-19.0,-19.0,
+0142993036,OS-63551473,35915895,Soporte,Soporte Sin Potencia Huawei,AMPLIACION SAN PABLO DE LAS SALINAS II,"Fernando
+		Gomez Sanchez",BRAM3CX2T0124,BRAME 3,2026-06-18 13:48:33,2026-06-18 16:59:37,2026-06-18 17:54:58,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido Splitter,-21.0,-21.0,
+0140605226,OS-63554662,35919652,Soporte,Soporte Con Potencia Huawei,SAN PABLO DE LAS SALINAS II,"Ricardo Antonio
+		Peralta Perez",RCEE3CMXT4932,RCE 3,2026-06-18 15:49:02,2026-06-18 16:23:24,2026-06-18 18:27:24,Terminada,Completa,Falla En ONT,Falla En Puerto Óptico,Cambio ONT,-22.0,-21.0,TP578053
+0102702514,OS-63450634,35814405,Soporte,Soporte Sin Potencia Huawei,SAN PABLO DE LAS SALINAS II,"Jose Manuel
+		Aguilar Mendez",CCQE3CMXT0551,CCQ 3,2026-06-15 17:06:22,2026-06-18 18:02:06,2026-06-18 18:05:09,Terminada,Completa,No Se Encontro Falla,Asesoría uso servicio de Internet,Redes 2.4G y 5G,-24.0,-24.0,
+0107603738,OS-63454169,35818359,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Juan Carlos
+		Valerio Lozano",CCQM3CX2T0101,CCQ 3,2026-06-15 19:10:41,2026-06-18 14:18:38,2026-06-18 19:05:00,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Ambos Conectores Prepulidos,-18.0,-8.0,
 0103929128,OS-63532867,35898873,Soporte,Soporte Sin Potencia Huawei,TULTEPEC,"Marcos Felipe
 		Hernandez Ramos",CCQE3CMXT0511,CCQ 3,2026-06-17 21:47:17,2026-06-18 09:55:17,2026-06-18 10:25:29,Terminada,Completa,Falla En ONT,Falla Red Wifi ONT,Cambio ONT,-23.56,-23.56,
 0107332874,OS-63532835,35898838,Soporte,Soporte Sin Potencia Huawei,AMPLIACION SAN PABLO DE LAS SALINAS II,"Jose Ulises
@@ -58999,6 +59125,8 @@ Cuenta,OS,OT,Tipo,Subtipo,Cluster,Nombre tecnico,Usuario instalador,Empresa(prov
 		Mejia Lopez",RCEE3CMXT4843,RCE 3,2026-06-17 20:03:18,2026-06-18 09:44:12,2026-06-18 10:33:33,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-21.61,-21.61,
 0118652826,OS-63528193,35893794,Soporte,Soporte Sin Potencia Huawei,AMPLIACION SAN PABLO DE LAS SALINAS II,"Cristopher
 		Martinez Mendoza",BRAM3CX2T0126,BRAME 3,2026-06-17 17:39:55,2026-06-18 09:40:30,2026-06-18 10:41:18,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido Splitter,-24.5,-24.5,
+0142309798,OS-63555472,35920566,Soporte,Soporte Sin Potencia Huawei,AMPLIACION SAN PABLO DE LAS SALINAS II,"Marco Antonio
+		Perez Perez",PANE3CMXT5578,PANI 3,2026-06-18 16:17:46,2026-06-18 17:19:38,2026-06-18 20:09:31,Terminada,Completa,No Se Encontro Falla,Asesoría uso servicio de Internet,Redes 2.4G y 5G,-22.94,-22.94,
 0107106461,OS-63527351,35892829,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Jiovani
 		Bernal Perez",BRAM3CX2T0123,BRAME 3,2026-06-17 17:06:50,2026-06-18 10:57:47,2026-06-18 11:24:34,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-20.0,-20.0,
 0131508926,OS-63545778,35909254,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Mauricio
@@ -59017,6 +59145,18 @@ Cuenta,OS,OT,Tipo,Subtipo,Cluster,Nombre tecnico,Usuario instalador,Empresa(prov
 		Garcia Diaz",RCEE3CMXT4368,RCE 3,2026-06-17 14:46:23,2026-06-18 12:28:09,2026-06-18 14:08:35,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Reasignación de Splitter 2N (Cambio de Acometida),-24.9,-24.9,TP414752
 0114231518,OS-63545237,35908635,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Diego Atzail
 		Rivera Ontiveros",RCEE3CMXT1824,RCE 3,2026-06-18 10:08:27,2026-06-18 14:03:12,2026-06-18 14:06:51,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-18.0,-18.0,
+0107334300,OS-63518304,35882030,Soporte,Soporte Sin Potencia Huawei,AMPLIACION MELCHOR OCAMPO 1,"Salomon Abdi
+		Gonzalez Campos",RCEE3CMXT3996,RCE 3,2026-06-17 11:29:38,2026-06-18 15:13:10,2026-06-18 17:30:39,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,Poda de Arboles,Reasignación de Splitter 2N (Cambio de Acometida),-27.0,,
+0133854059,OS-63554055,35918952,Soporte,Soporte Sin Potencia Huawei,COACALCO,"Francisco Javier
+		Mendez Armas",RCEE3CMXT1637,RCE 3,2026-06-18 15:25:07,2026-06-18 16:18:58,2026-06-18 19:52:05,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Daño por trabajos de Otro Carrier (incluye Municipio, CFE, etc)",Cambio de Acometida Unifibra,-19.0,-22.3,
+0104545947,OS-63554554,35919516,Soporte,Soporte Sin Potencia Huawei,COACALCO,"Jose Arturo
+		Carreon Tapia",RCEE3CMXT3883,RCE 3,2026-06-18 15:44:24,2026-06-18 16:14:20,2026-06-18 18:45:08,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,Vehículo con Exceso de Dimensiones,Cambio de Trayectoria Acometida,-21.05,-21.06,TP792851
+0113638447,OS-63562002,35927796,Soporte,Soporte Sin Potencia Huawei,PASEOS DEL VALLE,"Nicolas Ceferino
+		Trinidad Aguirre",CCQM3CX2T0116,CCQ 3,2026-06-18 22:00:14,2026-06-19 10:23:34,2026-06-19 11:33:52,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,Fibra Inducida / Factor Climático,Reasignación de Splitter 2N (Cambio de Acometida),-23.0,-24.0,
+0120685729,OS-63561488,35927262,Soporte,Soporte Sin Potencia Huawei,VILLA DE LAS FLORES,"Marco Antonio
+		Cortes Rodriguez",CCQE3CMXT0228,CCQ 3,2026-06-18 21:06:10,2026-06-19 09:45:33,2026-06-19 10:23:15,Terminada,Completa,No Se Encontro Falla,Asesoría servicio Contratado,Validación de promociones contratadas,-22.0,-22.0,TP792523
+0103477368,OS-63542908,35905854,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Edgar
+		Carpio Fuentes",RCEE3CMXT4577,RCE 3,2026-06-18 07:11:49,2026-06-19 10:15:31,2026-06-19 10:57:12,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,Trabajos de Planta Externa,Atención de Planta Externa (Mismo Splitter),-18.0,-18.0,TP504993
 0141446411,OS-63484055,35847055,Soporte,Soporte Sin Potencia Huawei,TULTEPEC,"Aaron
 		Suarez Muniz",BRAM3CX2T0127,BRAME 3,2026-06-16 08:24:56,2026-06-18 10:02:06,2026-06-18 11:24:10,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Ambos Conectores Prepulidos,-25.0,-25.0,
 0115037589,OS-63528308,35893927,Soporte,Soporte Con Potencia Huawei,PASEOS DEL VALLE,"Mario Miguel
@@ -59031,6 +59171,22 @@ Cuenta,OS,OT,Tipo,Subtipo,Cluster,Nombre tecnico,Usuario instalador,Empresa(prov
 		Juarez Aburto",PANE3CMXT5640,PANI 3,2026-06-18 12:43:11,2026-06-18 14:00:50,2026-06-18 14:16:45,Terminada,Completa,Falla En ONT,Falla En Puerto Óptico,Limpieza de Puerto Optico,-22.2,-22.5,
 0115141632,OS-63528228,35893834,Soporte,Soporte Sin Potencia Huawei,VILLA DE LAS FLORES,"Ricardo
 		Romero Ruiz",RCEE3CMXT1619,RCE 3,2026-06-17 17:41:02,2026-06-18 10:28:52,2026-06-18 12:49:33,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-24.92,-19.55,TP792106
+0142553718,OS-63549092,35912957,Soporte,Soporte Con Potencia Huawei,COACALCO,"Miguel Angel
+		Castillo Guzman",CCQE3CMXT0412,CCQ 3,2026-06-18 12:25:20,2026-06-18 14:30:58,2026-06-18 14:57:27,Terminada,Completa,"Falla Cableado (UTP, Telefonico)",Mordedura de Mascota o Roedor,Cambio de Cableado UTP/Telefónico,-22.84,-22.92,
+0140937803,OS-63531835,35897799,Soporte,Soporte Sin Potencia Huawei,TEOLOYUCAN,"Jose Ricardo
+		Trujillo Lozano",RCEE3CMXT4509,RCE 3,2026-06-17 20:27:32,2026-06-18 13:27:14,2026-06-18 14:54:00,Terminada,Completa,Falla En ONT,Falla En Puerto Óptico,Limpieza de Puerto Optico,-21.02,-21.02,
+0105097462,OS-63525408,35890536,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Rodrigo Ezequiel
+		Huerta Gorostieta",VOHM3CX3T0134,VOHEMA 3,2026-06-17 15:52:56,2026-06-18 12:26:06,2026-06-18 15:13:31,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Daño por trabajos de Otro Carrier (incluye Municipio, CFE, etc)",Cambio de Acometida Unifibra,-20.0,-17.2,TP795824
+0129105716,OS-63527673,35893215,Soporte,Soporte Sin Potencia Huawei,TULTEPEC,"Moises
+		Piscil Ruiz",BRAM3CX2T0105,BRAME 3,2026-06-17 17:20:11,2026-06-18 14:21:17,2026-06-18 15:10:06,Terminada,Completa,Falla En ONT,Falla En Fuente De Poder,Cambio de Fuente de Poder,-22.84,-22.84,
+0140268200,OS-63448783,35812256,Soporte,Soporte Sin Potencia Huawei,COACALCO,"Josue Rodrigo
+		Garcia Bautista",CCQM3CX2T0157,CCQ 3,2026-06-15 16:04:07,2026-06-18 15:12:10,2026-06-18 15:26:51,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido ONT,-29.59,-22.0,
+0102845287,OS-63549790,35913897,Soporte,Soporte Sin Potencia Huawei,TULTEPEC,"Marcos Felipe
+		Hernandez Ramos",CCQE3CMXT0511,CCQ 3,2026-06-18 12:51:42,2026-06-18 14:57:12,2026-06-18 15:38:51,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido ONT,-19.0,-18.0,
+0141012796,OS-63548239,35912075,Soporte,Soporte Sin Potencia Huawei,TEOLOYUCAN,"Daniel
+		Perez Garcia",VOHM3CX3T0102,VOHEMA 3,2026-06-18 11:58:14,2026-06-18 15:43:33,2026-06-18 15:51:01,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido ONT,-20.0,-23.0,
+0118056992,OS-63562265,35928069,Soporte,Soporte Con Potencia Huawei,TULTEPEC,"Alberto Esli
+		Suarez Muniz",BRAM3CX2T0114,BRAME 3,2026-06-18 22:37:58,2026-06-19 11:23:07,2026-06-19 11:39:38,Terminada,Completa,No Se Encontro Falla,Asesoría uso servicio de Internet,Redes 2.4G y 5G,-21.43,-21.37,
 0105705583,OS-63543667,35906650,Soporte,Soporte Sin Potencia Huawei,VILLA DE LAS FLORES,"Andres
 		Juarez Vazquez",CCQE3CMXT0399,CCQ 3,2026-06-18 08:42:58,2026-06-18 10:59:40,2026-06-18 12:53:32,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Cambio de Acometida Unifibra,-26.0,-23.0,
 0106158513,OS-63543870,35906902,Soporte,Soporte Con Potencia Huawei,VILLA DE LAS FLORES,"David Alejandro
@@ -59047,6 +59203,8 @@ Cuenta,OS,OT,Tipo,Subtipo,Cluster,Nombre tecnico,Usuario instalador,Empresa(prov
 		Aguilar Pineda",CCQM3CX2T0113,CCQ 3,2026-06-18 10:30:58,2026-06-18 12:42:57,2026-06-18 13:01:18,Terminada,Completa,"Falla Cableado (UTP, Telefonico)",Mordedura de Mascota o Roedor,Cambio de Cableado UTP/Telefónico,-20.86,-20.86,
 0120837059,OS-63547955,35911762,Soporte,Soporte Sin Potencia Huawei,SAN PABLO DE LAS SALINAS II,"Mauricio Suriel
 		Martinez Puga",RCEE3CMXT4872,RCE 3,2026-06-18 11:48:12,2026-06-18 12:13:33,2026-06-18 13:06:45,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-20.0,-20.0,
+0131588754,OS-63547240,35910922,Soporte,Soporte Sin Potencia Huawei,PASEOS DEL VALLE,"Ricardo
+		Laurent Rangel",RCEE3CMXT5142,RCE 3,2026-06-18 11:22:39,2026-06-18 12:24:41,2026-06-18 15:23:27,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,Fibra Inducida / Factor Climático,Cambio de Acometida Unifibra,-19.0,-19.5,
 0126917446,OS-63543866,35906894,Soporte,Soporte Sin Potencia Huawei,AMPLIACION SAN PABLO DE LAS SALINAS II,"Zenon Jesus
 		Martinez Rodriguez",CCQE3CMXT0342,CCQ 3,2026-06-18 08:59:39,2026-06-18 11:51:06,2026-06-18 13:21:14,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-20.0,-20.0,
 0143109915,OS-63519100,35883000,Soporte,Soporte Sin Potencia Huawei,TEOLOYUCAN,"Adrian
@@ -59057,6 +59215,10 @@ Cuenta,OS,OT,Tipo,Subtipo,Cluster,Nombre tecnico,Usuario instalador,Empresa(prov
 		Guzman Gabriel",BRAM3CX2T0121,BRAME 3,2026-06-17 12:54:16,2026-06-18 10:25:29,2026-06-18 10:51:58,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Ambos Conectores Prepulidos,-21.0,-21.0,
 0119554262,OS-63523996,35888883,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Alejandro
 		Jarquin Altamirano",RCEE3CMXT1070,RCE 3,2026-06-17 14:58:53,2026-06-18 09:49:17,2026-06-18 12:13:39,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-44.0,-25.9,TP969126
+0102376900,OS-63550353,35914567,Soporte,Soporte Sin Potencia Huawei,TULTEPEC,"David Alejandro
+		Alcaraz Macedo",CCQM3CX2T0142,CCQ 3,2026-06-18 13:10:40,2026-06-18 15:09:20,2026-06-18 16:28:56,Terminada,Completa,Falla En STB,"Daño Físico (Descarga Eléctrica, Insectos, Humedad, otro)",Cambio STB,-0.0,-21.22,TP535603
+0110195771,OS-63543454,35906430,Soporte,Soporte Con Potencia Huawei,TEOLOYUCAN,"Adrian
+		Ramirez Guzman",VOHM3CX3T0104,VOHEMA 3,2026-06-18 08:28:22,2026-06-18 14:55:29,2026-06-18 16:17:01,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido ONT,-22.2,-22.2,
 0116398412,OS-63548148,35911966,Soporte,Soporte Con Potencia Huawei,AMPLIACION MELCHOR OCAMPO 2,"Hector Enrique
 		Martinez Martin",RCEE3CMXT5371,RCE 3,2026-06-18 11:54:30,2026-06-18 12:40:00,2026-06-18 13:24:06,Terminada,Completa,No Se Encontro Falla,Asesoría uso servicio de Internet,Pruebas de ancho de banda,-25.0,-25.0,
 0107559682,OS-63548537,35912430,Soporte,Soporte Sin Potencia Huawei,SAN PABLO DE LAS SALINAS I,"Jose Manuel
@@ -59067,10 +59229,52 @@ Cuenta,OS,OT,Tipo,Subtipo,Cluster,Nombre tecnico,Usuario instalador,Empresa(prov
 		Eslava Cruz",CCQM3CX2T0114,CCQ 3,2026-06-17 20:39:45,2026-06-18 10:34:37,2026-06-18 11:50:52,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,Vehículo con Exceso de Dimensiones,Reasignación de Splitter 2N (Cambio de Acometida),-22.1,-14.0,TPHW003441
 0141394163,OS-63531332,35897297,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Eduardo Antonio
 		Navarro Sanchez",RCEE3CMXT5458,RCE 3,2026-06-17 20:01:02,2026-06-18 10:59:48,2026-06-18 12:18:18,Terminada,Completa,No Se Encontro Falla,Asesoría uso servicio de Internet,Redes 2.4G y 5G,-21.0,-21.0,
+0141241222,OS-63559312,35925003,Soporte,Soporte Sin Potencia Huawei,AMPLIACION MELCHOR OCAMPO 1,"Edgar
+		Carpio Fuentes",RCEE3CMXT4577,RCE 3,2026-06-18 18:48:00,2026-06-19 08:25:51,2026-06-19 09:00:58,Terminada,Completa,No Se Encontro Falla,Asesoría uso servicio de Internet,Pruebas de ancho de banda,-25.38,-25.38,
+0107183303,OS-63561109,35926868,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Mauricio
+		Garcia Bolanos",RCEE3CMXT5131,RCE 3,2026-06-18 20:34:19,2026-06-19 08:34:47,2026-06-19 08:58:27,Terminada,Completa,No Se Encontro Falla,Asesoría uso servicio de Internet,Redes 2.4G y 5G,-8.0,-8.0,
+0106832394,OS-63549824,35913931,Soporte,Soporte Sin Potencia Huawei,AMPLIACION SAN PABLO DE LAS SALINAS II,"Miguel Angel
+		Perez Gonzalez",RCEE3CMXT1709,RCE 3,2026-06-18 12:52:41,2026-06-18 18:44:31,2026-06-18 19:35:21,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,Robo De Puerto,Reconexión del Cliente Puerto Original,-24.0,-24.0,
 0141722329,OS-63549770,35913875,Soporte,Soporte Sin Potencia Huawei,AMPLIACION SAN PABLO DE LAS SALINAS II,"Marco Antonio
 		Perez Perez",PANE3CMXT5578,PANI 3,2026-06-18 12:51:10,2026-06-18 13:16:29,2026-06-18 14:18:31,Terminada,Completa,Falla En STB,Falla Puerto HDMI,Cambio STB,-21.61,-21.67,
+0140696151,OS-63524478,35889444,Soporte,Soporte Sin Potencia Huawei,SAN PABLO DE LAS SALINAS II,"Jose Manuel
+		Aguilar Mendez",CCQE3CMXT0551,CCQ 3,2026-06-17 15:17:43,2026-06-18 09:34:24,2026-06-18 15:52:49,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Ambos Conectores Prepulidos,-23.0,-23.0,TP414582
+0143185674,OS-63547882,35911686,Soporte,Soporte Sin Potencia Huawei,COACALCO,"Valente Andres
+		Estrada Cruz",RCEE3CMXT4599,RCE 3,2026-06-18 11:45:47,2026-06-18 17:07:48,2026-06-18 18:02:03,Terminada,Completa,No Se Encontro Falla,Asesoría uso servicio de Internet,Redes 2.4G y 5G,-25.0,-25.0,
+0104673446,OS-63549005,35912969,Soporte,Soporte Con Potencia Huawei,TULTEPEC,"Edgar Raul
+		Menez Vilchis",CCQM3CX2T0135,CCQ 3,2026-06-18 12:25:43,2026-06-18 14:19:43,2026-06-18 14:32:53,Terminada,Completa,Falla En STB,"Daño Físico (Descarga Eléctrica, Insectos, Humedad, otro)",Cambio STB,-16.0,-16.0,
+0103782379,OS-63557662,35923154,Soporte,Soporte Sin Potencia Huawei,COACALCO,"Marco Antonio
+		Cortes Rodriguez",CCQE3CMXT0228,CCQ 3,2026-06-18 17:39:55,2026-06-18 18:14:43,2026-06-18 19:37:05,Terminada,Completa,No Se Encontro Falla,Asesoría servicio Contratado,Validación de promociones contratadas,-18.0,-18.0,
 0117439322,OS-63546435,35910019,Soporte,Soporte Con Potencia Huawei,SAN PABLO DE LAS SALINAS II,"Mauricio Suriel
 		Martinez Puga",RCEE3CMXT4872,RCE 3,2026-06-18 10:54:51,2026-06-18 11:20:43,2026-06-18 11:41:35,Terminada,Completa,Falla En ONT,Falla Red Wifi ONT,Configuración De Equipo,-20.0,-20.0,
+0141262990,OS-63549391,35913438,Soporte,Soporte Sin Potencia Huawei,TEOLOYUCAN,"Jose Ricardo
+		Trujillo Lozano",RCEE3CMXT4509,RCE 3,2026-06-18 12:38:28,2026-06-18 15:52:31,2026-06-18 18:46:47,Terminada,Completa,Falla En STB,"Manipulación Física Imputable Cliente (Accidente, Descuido)",Reinicio de Equipo,-22.15,-22.37,
+0109888587,OS-63500184,35866039,Soporte,Soporte Sin Potencia Huawei,SAN PABLO DE LAS SALINAS II,"Jose Ulises
+		Reyes Benitez",CCQE3CMXT0289,CCQ 3,2026-06-16 18:38:07,2026-06-18 18:34:43,2026-06-18 19:36:42,Terminada,Completa,Falla En STB,"Pantalla Negro (Falta de Actualización, Intermitencia)",Cambio STB,-21.8,,
+0104877279,OS-63553375,35918151,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Salomon Abdi
+		Gonzalez Campos",RCEE3CMXT3996,RCE 3,2026-06-18 14:57:34,2026-06-18 18:00:18,2026-06-18 19:04:49,Terminada,Completa,Falla En ONT,Falla En Puerto Óptico,Limpieza de Puerto Optico,-0.0,-21.0,
+0106900465,OS-63546926,35910573,Soporte,Soporte Sin Potencia Huawei,SAN PABLO DE LAS SALINAS II,"Jaziel Abraham
+		Garcia Reyes",BRAM3CX2T0125,BRAME 3,2026-06-18 11:12:23,2026-06-18 14:58:38,2026-06-18 16:48:45,Terminada,Completa,Falla En ONT,"Daño Físico (Descarga Eléctrica, Insectos, Humedad, otro)",Cambio ONT,-15.5,-21.5,TP464899
+0141143901,OS-63545013,35908360,Soporte,Soporte Sin Potencia Huawei,TEOLOYUCAN,"Hector Enrique
+		Martinez Martin",RCEE3CMXT5371,RCE 3,2026-06-18 09:57:11,2026-06-18 16:21:02,2026-06-18 17:29:19,Terminada,Completa,No Se Encontro Falla,Asesoría uso servicio de Internet,Pruebas de ancho de banda,-30.46,-23.3,
+0142502645,OS-63551830,35916328,Soporte,Soporte Sin Potencia Huawei,SAN PABLO DE LAS SALINAS II,"Carlos Alberto
+		Resendiz Gonzalez",CCQM3CX2T0112,CCQ 3,2026-06-18 14:01:06,2026-06-18 14:20:49,2026-06-18 19:15:34,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Ambos Conectores Prepulidos,-16.0,-16.0,
+0142058569,OS-63558615,35924223,Soporte,Soporte Sin Potencia Huawei,SAN PABLO DE LAS SALINAS I,"Andriu David
+		Eslava Cruz",CCQM3CX2T0114,CCQ 3,2026-06-18 18:16:50,2026-06-18 19:02:12,2026-06-18 19:27:13,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Ambos Conectores Prepulidos,-18.0,-18.0,
+0113603091,OS-63552183,35916755,Soporte,Soporte Con Potencia Huawei,MELCHOR OCAMPO,"Jose Carlos
+		Flores Martinez",RCEE3CMXT5452,RCE 3,2026-06-18 14:13:17,2026-06-18 14:31:15,2026-06-18 19:34:21,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Daño por trabajos de Otro Carrier (incluye Municipio, CFE, etc)",Cambio de Acometida Unifibra,-21.31,-21.14,TP586606
+0132618374,OS-63559102,35924770,Soporte,Soporte Sin Potencia Huawei,SAN PABLO DE LAS SALINAS II,"Zenon Jesus
+		Martinez Rodriguez",CCQE3CMXT0342,CCQ 3,2026-06-18 18:37:43,2026-06-18 19:51:24,2026-06-18 20:26:36,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido Splitter,-15.32,-15.42,
+0113300377,OS-63555995,35921199,Soporte,Soporte Con Potencia Huawei,AMPLIACION SAN PABLO DE LAS SALINAS II,"Carlos De Jesus
+		Saucedo Martinez",PANE3CMXT5571,PANI 3,2026-06-18 16:38:28,2026-06-19 09:10:50,2026-06-19 09:56:08,Terminada,Completa,Falla en Wifi Extender,Falla En Fuente De Poder,Cambio Wifi Extender,-21.5,-22.2,TP652621
+0141535631,OS-63532601,35898602,Soporte,Soporte Con Potencia Huawei,VILLA DE LAS FLORES,"Daniel
+		Gonzalez Hernandez",RCEE3CMXT3890,RCE 3,2026-06-17 21:23:00,2026-06-19 09:34:22,2026-06-19 10:00:38,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-25.38,,
+0100660206,OS-63558484,35924083,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Ricardo
+		Laurent Rangel",RCEE3CMXT5142,RCE 3,2026-06-18 18:11:41,2026-06-19 09:58:35,2026-06-19 10:07:07,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido ONT,-25.0,-25.0,
+0100997819,OS-63543724,35906718,Soporte,Soporte Sin Potencia Huawei,VILLA DE LAS FLORES,"Daniel
+		Gonzalez Hernandez",RCEE3CMXT3890,RCE 3,2026-06-18 08:47:58,2026-06-19 10:26:34,2026-06-19 10:58:28,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-24.0,-24.0,
+0106147668,OS-63556142,35921379,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Christian Alberto
+		Avendano Ochoa",RCEE3CMXT5341,RCE 3,2026-06-18 16:43:37,2026-06-19 09:33:40,2026-06-19 11:26:32,Terminada,Completa,"Falla Cableado (UTP, Telefonico)",Mala Instalación Del Cableado,Cambio de Ruta del Cableado UTP/Telefónico,-70.0,-24.0,TP505302
 0107211908,OS-63545780,35909261,Soporte,Soporte Con Potencia Huawei,VILLA DE LAS FLORES,"Samuel Abinadi
 		Gonzalez Rios",RCEE3CMXT1827,RCE 3,2026-06-18 10:29:14,2026-06-18 10:55:07,2026-06-18 11:56:58,Terminada,Completa,No Se Encontro Falla,Asesoría uso servicio de Internet,Redes 2.4G y 5G,-21.0,-21.0,
 0141887868,OS-63544604,35907869,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Jose Carlos
@@ -59087,144 +59291,422 @@ Cuenta,OS,OT,Tipo,Subtipo,Cluster,Nombre tecnico,Usuario instalador,Empresa(prov
 		Gonzalez Hernandez",RCEE3CMXT3890,RCE 3,2026-06-18 11:37:22,2026-06-18 11:54:14,2026-06-18 12:41:38,Terminada,Completa,Falla En ONT,Falla En Puerto Óptico,Cambio ONT,-22.2,-22.2,
 0141688044,OS-63543488,35906466,Soporte,Soporte Sin Potencia Huawei,VILLA DE LAS FLORES,"David Alejandro
 		Alcaraz Macedo",CCQM3CX2T0142,CCQ 3,2026-06-18 08:30:34,2026-06-18 12:51:28,2026-06-18 13:15:38,Terminada,Completa,Falla En ONT,"Daño Físico (Descarga Eléctrica, Insectos, Humedad, otro)",Cambio ONT,-0.0,-25.22,
+0143189446,OS-63553435,35918221,Soporte,Soporte Con Potencia Huawei,SAN PABLO DE LAS SALINAS II,"Cristopher
+		Martinez Mendoza",BRAM3CX2T0126,BRAME 3,2026-06-18 15:00:45,2026-06-18 17:02:31,2026-06-18 18:49:12,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Ambos Conectores Prepulidos,-20.0,-20.0,
+0107412555,OS-63556572,35921909,Soporte,Soporte Con Potencia Huawei,VILLA DE LAS FLORES,"Samuel Abinadi
+		Gonzalez Rios",RCEE3CMXT1827,RCE 3,2026-06-18 16:59:03,2026-06-18 17:19:42,2026-06-18 20:09:32,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-20.09,-20.04,
+0143064998,OS-63546894,35910537,Soporte,Soporte Sin Potencia Huawei,AMPLIACION SAN PABLO DE LAS SALINAS II,"Jose Manuel
+		Aguilar Mendez",CCQE3CMXT0551,CCQ 3,2026-06-18 11:11:10,2026-06-18 19:02:28,2026-06-18 20:13:42,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Ambos Conectores Prepulidos,-20.0,-20.0,
+0105777323,OS-63559511,35925216,Soporte,Soporte Con Potencia Huawei,AMPLIACION MELCHOR OCAMPO 2,"Ricardo
+		Vega Flores",RCEE3CMXT5343,RCE 3,2026-06-18 18:59:00,2026-06-19 09:23:28,2026-06-19 09:42:55,Terminada,Completa,"Falla Cableado (UTP, Telefonico)","Desgaste de Cableado (Clima, Tiempo de Vida)",Cambio de Cableado UTP/Telefónico,-23.77,-23.87,
+0128988781,OS-63559183,35924860,Soporte,Soporte Sin Potencia Huawei,PASEOS DEL VALLE,"Hector Edson
+		Benavides Nieto",RCEE3CMXT5473,RCE 3,2026-06-18 18:41:38,2026-06-19 08:28:09,2026-06-19 10:22:23,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,Vandalismo,Cambio de Acometida Unifibra,-22.2,-22.2,TP652630
+0140119492,OS-63546158,35909709,Soporte,Soporte Sin Potencia Huawei,SAN PABLO DE LAS SALINAS II,"Jose Manuel
+		Aguilar Mendez",CCQE3CMXT0551,CCQ 3,2026-06-18 10:44:30,2026-06-19 09:39:16,2026-06-19 10:10:43,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Ambos Conectores Prepulidos,-26.0,-20.0,
+0118203427,OS-63531418,35897381,Soporte,Soporte Sin Potencia Huawei,AMPLIACION MELCHOR OCAMPO 2,"Luis Gabriel
+		Fernandez Islas",RCEE3CMXT0997,RCE 3,2026-06-17 20:04:41,2026-06-18 16:43:13,2026-06-18 17:18:47,Terminada,Completa,No Se Encontro Falla,Asesoría uso servicio de Telefonía,Como conectar su telefono a la ONT,-24.69,-24.69,
+0116890858,OS-63556850,35922253,Soporte,Soporte Con Potencia Huawei,PASEOS DEL VALLE,"Jiovani
+		Bernal Perez",BRAM3CX2T0123,BRAME 3,2026-06-18 17:10:21,2026-06-18 17:30:06,2026-06-18 17:56:37,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Ambos Conectores Prepulidos,-20.5,-20.5,
+0141284448,OS-63531252,35897216,Soporte,Soporte Sin Potencia Huawei,AMPLIACION MELCHOR OCAMPO 1,"Jose Enrique
+		Salazar Ayala",TETM3CX2T0113,TETSI 3,2026-06-17 19:57:03,2026-06-18 14:04:45,2026-06-18 14:44:22,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,Vehículo con Exceso de Dimensiones,Cambio de Trayectoria Acometida,-21.3,-19.87,TP478950
+0101253813,OS-63553294,35918053,Soporte,Soporte Sin Potencia Huawei,TULTEPEC,"Andriu David
+		Eslava Cruz",CCQM3CX2T0114,CCQ 3,2026-06-18 14:54:24,2026-06-18 15:39:25,2026-06-18 15:52:47,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido ONT,-23.47,-23.57,
 0128590762,OS-63533225,35899232,Soporte,Soporte Sin Potencia Huawei,COACALCO,"Edgar Raul
 		Menez Vilchis",CCQM3CX2T0135,CCQ 3,2026-06-17 22:36:45,2026-06-18 09:22:03,2026-06-18 10:15:01,Terminada,Completa,Falla En ONT,Falla En Puerto Óptico,Limpieza de Puerto Optico,-21.0,-21.0,
+0119178043,OS-63555362,35920438,Soporte,Soporte Sin Potencia Huawei,PASEOS DEL VALLE,"Erick Gael
+		Calderon Marquez",RCEE3CMXT4814,RCE 3,2026-06-18 16:13:49,2026-06-18 17:34:27,2026-06-18 18:23:35,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-22.2,-22.2,
+0103992925,OS-63551436,35915845,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Jose Enrique
+		Salazar Ayala",TETM3CX2T0113,TETSI 3,2026-06-18 13:47:11,2026-06-18 15:33:15,2026-06-18 16:32:18,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,Vehículo con Exceso de Dimensiones,Cambio de Trayectoria Acometida,-21.3,-20.0,TP632532
+0127477945,OS-63553683,35918509,Soporte,Soporte Sin Potencia Huawei,AMPLIACION SAN PABLO DE LAS SALINAS II,"Marco Antonio
+		Perez Perez",PANE3CMXT5578,PANI 3,2026-06-18 15:09:36,2026-06-18 15:46:18,2026-06-18 16:22:36,Terminada,Completa,No Se Encontro Falla,Asesoría uso servicio de Internet,Redes 2.4G y 5G,-22.6,-22.68,
+0105835387,OS-63533569,35899598,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Carlos Leonel
+		Gonzalez Lopez",CCQM3CX2T0124,CCQ 3,2026-06-18 00:11:51,2026-06-18 16:39:09,2026-06-18 16:42:12,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido ONT,-21.0,-21.0,
+0103857675,OS-63549954,35914088,Soporte,Soporte Con Potencia Huawei,COACALCO,"Bernardo Said
+		Martinez Guzman",RCEE3CMXT4119,RCE 3,2026-06-18 12:57:25,2026-06-18 17:03:43,2026-06-18 19:53:35,Terminada,Completa,Falla En STB,Falla Puerto Ethernet,Cambio STB,-22.0,-22.0,
+0108389880,OS-63531131,35897087,Soporte,Soporte Sin Potencia Huawei,VILLA DE LAS FLORES,"Edgar Raul
+		Menez Vilchis",CCQM3CX2T0135,CCQ 3,2026-06-17 19:50:19,2026-06-18 17:20:00,2026-06-18 18:11:22,Terminada,Completa,Falla En ONT,Falla En Fuente De Poder,Cambio de Fuente de Poder,-20.0,-23.0,
+0106162834,OS-63569897,35934674,Soporte,Soporte Sin Potencia Huawei,AMPLIACION SAN PABLO DE LAS SALINAS II,"Carlos De Jesus
+		Saucedo Martinez",PANE3CMXT5571,PANI 3,2026-06-19 06:46:49,2026-06-19 10:16:05,2026-06-19 10:46:58,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido Splitter,-21.0,-21.0,
 0104070233,OS-63503162,35869176,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Jesus Antonio
 		Yonca Gonzalez",RCEE3CMXT4559,RCE 3,2026-06-16 21:00:28,2026-06-18 09:38:15,2026-06-18 10:25:14,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-18.0,-17.0,
 0140323600,OS-63526397,35891646,Soporte,Soporte Sin Potencia Huawei,SAN PABLO DE LAS SALINAS II,"Miguel Angel
 		Castillo Guzman",CCQE3CMXT0412,CCQ 3,2026-06-17 16:29:39,2026-06-18 10:11:05,2026-06-18 11:07:14,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Ambos Conectores Prepulidos,-0.0,-21.0,TP651318
 0100201739,OS-63543159,35906103,Soporte,Soporte Con Potencia Huawei,COACALCO,"Joan Alexander
 		Hernandez Zamudio",RCEE3CMXT4385,RCE 3,2026-06-18 07:57:49,2026-06-18 10:35:50,2026-06-18 11:12:02,Terminada,Completa,"Falla Cableado (UTP, Telefonico)","Desgaste de Cableado (Clima, Tiempo de Vida)",Cambio de Cableado UTP/Telefónico,-17.0,,
+0104519625,OS-63560816,35926575,Soporte,Soporte Sin Potencia Huawei,COACALCO,"Josue Rodrigo
+		Garcia Bautista",CCQM3CX2T0157,CCQ 3,2026-06-18 20:11:30,2026-06-19 11:05:50,2026-06-19 11:19:48,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Ambos Conectores Prepulidos,-22.0,-22.0,
 0141118214,OS-63531213,35897171,Soporte,Soporte Sin Potencia Huawei,SAN PABLO DE LAS SALINAS II,"Miguel Angel
 		Perez Gonzalez",RCEE3CMXT1709,RCE 3,2026-06-17 19:54:41,2026-06-18 10:52:09,2026-06-18 12:51:34,Terminada,Completa,Falla En ONT,Falla En Puerto Óptico,Cambio ONT,-21.0,,
 0142255853,OS-63544256,35907434,Soporte,Soporte Sin Potencia Huawei,AMPLIACION MELCHOR OCAMPO 1,"Josue Rodrigo
 		Garcia Bautista",CCQM3CX2T0157,CCQ 3,2026-06-18 09:21:32,2026-06-18 10:49:45,2026-06-18 11:02:42,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido ONT,-22.0,-22.0,
 0142141934,OS-63543449,35906422,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Jesus Antonio
 		Yonca Gonzalez",RCEE3CMXT4559,RCE 3,2026-06-18 08:27:58,2026-06-18 11:08:46,2026-06-18 11:33:37,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido Splitter,-23.19,-23.19,
+0117313549,OS-63554919,35919947,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Alberto Esli
+		Suarez Muniz",BRAM3CX2T0114,BRAME 3,2026-06-18 15:57:44,2026-06-18 16:46:06,2026-06-18 18:31:27,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Ambos Conectores Prepulidos,-17.77,-17.77,
+0141415298,OS-63552682,35917322,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Jose Enrique
+		Salazar Ayala",TETM3CX2T0113,TETSI 3,2026-06-18 14:31:18,2026-06-18 16:50:19,2026-06-18 17:34:18,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-22.3,-23.3,TP795335
 0104701956,OS-63494888,35859957,Soporte,Soporte Sin Potencia Huawei,COACALCO,"Alan Mauricio
 		Juarez Aburto",PANE3CMXT5640,PANI 3,2026-06-16 15:35:37,2026-06-18 08:40:48,2026-06-18 10:12:05,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Daño por trabajos de Otro Carrier (incluye Municipio, CFE, etc)",Reasignación de Splitter 2N (Cambio de Acometida),-21.5,-21.0,TP976005
+0102696367,OS-63555246,35920301,Soporte,Soporte Con Potencia Huawei,COACALCO,"Ricardo
+		Romero Ruiz",RCEE3CMXT1619,RCE 3,2026-06-18 16:09:13,2026-06-18 17:15:37,2026-06-18 18:00:51,Terminada,Completa,Falla En STB,Falla Puerto HDMI,Cambio STB,-23.0,-23.0,TP631918
+0114140084,OS-63528444,35894082,Soporte,Soporte Sin Potencia Huawei,VILLA DE LAS FLORES,"Andriu David
+		Eslava Cruz",CCQM3CX2T0114,CCQ 3,2026-06-17 17:48:26,2026-06-18 16:51:38,2026-06-18 18:21:29,Terminada,Completa,Falla En ONT,Falla En Puerto Óptico,Cambio ONT,-21.3,-21.3,
+0130835349,OS-63555244,35920298,Soporte,Soporte Sin Potencia Huawei,SAN PABLO DE LAS SALINAS I,"Moises
+		Piscil Ruiz",BRAM3CX2T0105,BRAME 3,2026-06-18 16:09:09,2026-06-18 16:57:55,2026-06-18 18:14:35,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido Splitter,-21.55,-21.55,
+0130371176,OS-63551071,35915409,Soporte,Soporte Sin Potencia Huawei,MELCHOR OCAMPO,"Luis
+		Velez Solis",RCEE3CMXT5432,RCE 3,2026-06-18 13:35:40,2026-06-18 17:21:10,2026-06-18 22:26:40,Terminada,Completa,Falla En ONT,Falla En Puerto Óptico,Cambio ONT,-22.0,-25.0,TP478411
+0107185974,OS-63557130,35922562,Soporte,Soporte Sin Potencia Huawei,COACALCO,"Alfredo Francisco
+		Pineda Varela",RCEE3CMXT5464,RCE 3,2026-06-18 17:21:52,2026-06-18 17:47:12,2026-06-18 19:17:26,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido Splitter,-29.0,-22.2,
+0143196173,OS-63547399,35911091,Soporte,Soporte Sin Potencia Huawei,TEOLOYUCAN,"Natanaell
+		Zavala Castro",RCEE3CMXT1430,RCE 3,2026-06-18 11:27:31,2026-06-18 16:38:57,2026-06-18 19:40:07,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-24.0,-24.0,TP650808
+0142697300,OS-63561509,35927282,Soporte,Soporte Con Potencia Huawei,MELCHOR OCAMPO,"Diego Atzail
+		Rivera Ontiveros",RCEE3CMXT1824,RCE 3,2026-06-18 21:08:36,2026-06-19 08:32:46,2026-06-19 09:55:36,Terminada,Completa,Falla En ONT,Falla Red Wifi ONT,Cambio ONT,-20.0,-20.0,
+0116842693,OS-63517077,35880525,Soporte,Soporte Con Potencia Huawei,TEOLOYUCAN,"Daniel
+		Perez Garcia",VOHM3CX3T0102,VOHEMA 3,2026-06-17 10:40:49,2026-06-19 10:34:49,2026-06-19 10:43:59,Terminada,Completa,Falla En ONT,Falla En Puerto Óptico,Cambio ONT,-25.1,-25.1,
+0105841376,OS-63570639,35935526,Soporte,Soporte Sin Potencia Huawei,AMPLIACION SAN PABLO DE LAS SALINAS II,"Aaron
+		Suarez Muniz",BRAM3CX2T0127,BRAME 3,2026-06-19 08:46:26,2026-06-19 10:54:51,2026-06-19 11:11:32,Terminada,Completa,Falla En ONT,ONT No Configurada (Sin Servicio),Cambio ONT,-23.0,-23.0,
+0106730363,OS-63499647,35865429,Soporte,Soporte Sin Potencia Huawei,SAN PABLO DE LAS SALINAS II,"Carlos
+		Molina Espinoza",CCQM3CX2T0103,CCQ 3,2026-06-16 18:17:18,2026-06-18 13:48:07,2026-06-18 19:12:29,Terminada,Completa,No Se Encontro Falla,"Asesoría dispositivos cliente (PC, Caonsolas, Laptop, etc)",Redes 2.4G y 5G,-23.0,-23.0,
 0140470568,OS-63526786,35892105,Soporte,Soporte Sin Potencia Huawei,AMPLIACION MELCHOR OCAMPO 1,"Erick Abraham
 		Cruz Espinosa",RCEE3CMXT4992,RCE 3,2026-06-17 16:44:54,2026-06-18 09:10:02,2026-06-18 10:20:12,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-17.0,-18.0,TP504865
+0140659873,OS-63530651,35896574,Soporte,Soporte Sin Potencia Huawei,AMPLIACION SAN PABLO DE LAS SALINAS II,"Cristopher
+		Martinez Mendoza",BRAM3CX2T0126,BRAME 3,2026-06-17 19:26:18,2026-06-19 11:18:17,2026-06-19 11:36:23,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Ambos Conectores Prepulidos,-21.0,-21.0,
+0106927033,OS-63530734,35896655,Soporte,Soporte Sin Potencia Huawei,AMPLIACION SAN PABLO DE LAS SALINAS II,"Erick Samuel
+		Ordonez Rodriguez",CCQE3CMXT0505,CCQ 3,2026-06-17 19:30:09,2026-06-18 09:57:42,2026-06-18 14:41:10,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Daño por trabajos de Otro Carrier (incluye Municipio, CFE, etc)",Reasignación de Splitter 2N (Cambio de Acometida),-20.56,-19.0,TPCP009098
 0143193203,OS-63519261,35883201,Soporte,Soporte Sin Potencia Huawei,SAN PABLO DE LAS SALINAS II,"Mauricio Suriel
 		Martinez Puga",RCEE3CMXT4872,RCE 3,2026-06-17 12:06:17,2026-06-18 10:49:24,2026-06-18 11:07:40,Terminada,Completa,Falla En ONT,Falla Red Wifi ONT,Configuración De Equipo,-26.0,-20.0,
 0140548269,OS-63524182,35889090,Soporte,Soporte Sin Potencia Huawei,AMPLIACION MELCHOR OCAMPO 1,"Carlos Leonel
 		Gonzalez Lopez",CCQM3CX2T0124,CCQ 3,2026-06-17 15:05:49,2026-06-18 12:35:02,2026-06-18 12:52:58,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Ambos Conectores Prepulidos,-0.0,-20.36,
+0104316729,OS-63529294,35895082,Soporte,Soporte Con Potencia Huawei,SAN PABLO DE LAS SALINAS I,"Nicolas Ceferino
+		Trinidad Aguirre",CCQM3CX2T0116,CCQ 3,2026-06-17 18:25:19,2026-06-18 14:37:03,2026-06-18 14:52:33,Terminada,Completa,Falla En STB,"Daño Físico (Descarga Eléctrica, Insectos, Humedad, otro)",Cambio STB,-21.0,-21.0,
+0103363379,OS-63552273,35916862,Soporte,Soporte Sin Potencia Huawei,COACALCO,"Jose Ulises
+		Reyes Benitez",CCQE3CMXT0289,CCQ 3,2026-06-18 14:16:33,2026-06-18 17:08:34,2026-06-18 17:13:15,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido ONT,-24.0,-20.0,
+0109379495,OS-63521289,35885613,Soporte,Soporte Sin Potencia Huawei,TEOLOYUCAN,"Edgar Ivan
+		Navarrete Anaya",RCEE3CMXT5275,RCE 3,2026-06-17 13:16:35,2026-06-18 15:03:17,2026-06-18 15:17:34,Terminada,Completa,No Se Encontro Falla,Asesoría uso servicio de Internet,Redes 2.4G y 5G,-19.87,-19.83,
+0120312721,OS-63550467,35914699,Soporte,Soporte Sin Potencia Huawei,AMPLIACION SAN PABLO DE LAS SALINAS II,"Zenon Jesus
+		Martinez Rodriguez",CCQE3CMXT0342,CCQ 3,2026-06-18 13:13:56,2026-06-18 14:12:00,2026-06-18 15:25:25,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-17.0,-17.0,
 0132050551,OS-63500260,35866131,Soporte,Soporte Con Potencia Huawei,MELCHOR OCAMPO,"Brandon
 		Luevano Montalvo",RCEE3CMXT5107,RCE 3,2026-06-16 18:41:12,2026-06-18 09:26:37,2026-06-18 09:46:35,Terminada,Completa,"Falla Cableado (UTP, Telefonico)",Mala Instalación Del Cableado,Cambio de Ruta del Cableado UTP/Telefónico,-19.0,-19.0,
+0109395693,OS-63549134,35913114,Soporte,Soporte Con Potencia Huawei,TEOLOYUCAN,"Arturo
+		Garcia Xalanda",RCEE3CMXT4838,RCE 3,2026-06-18 12:30:02,2026-06-19 10:36:50,2026-06-19 11:43:13,Terminada,Completa,Falla En ONT,Falla Puerto Ethernet,Cambio ONT,-18.5,-18.5,
+0114192135,OS-63570479,35935350,Soporte,Soporte Sin Potencia Huawei,PASEOS DEL VALLE,"Edgar Raul
+		Menez Vilchis",CCQM3CX2T0135,CCQ 3,2026-06-19 08:31:27,2026-06-19 10:35:27,2026-06-19 11:01:53,Terminada,Completa,Falla en Conectores,Falla Conector Prepulido,Cambio Conector Prepulido ONT,-21.0,-21.0,
+0142996069,OS-63556854,35922256,Soporte,Soporte Con Potencia Huawei,MELCHOR OCAMPO,"Emeterio
+		Rosas Ruiz",RCEE3CMXT4794,RCE 3,2026-06-18 17:10:27,2026-06-19 10:43:05,2026-06-19 11:05:46,Terminada,Completa,Corte de Fibra/ Preconectorizada / Sin Servicio,"Mala Instalación Unifibra (En Tensor, FO Ahorcada, Trayectoria)",Correccion de Anomalias en Acometida,-19.36,-19.36,
+0142036104,OS-63554976,35920002,Soporte,Soporte Sin Potencia Huawei,TEOLOYUCAN,"Edgar Ivan
+		Navarrete Anaya",RCEE3CMXT5275,RCE 3,2026-06-18 15:59:15,2026-06-18 17:20:03,2026-06-18 17:41:03,Terminada,Completa,No Se Encontro Falla,Asesoría uso servicio de Telefonía,Como conectar su telefono a la ONT,-18.0,-18.0,
+0143208896,OS-63549246,35913249,Instalación,Instalación Huawei,MELCHOR OCAMPO,"Javier
+		Hernandez Rocha",RCEE3CMXT5431,RCE 3,2026-06-18 12:33:57,2026-06-18 18:04:09,2026-06-18 20:08:04,Terminada,Completa,,,,,,TP505277
+0143207711,OS-63546554,35910163,Instalación,Instalación Huawei,MELCHOR OCAMPO,"Javier
+		Hernandez Rocha",RCEE3CMXT5431,RCE 3,2026-06-18 11:00:13,2026-06-18 16:45:33,2026-06-18 17:58:25,Terminada,Completa,,,,,,TPHW003536
 0143201894,OS-63517668,35881257,Instalación,Instalación Huawei,AMPLIACION MELCHOR OCAMPO 1,"Javier
 		Hernandez Rocha",RCEE3CMXT5431,RCE 3,2026-06-17 11:04:31,2026-06-18 08:11:16,2026-06-18 09:35:16,Terminada,Completa,,,,,,TP505335
 0143206582,OS-63532503,35898498,Instalación,Instalación Huawei,COACALCO,"Francisco Javier
 		Mendez Armas",RCEE3CMXT1637,RCE 3,2026-06-17 21:13:20,2026-06-18 08:44:00,2026-06-18 09:36:41,Terminada,Completa,,,,,,TP579272
 0104790127,OS-63447506,35810746,Cambio De Equipo,Renovacion Tecnologica,COACALCO,"Francisco Javier
 		Mendez Armas",RCEE3CMXT1637,RCE 3,2026-06-15 15:20:11,2026-06-18 09:44:23,2026-06-18 10:58:44,Terminada,Completa,,,,,,
+0102108256,OS-63498509,35864163,Addons,Reubicacion De Equipos,VILLA DE LAS FLORES,"Francisco Javier
+		Mendez Armas",RCEE3CMXT1637,RCE 3,2026-06-16 17:37:55,2026-06-18 14:30:57,2026-06-18 15:46:42,Terminada,Completa,,,,,,
+0143202190,OS-63521152,35885450,Instalación,Instalación Huawei,TULTEPEC,"Gustavo Alfonso
+		Camara Loyola",RCEE3CMXT4894,RCE 3,2026-06-17 13:12:21,2026-06-18 09:10:34,2026-06-18 14:31:20,Terminada,Completa,,,,,,TP649696
 0143196637,OS-63495433,35860670,Instalación,Instalación Huawei,COACALCO,"Edwin Leonel
 		Lopez Venegas",RCEE3CMXT4602,RCE 3,2026-06-16 16:00:06,2026-06-18 09:56:22,2026-06-18 11:12:31,Terminada,Completa,,,,,,TP537310
+0143210471,OS-63554211,35919125,Instalación,Instalación Huawei,VILLA DE LAS FLORES,"Edwin Leonel
+		Lopez Venegas",RCEE3CMXT4602,RCE 3,2026-06-18 15:31:20,2026-06-18 16:09:50,2026-06-18 17:59:24,Terminada,Completa,,,,,,TP578584
+0143208957,OS-63550430,35914656,Instalación,Instalación Huawei,VILLA DE LAS FLORES,"Edwin Leonel
+		Lopez Venegas",RCEE3CMXT4602,RCE 3,2026-06-18 13:12:46,2026-06-18 14:27:33,2026-06-18 15:49:30,Terminada,Completa,,,,,,TP794601
+0143209550,OS-63550411,35914636,Instalación,Instalación Huawei,AMPLIACION SAN PABLO DE LAS SALINAS II,"Javier Uriel
+		Leon Sandoval",RCEE3CMXT4618,RCE 3,2026-06-18 13:12:07,2026-06-18 13:41:04,2026-06-18 17:01:23,Terminada,Completa,,,,,,TPCP31958
+0143210356,OS-63555480,35920576,Instalación,Instalación Huawei,SAN PABLO DE LAS SALINAS I,"Javier Uriel
+		Leon Sandoval",RCEE3CMXT4618,RCE 3,2026-06-18 16:18:11,2026-06-18 17:46:29,2026-06-18 19:31:42,Terminada,Completa,,,,,,TP651922
 0143205124,OS-63528413,35894044,Instalación,Instalación Huawei,SAN PABLO DE LAS SALINAS II,"Javier Uriel
 		Leon Sandoval",RCEE3CMXT4618,RCE 3,2026-06-17 17:47:37,2026-06-18 09:41:48,2026-06-18 13:14:31,Terminada,Completa,,,,,,TP414910
+0102815279,OS-63553941,35918821,Addons,Adicional,SAN PABLO DE LAS SALINAS I,"Javier Uriel
+		Leon Sandoval",RCEE3CMXT4618,RCE 3,2026-06-18 15:20:11,2026-06-19 09:48:01,2026-06-19 11:00:45,Terminada,Completa,,,,,,
+0143210395,OS-63554482,35919424,Instalación,Instalación Huawei,VILLA DE LAS FLORES,"Julio Cesar
+		Rubio Lona",RCEE3CMXT1635,RCE 3,2026-06-18 15:41:02,2026-06-18 16:46:30,2026-06-18 19:31:31,Terminada,Completa,,,,,,TP537513
+0100572326,OS-63559421,35925112,Cambio De Domicilio,Cambio De Domicilio Tp,TULTEPEC,"Julio Cesar
+		Rubio Lona",RCEE3CMXT1635,RCE 3,2026-06-18 18:53:41,2026-06-18 20:00:14,2026-06-18 21:05:08,Terminada,Completa,,,,,,TP586172
+0143096275,OS-63444617,35807278,Addons,Entrega De Eliminador Stb,VILLA DE LAS FLORES,"Julio Cesar
+		Rubio Lona",RCEE3CMXT1635,RCE 3,2026-06-15 13:48:19,2026-06-18 15:19:00,2026-06-18 15:47:29,Terminada,Completa,,,,,,
+0143209931,OS-63552316,35916913,Instalación,Instalación Huawei,TEOLOYUCAN,"Hugo Isaac
+		Bailon Pareja",RCEE3CMXT5206,RCE 3,2026-06-18 14:18:08,2026-06-18 16:17:01,2026-06-18 17:18:47,Terminada,Completa,,,,,,TPHW003511
+0143207899,OS-63545622,35909077,Instalación,Instalación Huawei,TULTEPEC,"Martin
+		Cervantes Jimenez",RCEE3CMXT4162,RCE 3,2026-06-18 10:23:16,2026-06-18 14:56:25,2026-06-18 19:43:17,Terminada,Completa,,,,,,TP586052
 0143203011,OS-63521784,35886223,Instalación,Instalación Huawei,TULTEPEC,"Martin
 		Cervantes Jimenez",RCEE3CMXT4162,RCE 3,2026-06-17 13:33:34,2026-06-18 09:14:26,2026-06-18 12:46:34,Terminada,Completa,,,,,,TP586214
+0143208829,OS-63549312,35913345,Instalación,Instalación Huawei,TULTEPEC,"Oscar
+		Gonzalez Varela",RCEE3CMXT5457,RCE 3,2026-06-18 12:36:17,2026-06-18 14:05:31,2026-06-18 16:42:50,Terminada,Completa,,,,,,TP535433
+0143207955,OS-63546007,35909524,Instalación,Instalación Huawei,COACALCO,"Ricardo
+		Romero Ruiz",RCEE3CMXT1619,RCE 3,2026-06-18 10:38:10,2026-06-18 13:59:58,2026-06-18 16:07:40,Terminada,Completa,,,,,,TP537459
+0143201079,OS-63519076,35882967,Instalación,Instalación Huawei,COACALCO,"Jose Arturo
+		Carreon Tapia",RCEE3CMXT3883,RCE 3,2026-06-17 11:58:28,2026-06-18 13:01:02,2026-06-18 15:20:12,Terminada,Completa,,,,,,TP792658
+0143207659,OS-63544973,35908313,Instalación,Instalación Venta Tecnico,TEOLOYUCAN,"Jose
+		Ladislao Cruz",RCEE3CMXT5172,RCE 3,2026-06-18 09:55:29,2026-06-18 11:54:38,2026-06-18 16:18:34,Terminada,Completa,,,,,,TPCP32471
 0143207119,OS-63543111,35906057,Instalación,Instalación Huawei,TEOLOYUCAN,"Jose Ricardo
 		Trujillo Lozano",RCEE3CMXT4509,RCE 3,2026-06-18 07:50:17,2026-06-18 10:42:56,2026-06-18 12:33:47,Terminada,Completa,,,,,,TP645513
 0143200558,OS-63503977,35870002,Instalación,Instalación Huawei,SAN PABLO DE LAS SALINAS II,"Victor Hugo
 		Muñoz Ortiz",RCEE3CMXT5323,RCE 3,2026-06-16 22:12:57,2026-06-18 09:20:24,2026-06-18 10:24:52,Terminada,Completa,,,,,,TPFH050922
+0143203635,OS-63523738,35888597,Instalación,Instalación Huawei,AMPLIACION SAN PABLO DE LAS SALINAS II,"Edgar Ernesto
+		Ruiz Marquez",RCEE3CMXT4842,RCE 3,2026-06-17 14:49:11,2026-06-18 13:15:32,2026-06-18 14:59:20,Terminada,Completa,,,,,,TP478708
+0143211023,OS-63556033,35921240,Instalación,Instalación Huawei,SAN PABLO DE LAS SALINAS I,"Valente Andres
+		Estrada Cruz",RCEE3CMXT4599,RCE 3,2026-06-18 16:39:39,2026-06-19 08:48:06,2026-06-19 09:25:17,Terminada,Completa,,,,,,TP579079
 0143197283,OS-63496673,35862102,Instalación,Instalación Huawei,PASEOS DEL VALLE,"Erick Gael
 		Calderon Marquez",RCEE3CMXT4814,RCE 3,2026-06-16 16:38:29,2026-06-18 09:55:03,2026-06-18 11:06:32,Terminada,Completa,,,,,,TP652003
 0143168581,OS-63353342,35896376,Instalación,Instalación Huawei,COACALCO,"Bernardo Said
 		Martinez Guzman",RCEE3CMXT4119,RCE 3,2026-06-17 19:15:45,2026-06-18 09:24:15,2026-06-18 11:49:08,Terminada,Completa,,,,,,TP579726
+0143213173,OS-63570572,35935450,Instalación,Instalación Huawei,PASEOS DEL VALLE,"Luis Gabriel
+		Fernandez Islas",RCEE3CMXT0997,RCE 3,2026-06-19 08:39:49,2026-06-19 09:53:51,2026-06-19 10:48:31,Terminada,Completa,,,,,,TPCP32647
 0143207032,OS-63544591,35907850,Instalación,Instalación Huawei,TEOLOYUCAN,"Natanaell
 		Zavala Castro",RCEE3CMXT1430,RCE 3,2026-06-18 09:37:57,2026-06-18 10:34:30,2026-06-18 12:13:31,Terminada,Completa,,,,,,TP615353
+0143202823,OS-63520144,35884260,Instalación,Instalación Huawei,TEOLOYUCAN,"Arturo
+		Garcia Xalanda",RCEE3CMXT4838,RCE 3,2026-06-17 12:38:17,2026-06-18 10:33:19,2026-06-18 16:01:37,Terminada,Completa,,,,,,TP615329
 0143204968,OS-63528018,35893595,Instalación,Instalación Huawei,COACALCO,"Daniel
 		Gonzalez Hernandez",RCEE3CMXT3890,RCE 3,2026-06-17 17:33:42,2026-06-18 08:53:25,2026-06-18 11:34:42,Terminada,Completa,,,,,,TP631944
+0143205065,OS-63528341,35893960,Instalación,Instalación Huawei,AMPLIACION PASEOS DEL VALLE 1,"Daniel
+		Gonzalez Hernandez",RCEE3CMXT3890,RCE 3,2026-06-17 17:44:51,2026-06-18 16:08:21,2026-06-18 19:30:34,Terminada,Completa,,,,,,TP794563
 0143200924,OS-63515576,35878766,Instalación,Instalación Huawei,SAN PABLO DE LAS SALINAS I,"Jose Manuel
 		Torres Huidobro",RCEE3CMXT5361,RCE 3,2026-06-17 09:27:14,2026-06-18 08:59:27,2026-06-18 11:41:59,Terminada,Completa,,,,,,TP651089
+0143212165,OS-63560027,35925756,Instalación,Instalación Huawei,AMPLIACION SAN PABLO DE LAS SALINAS II,"Jose Manuel
+		Torres Huidobro",RCEE3CMXT5361,RCE 3,2026-06-18 19:26:02,2026-06-19 09:01:34,2026-06-19 10:44:44,Terminada,Completa,,,,,,TPPV289187196
+0143201873,OS-63519743,35917924,Instalación,Instalación Huawei,SAN PABLO DE LAS SALINAS II,"Jose Manuel
+		Torres Huidobro",RCEE3CMXT5361,RCE 3,2026-06-18 14:50:03,2026-06-18 15:03:28,2026-06-18 17:32:41,Terminada,Completa,,,,,,TP794278
 0143203886,OS-63524333,35889281,Instalación,Instalación Huawei,AMPLIACION MELCHOR OCAMPO 1,"Jesus Antonio
 		Yonca Gonzalez",RCEE3CMXT4559,RCE 3,2026-06-17 15:12:20,2026-06-18 12:07:42,2026-06-18 13:50:44,Terminada,Completa,,,,,,TP505331
+0143209542,OS-63551196,35915555,Instalación,Instalación Huawei,MELCHOR OCAMPO_A,"Jesus Antonio
+		Yonca Gonzalez",RCEE3CMXT4559,RCE 3,2026-06-18 13:38:47,2026-06-19 08:59:25,2026-06-19 10:51:02,Terminada,Completa,,,,,,TPCP002383
+0143209708,OS-63551029,35915362,Instalación,Instalación Huawei,AMPLIACION MELCHOR OCAMPO 1,"Jesus Antonio
+		Yonca Gonzalez",RCEE3CMXT4559,RCE 3,2026-06-18 13:34:21,2026-06-18 13:56:02,2026-06-18 16:49:56,Terminada,Completa,,,,,,TP505136
+0143210418,OS-63553505,35918297,Instalación,Instalación Huawei,AMPLIACION MELCHOR OCAMPO 1,"Javier
+		Mejia Lopez",RCEE3CMXT4843,RCE 3,2026-06-18 15:03:10,2026-06-18 15:26:43,2026-06-18 18:08:03,Terminada,Completa,,,,,,TP976197
+0143193856,OS-63456923,35821240,Instalación,Ins Vsb,VILLA DE LAS FLORES,"Victor Hugo
+		Perez Aguirre",RCEE3CMXT5321,RCE 3,2026-06-15 21:33:09,2026-06-18 09:20:34,2026-06-18 19:12:52,Terminada,Completa,,,,,,TP794841
+0143210274,OS-63554155,35919067,Instalación,Instalación Huawei,VILLA DE LAS FLORES,"Samuel Abinadi
+		Gonzalez Rios",RCEE3CMXT1827,RCE 3,2026-06-18 15:28:57,2026-06-19 09:39:41,2026-06-19 10:25:22,Terminada,Completa,,,,,,TP537206
 0143201387,OS-63516425,35879783,Instalación,Instalación Huawei,VILLA DE LAS FLORES,"Samuel Abinadi
 		Gonzalez Rios",RCEE3CMXT1827,RCE 3,2026-06-17 10:11:35,2026-06-18 08:52:01,2026-06-18 09:53:06,Terminada,Completa,,,,,,TP631836
+0143204526,OS-63525676,35890824,Instalación,Instalación Huawei,SAN PABLO DE LAS SALINAS I,"Victor Hugo
+		Muñoz Ortiz",RCEE3CMXT5323,RCE 3,2026-06-17 16:02:19,2026-06-18 11:15:14,2026-06-18 15:36:13,Terminada,Completa,,,,,,TP651045
+0143210869,OS-63554416,35919350,Instalación,Instalación Huawei,TEOLOYUCAN,"Carlos Antonio
+		Rubio Acosta",RCEE3CMXT5256,RCE 3,2026-06-18 15:38:52,2026-06-19 09:29:20,2026-06-19 11:03:59,Terminada,Completa,,,,,,TPCP32454
 0143207361,OS-63544296,35907484,Instalación,Instalación Huawei,TEOLOYUCAN_3_A,"Carlos Antonio
 		Rubio Acosta",RCEE3CMXT5256,RCE 3,2026-06-18 09:23:30,2026-06-18 11:49:42,2026-06-18 14:01:49,Terminada,Completa,,,,,,TPCP32101
+0143207264,OS-63548334,35912183,Instalación,Instalación Huawei,SAN PABLO DE LAS SALINAS II,"Omar Fabian
+		Herrera Toledo",RCEE3CMXT5102,RCE 3,2026-06-18 12:01:41,2026-06-18 13:00:07,2026-06-18 15:29:35,Terminada,Completa,,,,,,TP414995
 0143206911,OS-63543495,35906471,Instalación,Instalación Huawei,SAN PABLO DE LAS SALINAS II,"Omar Fabian
 		Herrera Toledo",RCEE3CMXT5102,RCE 3,2026-06-18 08:31:05,2026-06-18 09:49:39,2026-06-18 11:59:53,Terminada,Completa,,,,,,TP578100
+0143208758,OS-63548506,35912391,Instalación,Instalación Huawei,TEOLOYUCAN,"Ricardo
+		Vega Flores",RCEE3CMXT5343,RCE 3,2026-06-18 12:07:46,2026-06-18 13:49:20,2026-06-18 19:09:01,Terminada,Completa,,,,,,TP618186
 0143204291,OS-63524261,35889193,Instalación,Instalación Huawei,TEOLOYUCAN_2_A,"Abraham
 		Cardona Luna",RCEE3CMXT5233,RCE 3,2026-06-17 15:08:49,2026-06-18 10:14:20,2026-06-18 13:55:10,Terminada,Completa,,,,,,TPCP008692
+0143208923,OS-63549310,35913344,Instalación,Instalación Huawei,TEOLOYUCAN,"Abraham
+		Cardona Luna",RCEE3CMXT5233,RCE 3,2026-06-18 12:36:17,2026-06-18 16:03:39,2026-06-18 17:55:03,Terminada,Completa,,,,,,TPFH37831
 0143208192,OS-63546625,35910234,Instalación,Instalación Huawei,VILLA DE LAS FLORES,"Bryan Alejandro
 		Rodriguez Jimenez",RCEE3CMXT4503,RCE 3,2026-06-18 11:02:01,2026-06-18 12:08:19,2026-06-18 12:59:51,Terminada,Completa,,,,,,TP578086
 0143201166,OS-63519869,35883929,Instalación,Instalación Huawei,VILLA DE LAS FLORES,"Bryan Alejandro
 		Rodriguez Jimenez",RCEE3CMXT4503,RCE 3,2026-06-17 12:28:56,2026-06-18 09:17:57,2026-06-18 09:57:20,Terminada,Completa,,,,,,TP578129
+0143033309,OS-62786902,35914209,Instalación,Instalación Huawei,SAN PABLO DE LAS SALINAS I,"Miguel Angel
+		Perez Gonzalez",RCEE3CMXT1709,RCE 3,2026-06-18 13:00:18,2026-06-18 13:22:04,2026-06-18 16:51:35,Terminada,Completa,,,,,,TP652005
+0143209919,OS-63552438,35917045,Instalación,Instalación Huawei,VILLA DE LAS FLORES,"Cesar Omar
+		Hernandez Pavon",RCEE3CMXT4478,RCE 3,2026-06-18 14:22:20,2026-06-19 09:20:50,2026-06-19 10:32:58,Terminada,Completa,,,,,,TP651012
 0143207090,OS-63544153,35907286,Instalación,Instalación Huawei,TULTEPEC,"Salvador
 		Huerta Martinez",RCEE3CMXT4755,RCE 3,2026-06-18 09:15:15,2026-06-18 09:58:43,2026-06-18 12:41:33,Terminada,Completa,,,,,,TP535423
+0143204058,OS-63527261,35892710,Instalación,Instalación Huawei,SAN PABLO DE LAS SALINAS II,"Daniel
+		Vazquez Martinez",RCEE3CMXT5146,RCE 3,2026-06-17 17:03:42,2026-06-18 12:35:10,2026-06-18 14:47:35,Terminada,Completa,,,,,,TP414704
+0143210915,OS-63554950,35919974,Instalación,Instalación Huawei,MELCHOR OCAMPO,"Mauricio
+		Garcia Bolanos",RCEE3CMXT5131,RCE 3,2026-06-18 15:58:28,2026-06-18 17:37:21,2026-06-18 20:23:45,Terminada,Completa,,,,,,TP478918
 0143205413,OS-63529604,35895423,Instalación,Instalación Huawei,AMPLIACION MELCHOR OCAMPO 1,"Mauricio
 		Garcia Bolanos",RCEE3CMXT5131,RCE 3,2026-06-17 18:37:36,2026-06-18 09:03:48,2026-06-18 10:36:36,Terminada,Completa,,,,,,TP505335
 0143208215,OS-63546946,35910593,Instalación,Instalación Huawei,SAN PABLO DE LAS SALINAS II,"Ricardo Antonio
 		Peralta Perez",RCEE3CMXT4932,RCE 3,2026-06-18 11:12:46,2026-06-18 11:39:49,2026-06-18 12:25:35,Terminada,Completa,,,,,,TP792897
+0143211261,OS-63556044,35921255,Instalación,Instalación Huawei,TEOLOYUCAN,"Hugo Isaac
+		Bailon Pareja",RCEE3CMXT5206,RCE 3,2026-06-18 16:40:04,2026-06-18 17:44:24,2026-06-18 20:39:15,Terminada,Completa,,,,,,TP615190
+0143208924,OS-63550877,35915164,Instalación,Instalación Huawei,TEOLOYUCAN_3_A,"Isaac
+		Gutierrez Rodriguez",RCEE3CMXT5393,RCE 3,2026-06-18 13:28:14,2026-06-19 10:08:58,2026-06-19 11:25:29,Terminada,Completa,,,,,,TPCP32113
+0143192049,OS-63452186,35816153,Instalación,Instalación Huawei,MELCHOR OCAMPO,"Luis
+		Velez Solis",RCEE3CMXT5432,RCE 3,2026-06-15 17:57:55,2026-06-18 11:49:32,2026-06-18 16:25:09,Terminada,Completa,,,,,,TP505230
+0143204539,OS-63532696,35898692,Instalación,Instalación Huawei,TEOLOYUCAN,"Mario Fernando
+		Roldan Soto",RCEE3CMXT5373,RCE 3,2026-06-17 21:30:33,2026-06-18 11:58:20,2026-06-18 14:57:00,Terminada,Completa,,,,,,TPPV001637
 0143199566,OS-63500487,35866383,Instalación,Instalación Huawei,TEOLOYUCAN,"Mario Fernando
 		Roldan Soto",RCEE3CMXT5373,RCE 3,2026-06-16 18:49:44,2026-06-18 09:21:08,2026-06-18 11:29:37,Terminada,Completa,,,,,,TPCP013482
+0143207073,OS-63544198,35907358,Instalación,Instalación Huawei,MELCHOR OCAMPO,"Erick Abraham
+		Cruz Espinosa",RCEE3CMXT4992,RCE 3,2026-06-18 09:18:09,2026-06-18 15:00:04,2026-06-18 17:04:39,Terminada,Completa,,,,,,TPFH050915
+0143210442,OS-63553264,35918019,Instalación,Instalación Huawei,MELCHOR OCAMPO,"Erick Abraham
+		Cruz Espinosa",RCEE3CMXT4992,RCE 3,2026-06-18 14:53:18,2026-06-18 17:16:18,2026-06-18 19:16:09,Terminada,Completa,,,,,,TP493601
+0143205257,OS-63527518,35893012,Instalación,Instalación Huawei,COACALCO,"Juan Antonio
+		Alfonso Ortigoza",RCEE3CMXT5476,RCE 3,2026-06-17 17:13:07,2026-06-18 09:00:17,2026-06-18 14:41:04,Terminada,Completa,,,,,,TP537473
+0143208178,OS-63549488,35913551,Instalación,Instalación Huawei,TULTEPEC,"Francisco
+		Reyes Pegueros",RCEE3CMXT5470,RCE 3,2026-06-18 12:41:55,2026-06-18 13:54:14,2026-06-18 16:12:25,Terminada,Completa,,,,,,TP587974
+0143204550,OS-63525550,35890686,Instalación,Instalación Huawei,VILLA DE LAS FLORES,"Mauricio Suriel
+		Martinez Puga",RCEE3CMXT4872,RCE 3,2026-06-17 15:58:04,2026-06-18 15:35:02,2026-06-18 16:12:01,Terminada,Completa,,,,,,TP792404
+0143132710,OS-63201043,35546631,Instalación,Instalación Huawei,AMPLIACION SAN PABLO DE LAS SALINAS II,"Victor Hugo
+		Muñoz Ortiz",RCEE3CMXT5323,RCE 3,2026-06-05 16:30:53,2026-06-18 17:08:44,2026-06-18 18:53:57,Terminada,Completa,,,,,,TP649772
+0143207397,OS-63545289,35908694,Instalación,Instalación Huawei,AMPLIACION MELCHOR OCAMPO 1,"Mauricio
+		Garcia Bolanos",RCEE3CMXT5131,RCE 3,2026-06-18 10:10:03,2026-06-18 14:07:59,2026-06-18 15:45:54,Terminada,Completa,,,,,,TP505123
+0143213481,OS-63571263,35936369,Instalación,Instalación Huawei,MELCHOR OCAMPO,"Diego Atzail
+		Rivera Ontiveros",RCEE3CMXT1824,RCE 3,2026-06-19 09:30:17,2026-06-19 10:41:29,2026-06-19 11:35:45,Terminada,Completa,,,,,,TP795288
+0143207170,OS-63544457,35907692,Instalación,Instalación Huawei,AMPLIACION SAN PABLO DE LAS SALINAS II,"Bryant Uriel
+		Lopez Venegas",RCEE3CMXT5392,RCE 3,2026-06-18 09:31:33,2026-06-18 11:58:12,2026-06-18 15:11:05,Terminada,Completa,,,,,,TP967740
 0109544063,OS-63549834,35913944,Addons,Adicional,COACALCO,"Bernardo Said
 		Martinez Guzman",RCEE3CMXT4119,RCE 3,2026-06-18 12:53:03,2026-06-18 13:46:22,2026-06-18 13:55:01,Terminada,Completa,,,,,,
-0Hallazgos,,35907427,Mantenimiento Mayor,Acomodo Y Tensado En Altura,MELCHOR OCAMPO,"Gerardo
-		Sierra Vega",SOLMTCMXT0193,SOLVO COMUNICACIONES 3,2026-06-18 09:21:19,,2026-06-18 13:56:25,Terminada,Completa,,,,,,
+0127825981,OS-63498198,35863814,Cambio De Domicilio,Cambio De Domicilio Tp,TEOLOYUCAN,"Carlos Antonio
+		Rubio Acosta",RCEE3CMXT5256,RCE 3,2026-06-16 17:27:40,2026-06-18 16:08:42,2026-06-18 19:27:42,Terminada,Completa,,,,,,TP618163
+0143211847,OS-63557362,35922825,Instalación,Instalación Venta Tecnico,PASEOS DEL VALLE,"Heydi Gabriela
+		Ortega Salazar",RCEE3CMXT4864,RCE 3,2026-06-18 17:30:00,2026-06-18 17:50:35,2026-06-18 19:34:26,Terminada,Completa,,,,,,TPCP32466
+0Hallazgos,,35913241,Mantenimiento Mayor,Acomodo Y Tensado En Altura,MELCHOR OCAMPO,"Ivan
+		Acosta Vargas",RCEE3CMXT1823,RCE 3,2026-06-18 12:33:51,,2026-06-18 15:18:20,Terminada,Completa,,,,,,
+0105251058,OS-63553556,35918371,Addons,Reubicacion De Equipos,SAN PABLO DE LAS SALINAS I,"Nicolas Ceferino
+		Trinidad Aguirre",CCQM3CX2T0116,CCQ 3,2026-06-18 15:04:57,2026-06-18 16:46:01,2026-06-18 16:47:04,Terminada,Completa,,,,,,
+0142163479,OS-63550165,35914334,Cambio De Plan,Downgrade. Recoleccion Vsb,PASEOS DEL VALLE,"Jiovani
+		Bernal Perez",BRAM3CX2T0123,BRAME 3,2026-06-18 13:03:40,2026-06-18 17:18:54,2026-06-18 17:20:29,Terminada,Completa,,,,,,
+0105816318,OS-63497549,35863082,Recolección Pi,Voluntaria,VILLA DE LAS FLORES,"Jose Francisco
+		Garcia Cortes",RCER3CMXT0110,RCE 3,2026-06-16 17:06:30,2026-06-18 13:13:14,2026-06-18 13:13:52,Terminada,Completa,,,,,,
+0140322703,OS-63498309,35863940,Recolección Pi,Voluntaria,AMPLIACION MELCHOR OCAMPO 1,"Jose Francisco
+		Garcia Cortes",RCER3CMXT0110,RCE 3,2026-06-16 17:31:02,2026-06-18 10:29:37,2026-06-18 10:37:42,Terminada,Completa,,,,,,
 0141781877,OS-63411722,35771968,Addons,Reubicacion De Equipos,MELCHOR OCAMPO,"Mauricio
 		Garcia Bolanos",RCEE3CMXT5131,RCE 3,2026-06-13 17:55:53,2026-06-18 13:23:02,2026-06-18 13:24:54,Terminada,Completa,,,,,,
 0105646269,OS-63522390,35886944,Cambio De Equipo,Cambio De Equipo,MELCHOR OCAMPO,"Diego Atzail
 		Rivera Ontiveros",RCEE3CMXT1824,RCE 3,2026-06-17 13:55:41,2026-06-18 12:31:13,2026-06-18 12:32:58,Terminada,Completa,,,,,,
-0105816318,OS-63497549,35863082,Recolección Pi,Voluntaria,VILLA DE LAS FLORES,"Jose Francisco
-		Garcia Cortes",RCER3CMXT0110,RCE 3,2026-06-16 17:06:30,2026-06-18 13:13:14,2026-06-18 13:13:52,Terminada,Completa,,,,,,
+0141001759,OS-63526770,35892087,Addons,Adicional,TULTEPEC,"Samuel Abinadi
+		Gonzalez Rios",RCEE3CMXT1827,RCE 3,2026-06-17 16:44:16,2026-06-18 14:05:08,2026-06-18 14:31:09,Terminada,Completa,,,,,,
+0143190251,OS-63490184,35854378,Addons,Adicional,TULTEPEC,"Jiovani
+		Bernal Perez",BRAM3CX2T0123,BRAME 3,2026-06-16 12:47:13,2026-06-18 14:55:18,2026-06-18 15:11:04,Terminada,Completa,,,,,,
+0109888587,OS-63516714,35880099,Cambio De Equipo,Cambio De Equipo,SAN PABLO DE LAS SALINAS II,"Jose Ulises
+		Reyes Benitez",CCQE3CMXT0289,CCQ 3,2026-06-17 10:24:28,2026-06-18 19:43:15,2026-06-18 19:49:13,Terminada,Completa,,,,,,
 0140230224,OS-63544684,35907973,Cambio De Equipo,Cambio De Equipo,TULTEPEC,"Valente Andres
 		Estrada Cruz",RCEE3CMXT4599,RCE 3,2026-06-18 09:42:40,2026-06-18 11:31:03,2026-06-18 12:04:06,Terminada,Completa,,,,,,
-0140322703,OS-63498309,35863940,Recolección Pi,Voluntaria,AMPLIACION MELCHOR OCAMPO 1,"Jose Francisco
-		Garcia Cortes",RCER3CMXT0110,RCE 3,2026-06-16 17:31:02,2026-06-18 10:29:37,2026-06-18 10:37:42,Terminada,Completa,,,,,,
-0100296919,OS-63547284,35910968,Cambio De Equipo,Renovacion Tecnologica,VILLA DE LAS FLORES,"Samuel Abinadi
-		Gonzalez Rios",RCEE3CMXT1827,RCE 3,2026-06-18 11:23:51,2026-06-18 12:33:20,2026-06-18 12:46:53,Terminada,Completa,,,,,,
 0120445188,OS-63493719,35858555,Cambio De Plan,Upgrade. Instalacion Equipos,PASEOS DEL VALLE,"Ricardo
 		Laurent Rangel",RCEE3CMXT5142,RCE 3,2026-06-16 14:45:40,2026-06-18 10:42:03,2026-06-18 11:55:17,Terminada,Completa,,,,,,
+0118526754,OS-63381190,35737744,Cambio De Domicilio,Cambio De Domicilio Tp,AMPLIACION MELCHOR OCAMPO 2,"Brandon
+		Luevano Montalvo",RCEE3CMXT5107,RCE 3,2026-06-12 12:33:42,2026-06-18 17:36:34,2026-06-18 19:03:30,Terminada,Completa,,,,,,TP84242
 0102991672,OS-63495656,35860938,Cambio De Plan,Downgrade. Recoleccion Equipos,VILLA DE LAS FLORES,"Hector Edson
 		Benavides Nieto",RCEE3CMXT5473,RCE 3,2026-06-16 16:07:42,2026-06-18 09:43:19,2026-06-18 09:59:40,Terminada,Completa,,,,,,
+0102731875,OS-63531894,35897864,Cambio De Plan,Downgrade. Recoleccion Equipos,MELCHOR OCAMPO,"Carlos Norberto
+		Ontiveros Vera",RCEE3CMXT4947,RCE 3,2026-06-17 20:31:50,2026-06-18 12:17:19,2026-06-18 14:42:20,Terminada,Completa,,,,,,
+0100296919,OS-63547284,35910968,Cambio De Equipo,Renovacion Tecnologica,VILLA DE LAS FLORES,"Samuel Abinadi
+		Gonzalez Rios",RCEE3CMXT1827,RCE 3,2026-06-18 11:23:51,2026-06-18 12:33:20,2026-06-18 12:46:53,Terminada,Completa,,,,,,
+0142209929,OS-63547785,35911580,Cambio De Domicilio,Cambio De Domicilio Tp,AMPLIACION SAN PABLO DE LAS SALINAS II,"Alfredo Francisco
+		Pineda Varela",RCEE3CMXT5464,RCE 3,2026-06-18 11:42:10,2026-06-18 13:13:08,2026-06-18 14:31:04,Terminada,Completa,,,,,,TP792274
 0104791883,OS-63486956,35850632,Addons,Reubicacion De Equipos,VILLA DE LAS FLORES,"Salvador
 		Huerta Martinez",RCEE3CMXT4755,RCE 3,2026-06-16 10:50:08,2026-06-18 13:54:40,2026-06-18 13:58:18,Terminada,Completa,,,,,,
 0103518031,OS-63518350,35882076,Addons,Reubicacion De Equipos,MELCHOR OCAMPO,"Jose Carlos
 		Flores Martinez",RCEE3CMXT5452,RCE 3,2026-06-17 11:30:56,2026-06-18 12:35:46,2026-06-18 13:11:47,Terminada,Completa,,,,,,
+0140573592,OS-63522592,35887216,Cambio De Domicilio,Cambio De Domicilio Tp,TEOLOYUCAN,"Omar
+		Tecorral Puebla",VOHM3CX2T0117,VOHEMA 3,2026-06-17 14:03:03,2026-06-18 13:19:11,2026-06-18 15:22:30,Terminada,Completa,,,,,,TP615371
+0117096544,OS-63516452,35879814,Cambio De Domicilio,Cambio De Domicilio Tp,COACALCO,"Valente Andres
+		Estrada Cruz",RCEE3CMXT4599,RCE 3,2026-06-17 10:12:52,2026-06-18 15:28:09,2026-06-18 16:40:59,Terminada,Completa,,,,,,TP464995
+0141793174,OS-63533508,35899518,Cambio De Domicilio,Cambio De Domicilio Tp,TEOLOYUCAN,"Mario Fernando
+		Roldan Soto",RCEE3CMXT5373,RCE 3,2026-06-17 23:42:12,2026-06-18 16:31:51,2026-06-18 19:31:36,Terminada,Completa,,,,,,TP615150
+0134271514,OS-63502854,35868862,Recolección Pi,Voluntaria,TEOLOYUCAN,"Oliver Enrique
+		Lopez De Cardenas Gonzalez",RCER3CMXT0190,RCE,2026-06-16 20:40:27,2026-06-19 10:49:53,2026-06-19 10:50:42,Terminada,Completa,,,,,,
+0141945059,OS-63388345,35746333,Cambio De Domicilio,Cambio De Domicilio Tp,TULTEPEC,"Luis Alberto
+		Aguilar Salinas",RCEE3CMXT3931,RCE 3,2026-06-12 17:00:21,2026-06-18 17:03:26,2026-06-18 19:14:25,Terminada,Completa,,,,,,TP792912
+0102588539,OS-63517236,35880712,Cambio De Equipo,Renovacion Tecnologica,MELCHOR OCAMPO,"Daniel
+		Vazquez Martinez",RCEE3CMXT5146,RCE 3,2026-06-17 10:46:35,2026-06-18 16:32:29,2026-06-18 17:28:18,Terminada,Completa,,,,,,
+0100661462,OS-63547716,35911493,Cambio De Equipo,Cambio De Equipo,AMPLIACION COACALCO,"Joan Alexander
+		Hernandez Zamudio",RCEE3CMXT4385,RCE 3,2026-06-18 11:38:52,2026-06-18 14:40:00,2026-06-18 14:54:56,Terminada,Completa,,,,,,
 0143184184,OS-63543358,35906329,Addons,Reubicacion De Equipos,COACALCO,"Jose Arturo
 		Carreon Tapia",RCEE3CMXT3883,RCE 3,2026-06-18 08:19:48,2026-06-18 09:03:47,2026-06-18 09:27:54,Terminada,Completa,,,,,,
+0141409713,OS-63438986,35800471,Cambio De Domicilio,Cambio De Domicilio Tp,VILLA DE LAS FLORES,"Hector Edson
+		Benavides Nieto",RCEE3CMXT5473,RCE 3,2026-06-15 10:44:58,2026-06-18 11:59:16,2026-06-18 16:18:41,Terminada,Completa,,,,,,TP414783
+0132497636,OS-63555516,35920616,Recolección Pi,Voluntaria,COACALCO,"Jose Francisco
+		Garcia Cortes",RCER3CMXT0110,RCE 3,2026-06-18 16:19:38,2026-06-19 11:20:49,2026-06-19 11:30:18,Terminada,Completa,,,,,,
 0141941073,OS-63495556,35860819,Addons,Reubicacion De Equipos,COACALCO,"Nicolas Ceferino
 		Trinidad Aguirre",CCQM3CX2T0116,CCQ 3,2026-06-16 16:05:02,2026-06-18 14:04:20,2026-06-18 14:05:46,Terminada,Completa,,,,,,
-0105841376,OS-63437725,35799045,Addons,Reubicacion De Equipos,AMPLIACION SAN PABLO DE LAS SALINAS II,"Jorge Alberto
-		Garcia Diaz",RCEE3CMXT4368,RCE 3,2026-06-15 09:58:00,2026-06-18 10:18:14,2026-06-18 10:27:16,Terminada,Completa,,,,,,
 0102865615,OS-63531833,35897797,Cambio De Plan,Downgrade. Recoleccion Equipos,SAN PABLO DE LAS SALINAS I,"Joan Alexander
 		Hernandez Zamudio",RCEE3CMXT4385,RCE 3,2026-06-17 20:27:24,2026-06-18 09:44:53,2026-06-18 09:46:04,Terminada,Completa,,,,,,
+0115542117,OS-63529432,35895234,Recolección Pi,Voluntaria,PASEOS DEL VALLE,"Elwin David
+		Sanchez De La Sancha",RCER3CMXT0182,RCE 3,2026-06-17 18:31:18,2026-06-18 15:01:57,2026-06-18 15:03:04,Terminada,Completa,,,,,,
+01.4743173,OS-63545521,35908964,Cambio De Domicilio,Cambio De Domicilio Tp,TULTEPEC,"Aaron
+		Suarez Muniz",BRAM3CX2T0127,BRAME 3,2026-06-18 10:19:33,2026-06-18 14:43:39,2026-06-18 15:53:31,Terminada,Completa,,,,,,TP535433
+0101036902,OS-63492344,35856906,Addons,Adicional,COACALCO,"Jhovany
+		Salgado Torres",CCQM3CX2T0144,CCQ 3,2026-06-16 13:59:09,2026-06-18 13:26:23,2026-06-18 14:49:57,Terminada,Completa,,,,,,
+0104376944,OS-63550820,35915106,Addons,Reubicacion De Equipos,TULTEPEC,"Salvador
+		Huerta Martinez",RCEE3CMXT4755,RCE 3,2026-06-18 13:26:31,2026-06-18 15:18:03,2026-06-18 15:19:41,Terminada,Completa,,,,,,
+0105841376,OS-63437725,35799045,Addons,Reubicacion De Equipos,AMPLIACION SAN PABLO DE LAS SALINAS II,"Jorge Alberto
+		Garcia Diaz",RCEE3CMXT4368,RCE 3,2026-06-15 09:58:00,2026-06-18 10:18:14,2026-06-18 10:27:16,Terminada,Completa,,,,,,
+0102558116,OS-63526553,35891849,Addons,Adicional,COACALCO,"Juan Antonio
+		Alfonso Ortigoza",RCEE3CMXT5476,RCE 3,2026-06-17 16:35:53,2026-06-18 15:35:48,2026-06-18 17:56:25,Terminada,Completa,,,,,,
+0142791312,OS-63547717,35911494,Cambio De Domicilio,Cambio De Domicilio Tp,MELCHOR OCAMPO,"Omar Ronaldo
+		Rivera Gutierrez",RCEE3CMXT5202,RCE 3,2026-06-18 11:38:58,2026-06-18 14:12:11,2026-06-18 15:08:16,Terminada,Completa,,,,,,TP478627
+0142704095,OS-63556372,35921677,Cambio De Plan,Upgrade. Instalacion Vsb,TULTEPEC,"Omar Fabian
+		Herrera Toledo",RCEE3CMXT5102,RCE 3,2026-06-18 16:52:32,2026-06-19 09:08:01,2026-06-19 10:19:34,Terminada,Completa,,,,,,
+0111223795,OS-63553425,35918209,Cambio De Plan,Upgrade. Instalacion Equipos,SAN PABLO DE LAS SALINAS II,"Edgar Ernesto
+		Ruiz Marquez",RCEE3CMXT4842,RCE 3,2026-06-18 15:00:16,2026-06-18 15:19:21,2026-06-18 15:39:47,Terminada,Completa,,,,,,
+0143178300,OS-63489252,35853280,Cambio De Equipo,Cambio De Equipo,AMPLIACION SAN PABLO DE LAS SALINAS II,"Cristopher
+		Martinez Mendoza",BRAM3CX2T0126,BRAME 3,2026-06-16 12:13:49,2026-06-18 14:32:44,2026-06-18 16:45:52,Terminada,Completa,,,,,,
 0103265129,OS-63485640,35849005,Addons,Reubicacion De Equipos,TULTEPEC,"Valente Andres
 		Estrada Cruz",RCEE3CMXT4599,RCE 3,2026-06-16 09:56:00,2026-06-18 12:25:06,2026-06-18 12:45:35,Terminada,Completa,,,,,,
-0102901412,OS-63488592,35852496,Recolección Pi,Voluntaria,SAN PABLO DE LAS SALINAS II,"Elwin David
-		Sanchez De La Sancha",RCER3CMXT0182,RCE 3,2026-06-16 11:48:44,2026-06-18 11:35:55,2026-06-18 11:40:44,Terminada,Completa,,,,,,
 0105897535,OS-63421238,35781632,Cambio De Plan,Upgrade. Instalacion Equipos,SAN PABLO DE LAS SALINAS II,"Mauricio Suriel
 		Martinez Puga",RCEE3CMXT4872,RCE 3,2026-06-14 11:11:41,2026-06-18 10:04:28,2026-06-18 10:29:06,Terminada,Completa,,,,,,
-0103601841,OS-63521923,35886386,Recolección Pi,Voluntaria,MELCHOR OCAMPO,"Oliver Enrique
-		Lopez De Cardenas Gonzalez",RCER3CMXT0190,RCE,2026-06-17 13:38:42,2026-06-18 13:53:32,2026-06-18 13:58:12,Terminada,Completa,,,,,,
+0142687541,OS-63552042,35916588,Cambio De Plan,Downgrade. Recoleccion Equipos,AMPLIACION SAN PABLO DE LAS SALINAS II,"Victor Hugo
+		Perez Aguirre",RCEE3CMXT5321,RCE 3,2026-06-18 14:08:51,2026-06-19 08:55:18,2026-06-19 08:57:03,Terminada,Completa,,,,,,
 0106379072,OS-63490676,35854940,Addons,Reubicacion De Equipos,TULTEPEC,"Martin
 		Cervantes Jimenez",RCEE3CMXT4162,RCE 3,2026-06-16 13:03:24,2026-06-18 14:03:34,2026-06-18 14:06:18,Terminada,Completa,,,,,,
+0102901412,OS-63488592,35852496,Recolección Pi,Voluntaria,SAN PABLO DE LAS SALINAS II,"Elwin David
+		Sanchez De La Sancha",RCER3CMXT0182,RCE 3,2026-06-16 11:48:44,2026-06-18 11:35:55,2026-06-18 11:40:44,Terminada,Completa,,,,,,
+0101765860,OS-63519262,35883203,Cambio De Plan,Upgrade. Instalacion Vsb,SAN PABLO DE LAS SALINAS I,"Bryan Alejandro
+		Rodriguez Jimenez",RCEE3CMXT4503,RCE 3,2026-06-17 12:06:26,2026-06-19 09:51:43,2026-06-19 09:58:28,Terminada,Completa,,,,,,
+0103601841,OS-63521923,35886386,Recolección Pi,Voluntaria,MELCHOR OCAMPO,"Oliver Enrique
+		Lopez De Cardenas Gonzalez",RCER3CMXT0190,RCE,2026-06-17 13:38:42,2026-06-18 13:53:32,2026-06-18 13:58:12,Terminada,Completa,,,,,,
+0142099054,OS-63452561,35816588,Cambio De Domicilio,Cambio De Domicilio Tp,SAN PABLO DE LAS SALINAS II,"Diego Imanol
+		Rojas Ramirez",BRAM3CX2T0129,BRAME 3,2026-06-15 18:11:26,2026-06-18 15:26:23,2026-06-18 17:52:57,Terminada,Completa,,,,,,TP792390
+0141563868,OS-63531924,35897903,Recolección Pi,Voluntaria,MELCHOR OCAMPO,"Eduardo
+		Rivero Rubio",CCDE3CMXT3367,CCD 3,2026-06-17 20:33:42,2026-06-18 18:27:39,2026-06-18 18:28:18,Terminada,Completa,,,,,,
+0142379653,OS-63486193,35849691,Recolección Pi,Voluntaria,PASEOS DEL VALLE,"Elwin David
+		Sanchez De La Sancha",RCER3CMXT0182,RCE 3,2026-06-16 10:19:44,2026-06-18 15:17:53,2026-06-18 15:18:37,Terminada,Completa,,,,,,
+0107044848,OS-63518765,35882587,Cambio De Domicilio,Cambio De Domicilio Tp,MELCHOR OCAMPO,"Victor Hugo
+		Torres Gomez",PANE3CMXT5647,PANI 3,2026-06-17 11:45:41,2026-06-18 16:08:21,2026-06-18 18:31:08,Terminada,Completa,,,,,,TP586788
+01.4743173,OS-63572674,35938081,Cambio De Equipo,Cambio De Equipo,TULTEPEC,"Cesar Omar
+		Hernandez Pavon",RCEE3CMXT4478,RCE 3,2026-06-19 10:35:31,2026-06-19 10:55:56,2026-06-19 11:28:12,Terminada,Completa,,,,,,
+0133552162,OS-63554172,35919082,Cambio De Domicilio,Cambio De Domicilio Tp,MELCHOR OCAMPO,"Jesus Antonio
+		Yonca Gonzalez",RCEE3CMXT4559,RCE 3,2026-06-18 15:29:35,2026-06-18 18:06:16,2026-06-18 19:27:59,Terminada,Completa,,,,,,TP504978
+0143154844,OS-63520209,35884336,Addons,Reubicacion De Equipos,TEOLOYUCAN,"Hugo Jhovany
+		Gomez Solis",RCEE3CMXT5451,RCE 3,2026-06-17 12:41:14,2026-06-18 15:57:52,2026-06-18 18:09:32,Terminada,Completa,,,,,,
+0102734367,OS-63518767,35882589,Cambio De Equipo,Renovación Tecnológica Proactiva,MELCHOR OCAMPO,"Omar Ronaldo
+		Rivera Gutierrez",RCEE3CMXT5202,RCE 3,2026-06-17 11:45:47,2026-06-18 13:32:18,2026-06-18 13:48:20,Terminada,Completa,,,,,,
+0105846788,OS-63385868,35743362,Cambio De Domicilio,Cambio De Domicilio Tp,MELCHOR OCAMPO,"Julio Cesar
+		Garcia Cano",RCEE3CMXT5389,RCE 3,2026-06-12 15:21:57,2026-06-18 14:44:23,2026-06-18 19:55:07,Terminada,Completa,,,,,,TP795977
 0129858608,OS-63449082,35812608,Addons,Reubicacion De Equipos,TULTEPEC,"Jiovani
 		Bernal Perez",BRAM3CX2T0123,BRAME 3,2026-06-15 16:14:36,2026-06-18 13:42:47,2026-06-18 13:43:53,Terminada,Completa,,,,,,
 0143201366,OS-63516335,35908933,Instalación,Instalación Venta Tecnico,COACALCO,"Edgar Israel
 		Rios Mendez",PYTE3CMXT0989,PROTELSA 3,2026-06-18 10:18:15,2026-06-18 10:51:12,2026-06-18 13:47:04,Terminada,Completa,,,,,,TP792288
-0102734367,OS-63518767,35882589,Cambio De Equipo,Renovación Tecnológica Proactiva,MELCHOR OCAMPO,"Omar Ronaldo
-		Rivera Gutierrez",RCEE3CMXT5202,RCE 3,2026-06-17 11:45:47,2026-06-18 13:32:18,2026-06-18 13:48:20,Terminada,Completa,,,,,,
-0103042127,OS-63439709,35801401,Cambio De Equipo,Renovación Tecnológica Proactiva,COACALCO,"Marco Antonio
-		Perez Perez",PANE3CMXT5578,PANI 3,2026-06-15 11:11:45,2026-06-18 10:20:10,2026-06-18 10:45:53,Terminada,Completa,,,,,,
-0143171159,OS-63521870,35886324,Addons,Reubicacion De Equipos,SAN PABLO DE LAS SALINAS I,"Ricardo Antonio
-		Peralta Perez",RCEE3CMXT4932,RCE 3,2026-06-17 13:36:50,2026-06-18 10:45:34,2026-06-18 10:55:51,Terminada,Completa,,,,,,
+0113178148,OS-63502713,35868710,Recolección Pi,Voluntaria,TEOLOYUCAN,"Oliver Enrique
+		Lopez De Cardenas Gonzalez",RCER3CMXT0190,RCE,2026-06-16 20:32:16,2026-06-18 18:16:49,2026-06-18 18:17:27,Terminada,Completa,,,,,,
+0123155922,OS-63553097,35917812,Cambio De Domicilio,Cambio De Domicilio Tp,AMPLIACION SAN PABLO DE LAS SALINAS II,"Alfredo Francisco
+		Pineda Varela",RCEE3CMXT5464,RCE 3,2026-06-18 14:47:02,2026-06-18 15:25:09,2026-06-18 16:50:03,Terminada,Completa,,,,,,TP792955
+0100526667,OS-63554682,35919674,Cambio De Plan,Upgrade. Instalacion Equipos,COACALCO,"Jhovany
+		Salgado Torres",CCQM3CX2T0144,CCQ 3,2026-06-18 15:49:44,2026-06-18 16:37:21,2026-06-18 17:05:29,Terminada,Completa,,,,,,
 0125266301,OS-63545656,35909113,Cambio De Domicilio,Cambio De Domicilio Tp,PASEOS DEL VALLE,"Erick Gael
 		Calderon Marquez",RCEE3CMXT4814,RCE 3,2026-06-18 10:24:14,2026-06-18 12:32:09,2026-06-18 13:31:50,Terminada,Completa,,,,,,TP83010
 0121165990,OS-63438429,35799856,Recolección Pi,Voluntaria,MELCHOR OCAMPO,"Jose Diego
 		Cervantes Pichardo",RCER3CMXT0148,RCE 3,2026-06-15 10:25:55,2026-06-18 09:53:45,2026-06-18 09:56:34,Terminada,Completa,,,,,,
+0103042127,OS-63439709,35801401,Cambio De Equipo,Renovación Tecnológica Proactiva,COACALCO,"Marco Antonio
+		Perez Perez",PANE3CMXT5578,PANI 3,2026-06-15 11:11:45,2026-06-18 10:20:10,2026-06-18 10:45:53,Terminada,Completa,,,,,,
+0143171159,OS-63521870,35886324,Addons,Reubicacion De Equipos,SAN PABLO DE LAS SALINAS I,"Ricardo Antonio
+		Peralta Perez",RCEE3CMXT4932,RCE 3,2026-06-17 13:36:50,2026-06-18 10:45:34,2026-06-18 10:55:51,Terminada,Completa,,,,,,
+0106194143,OS-63497147,35862633,Recolección Pi,Voluntaria,AMPLIACION MELCHOR OCAMPO 1,"Jose Diego
+		Cervantes Pichardo",RCER3CMXT0148,RCE 3,2026-06-16 16:53:31,2026-06-19 10:36:53,2026-06-19 10:54:26,Terminada,Completa,,,,,,
+0104877279,OS-63548777,35912712,Addons,Reubicacion De Equipos,MELCHOR OCAMPO,"Brandon
+		Luevano Montalvo",RCEE3CMXT5107,RCE 3,2026-06-18 12:17:16,2026-06-18 15:26:04,2026-06-18 15:35:22,Terminada,Completa,,,,,,
 0140230224,OS-63493880,35858734,Recolección Pi,Voluntaria,TULTEPEC,"Valente Andres
 		Estrada Cruz",RCEE3CMXT4599,RCE 3,2026-06-16 14:50:08,2026-06-18 12:05:40,2026-06-18 12:06:16,Terminada,Completa,,,,,,
 0104746990,OS-63483822,35846795,Cambio De Domicilio,Cambio De Domicilio Tp,MELCHOR OCAMPO,"Julio Cesar
 		Garcia Cano",RCEE3CMXT5389,RCE 3,2026-06-16 07:57:50,2026-06-18 12:11:19,2026-06-18 13:21:44,Terminada,Completa,,,,,,TPCP19950
+01.4743173,OS-63545703,35909167,Cambio De Equipo,Reposición De Equipos,TULTEPEC,"Aaron
+		Suarez Muniz",BRAM3CX2T0127,BRAME 3,2026-06-18 10:25:45,2026-06-18 15:54:05,2026-06-18 15:54:43,Terminada,Completa,,,,,,
 0140359465,OS-63546419,35910005,Recolección Pi,Voluntaria,TULTEPEC,"Elwin David
 		Sanchez De La Sancha",RCER3CMXT0182,RCE 3,2026-06-18 10:54:18,2026-06-18 13:05:11,2026-06-18 13:06:15,Terminada,Completa,,,,,,
-0141464498,OS-63549103,35913078,Cambio De Plan,Upgrade. Instalacion Equipos,MELCHOR OCAMPO,"Salomon Abdi
-		Gonzalez Campos",RCEE3CMXT3996,RCE 3,2026-06-18 12:28:57,2026-06-18 13:28:29,2026-06-18 13:45:11,Terminada,Completa,,,,,,
+0114777853,OS-63516819,35880226,Recolección Pi,Voluntaria,TEOLOYUCAN,"Kimberly Athziry
+		Lopez De Cardenas Gonzalez",RCER3CMXT0165,RCE 3,2026-06-17 10:29:35,2026-06-19 10:55:13,2026-06-19 10:56:32,Terminada,Completa,,,,,,
 0142802912,OS-63447238,35810419,Cambio De Domicilio,Cambio De Domicilio Tp,VILLA DE LAS FLORES,"Bryan Alejandro
 		Rodriguez Jimenez",RCEE3CMXT4503,RCE 3,2026-06-15 15:10:12,2026-06-18 10:18:21,2026-06-18 10:34:40,Terminada,Completa,,,,,,TP464544
+0141464498,OS-63549103,35913078,Cambio De Plan,Upgrade. Instalacion Equipos,MELCHOR OCAMPO,"Salomon Abdi
+		Gonzalez Campos",RCEE3CMXT3996,RCE 3,2026-06-18 12:28:57,2026-06-18 13:28:29,2026-06-18 13:45:11,Terminada,Completa,,,,,,
+0129498570,OS-63501914,35867908,Recolección Pi,Voluntaria,COACALCO,"Jose Francisco
+		Garcia Cortes",RCER3CMXT0110,RCE 3,2026-06-16 19:50:42,2026-06-18 16:32:38,2026-06-18 16:33:51,Terminada,Completa,,,,,,
+0102232644,OS-63554154,35919065,Cambio De Domicilio,Cambio De Domicilio Tp,TULTEPEC,"Omar Fabian
+		Herrera Toledo",RCEE3CMXT5102,RCE 3,2026-06-18 15:28:56,2026-06-18 16:17:28,2026-06-18 19:13:32,Terminada,Completa,,,,,,TP538019
 0119205445,OS-63533553,35899566,Addon Wifi Extender,Wifi Extender,COACALCO,"Jose Arturo
 		Carreon Tapia",RCEE3CMXT3883,RCE 3,2026-06-18 00:01:26,2026-06-18 09:55:50,2026-06-18 12:03:42,Terminada,Completa,,,,,,
 0119577777,OS-63450683,35814461,Addons,Reubicacion De Equipos,COACALCO,"Joan Alexander
