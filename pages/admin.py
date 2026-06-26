@@ -115,6 +115,9 @@ def procesar_detalle(archivo):
     df = df.dropna(how='all')
     df.columns = df.columns.str.strip()
 
+    # Filtrar solo cuentas validas (solo numeros, sin guiones ni vacios)
+    df = df[df['Cuenta'].astype(str).str.strip().str.match(r'^\d+$')]
+
     df['Cuenta'] = df['Cuenta'].astype(str).str.strip().str.replace('.0', '', regex=False).str.zfill(10)
 
     cols_necesarias = [
