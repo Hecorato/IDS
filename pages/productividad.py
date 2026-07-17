@@ -2,143 +2,151 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from data.loader import cargar_cierre
-from components.auth import check_login
 
-# ── Tipos de trabajo relevantes ──
+# ── Configuración de negocio ──
 TIPOS_VALIDOS = ["Cierre", "Detenciones", "Gasa", "Mantenimiento Mayor", "Poste", "Ruta"]
-EMPRESAS = ["CCQ 3", "DISACONNECT", "DISARO", "RCE 3", "SOLVO COMUNICACIONES 3"]
 
-st.set_page_config(page_title="Productividad - Dashboard IDS", layout="wide")
+EMPRESAS_PE = ["DISARO", "DISACONNECT"]
+EMPRESAS_MANTENIMIENTO = ["RCE 3", "SOLVO COMUNICACIONES 3", "CCQ 3"]
+EMPRESAS = EMPRESAS_PE + EMPRESAS_MANTENIMIENTO
 
-if not check_login():
-    st.stop()
 
-st.title("📊 Productividad de Cuadrillas")
-st.markdown("---")
+def _limpiar(df: pd.DataFrame) -> pd.DataFrame:
+    """Limpieza específica de esta vista sobre el df ya cargado por cargar_cierre()."""
+    df = df.copy()
+    df.columns = df.columns.str.strip()
 
-df_raw = cargar_cierre()
-if df_raw is None or df_raw.empty:
-    st.warning("No hay datos de cierre cargados. Ve a Admin para subir el archivo.")
-    st.stop()
+    # Nombre tecnico puede traer saltos de línea/tabs internos
+    if "Nombre tecnico" in df.columns:
+        df["Nombre tecnico"] = (
+            df["Nombre tecnico"].astype(str).str.replace(r"[\n\r\t]+", " ", regex=True).str.strip()
+        )
 
-df = df_raw.copy()
+    # Empresa(proveedor) también puede traer espacios
+    if "Empresa(proveedor)" in df.columns:
+        df["Empresa(proveedor)"] = df["Empresa(proveedor)"].astype(str).str.strip()
 
-# ── Limpieza ──
-df.columns = df.columns.str.strip()
+    # Tipo
+    if "Tipo" in df.columns:
+        df["Tipo"] = df["Tipo"].astype(str).str.strip()
 
-df["Nombre tecnico"] = (
-    df["Nombre tecnico"]
-    .astype(str)
-    .str.replace(r"[\n\r\t]+", " ", regex=True)
-    .str.strip()
-)
+    # Fecha trabajo -> datetime (puede traer tabs embebidos)
+    if "Fecha trabajo" in df.columns:
+        df["Fecha trabajo"] = df["Fecha trabajo"].astype(str).str.replace(r"[\n\r\t]+", "", regex=True)
+        df["Fecha trabajo"] = pd.to_datetime(df["Fecha trabajo"], dayfirst=True, errors="coerce")
 
-df["Fecha termino"] = (
-    df["Fecha termino"]
-    .astype(str)
-    .str.replace(r"[\t\n\r]+", "", regex=True)
-    .str.strip()
-)
-df["Fecha termino"] = pd.to_datetime(df["Fecha termino"], dayfirst=True, errors="coerce")
-df = df.dropna(subset=["Fecha termino"])
+    df = df.dropna(subset=["Fecha trabajo"])
+    df["Dia"] = df["Fecha trabajo"].dt.date
+    df["Semana"] = df["Fecha trabajo"].dt.isocalendar().week
 
-df["Fecha"] = df["Fecha termino"].dt.date
-df["Semana"] = df["Fecha termino"].dt.to_period("W").apply(lambda r: r.start_time.date())
+    return df
 
-df = df[df["Tipo"].isin(TIPOS_VALIDOS)]
-df = df[df["Empresa(proveedor)"].isin(EMPRESAS)]
 
-if df.empty:
-    st.info("No hay OTs con los tipos de trabajo configurados.")
-    st.stop()
+def show():
+    st.title("📊 Productividad de Cuadrillas")
 
-# ── Filtros ──
-with st.container(border=True):
+    df_raw = cargar_cierre()
+    if df_raw is None or df_raw.empty:
+        st.warning("No hay datos de cierre cargados. Ve a Admin para subir el archivo.")
+        return
+
+    df = _limpiar(df_raw)
+
+    # Solo tipos de trabajo relevantes para productividad
+    df = df[df["Tipo"].isin(TIPOS_VALIDOS)]
+
+    if df.empty:
+        st.info("No hay registros con los tipos de trabajo de productividad (Cierre, Detenciones, Gasa, Mantenimiento Mayor, Poste, Ruta).")
+        return
+
+    # ── Filtros ──
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        empresa_sel = st.selectbox("Empresa", ["Todas"] + EMPRESAS)
+        empresa_sel = st.selectbox("Empresa", ["Todas"] + sorted(df["Empresa(proveedor)"].dropna().unique().tolist()))
+
+    df_emp = df if empresa_sel == "Todas" else df[df["Empresa(proveedor)"] == empresa_sel]
+
     with col2:
-        semanas = sorted(df["Semana"].unique(), reverse=True)
-        semana_sel = st.selectbox("Semana (inicio de semana)", ["Todas"] + [str(s) for s in semanas])
+        semanas_disp = sorted(df_emp["Semana"].dropna().unique().tolist())
+        semana_sel = st.selectbox("Semana", ["Todas"] + [f"SEM {int(s)}" for s in semanas_disp])
+
+    if semana_sel != "Todas":
+        sem_num = int(semana_sel.replace("SEM ", ""))
+        df_sem = df_emp[df_emp["Semana"] == sem_num]
+    else:
+        df_sem = df_emp
+
     with col3:
-        dias = sorted(df["Fecha"].unique(), reverse=True)
-        dia_sel = st.selectbox("Día", ["Todos"] + [str(d) for d in dias])
+        dias_disp = sorted(df_sem["Dia"].dropna().unique().tolist())
+        dia_sel = st.selectbox("Día", ["Todos"] + [d.strftime("%d/%m/%Y") for d in dias_disp])
 
-dff = df.copy()
-if empresa_sel != "Todas":
-    dff = dff[dff["Empresa(proveedor)"] == empresa_sel]
-if semana_sel != "Todas":
-    dff = dff[dff["Semana"].astype(str) == semana_sel]
-if dia_sel != "Todos":
-    dff = dff[dff["Fecha"].astype(str) == dia_sel]
+    if dia_sel != "Todos":
+        dia_num = pd.to_datetime(dia_sel, dayfirst=True).date()
+        df_filtrado = df_sem[df_sem["Dia"] == dia_num]
+    else:
+        df_filtrado = df_sem
 
-if dff.empty:
-    st.info("Sin datos para los filtros seleccionados.")
-    st.stop()
+    if df_filtrado.empty:
+        st.info("No hay registros para los filtros seleccionados.")
+        return
 
-# ── KPIs ──
-st.markdown("### Resumen")
-with st.container(border=True):
-    total_ots = len(dff)
-    conteos_tipo = dff["Tipo"].value_counts()
+    st.divider()
+
+    # ── KPIs ──
+    st.subheader("KPIs")
+    total_ots = len(df_filtrado)
 
     kpi_cols = st.columns(len(TIPOS_VALIDOS) + 1)
     kpi_cols[0].metric("Total OTs", total_ots)
-    for i, tipo in enumerate(TIPOS_VALIDOS):
-        kpi_cols[i + 1].metric(tipo, int(conteos_tipo.get(tipo, 0)))
+    for i, tipo in enumerate(TIPOS_VALIDOS, start=1):
+        cantidad = int((df_filtrado["Tipo"] == tipo).sum())
+        kpi_cols[i].metric(tipo, cantidad)
 
-st.markdown("---")
+    st.divider()
 
-# ── Tabla: Técnico × Tipo ──
-st.markdown("### OTs por Técnico")
+    # ── Tabla Técnico x Tipo ──
+    st.subheader("Productividad por Técnico")
 
-pivot = (
-    dff.groupby(["Empresa(proveedor)", "Nombre tecnico", "Tipo"])
-    .size()
-    .unstack(fill_value=0)
-)
-for t in TIPOS_VALIDOS:
-    if t not in pivot.columns:
-        pivot[t] = 0
-pivot = pivot[TIPOS_VALIDOS]
-pivot["Total"] = pivot.sum(axis=1)
-pivot = pivot.reset_index()
-pivot = pivot.sort_values(["Empresa(proveedor)", "Total"], ascending=[True, False])
+    tabla = pd.pivot_table(
+        df_filtrado,
+        index="Nombre tecnico",
+        columns="Tipo",
+        values="OT",
+        aggfunc="count",
+        fill_value=0,
+    )
 
-st.dataframe(pivot, use_container_width=True, hide_index=True)
+    # Asegurar todas las columnas de tipos, en orden fijo
+    for tipo in TIPOS_VALIDOS:
+        if tipo not in tabla.columns:
+            tabla[tipo] = 0
+    tabla = tabla[TIPOS_VALIDOS]
+    tabla["Total"] = tabla.sum(axis=1)
+    tabla = tabla.sort_values("Total", ascending=False)
 
-st.markdown("---")
+    st.dataframe(tabla, use_container_width=True)
 
-# ── Gráfica: OTs por día ──
-st.markdown("### Tendencia de OTs por Día")
+    st.divider()
 
-ots_dia = (
-    dff.groupby(["Fecha", "Tipo"])
-    .size()
-    .reset_index(name="OTs")
-)
-ots_dia["Fecha"] = pd.to_datetime(ots_dia["Fecha"])
+    # ── Gráfica: OTs por día ──
+    st.subheader("Tendencia de OTs por Día")
 
-fig = px.line(
-    ots_dia,
-    x="Fecha",
-    y="OTs",
-    color="Tipo",
-    markers=True,
-    title="OTs cerradas por día y tipo de trabajo",
-)
-fig.update_layout(hovermode="x unified", legend_title="Tipo")
-st.plotly_chart(fig, use_container_width=True)
-
-st.markdown("---")
-
-# ── Detalle por subtipo ──
-with st.expander("📋 Ver detalle por Subtipo"):
-    sub = (
-        dff.groupby(["Tipo", "Subtipo"])
+    serie_dia = (
+        df_filtrado.groupby("Dia")
         .size()
         .reset_index(name="OTs")
-        .sort_values(["Tipo", "OTs"], ascending=[True, False])
+        .sort_values("Dia")
     )
-    st.dataframe(sub, use_container_width=True, hide_index=True)
+
+    fig = px.line(
+        serie_dia,
+        x="Dia",
+        y="OTs",
+        markers=True,
+        title="OTs por día",
+    )
+    fig.update_traces(line_shape="spline")
+    fig.update_layout(xaxis_title="Día", yaxis_title="Cantidad de OTs")
+
+    st.plotly_chart(fig, use_container_width=True)
