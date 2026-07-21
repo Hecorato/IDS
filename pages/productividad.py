@@ -1,10 +1,11 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import requests
+import io
 from components.auth import check_login
 
 # ── Configuración de negocio — Planta Externa: DISARO + DISACONNECT ──
-EMPRESAS_PE = ["DISARO", "DISACONNECT"]
 TIPOS_VALIDOS = ["Cierre", "Detenciones", "Gasa", "Mantenimiento Mayor", "Poste", "Ruta"]
 
 # Meta diaria de OTs por técnico. Las cuadrillas generales tienen meta de 20/día;
@@ -19,41 +20,35 @@ METAS_DIARIAS = {
 META_DEFAULT = 20  # para técnicos que no estén en el diccionario de arriba
 
 
-def _cargar_archivo(archivo_subido) -> pd.DataFrame:
-    """
-    Lee el .xlsx de Cierre Diario. Los encabezados reales están en la fila 2
-    de Excel (header=1) — la fila 1 y la columna A vienen vacías.
-    """
-    if archivo_subido.name.endswith((".xls", ".xlsx")):
-        df = pd.read_excel(archivo_subido, sheet_name="Reporte Cierre Diario", header=1)
-    else:
-        df = pd.read_csv(archivo_subido, header=1)
-    df = df.loc[:, ~df.columns.astype(str).str.contains("^Unnamed")]
-    df = df.dropna(how="all")
-    df.columns = df.columns.str.strip()
-    return df
+def _leer_de_github(nombre_archivo, dtype=None):
+    """Trae el csv más reciente directo de GitHub (mismo patrón que admin.py)."""
+    repo = st.secrets["github"]["repo"]
+    token = st.secrets["github"]["token"]
+    url = f"https://raw.githubusercontent.com/{repo}/main/{nombre_archivo}"
+    headers = {"Authorization": f"token {token}"}
+
+    r = requests.get(url, headers=headers)
+    if r.status_code != 200:
+        return None
+
+    try:
+        return pd.read_csv(io.StringIO(r.text), dtype=dtype)
+    except Exception:
+        return None
 
 
 def _limpiar(df: pd.DataFrame) -> pd.DataFrame:
-    """Limpia texto con \\n\\r\\t embebidos y arma columnas Dia/Semana."""
+    """Arma columnas Dia/Semana a partir de Fecha termino ya limpia (viene de admin.py)."""
     df = df.copy()
 
-    for col in ["Nombre tecnico", "Nombre despacho/AA", "Nombre supervisor"]:
-        if col in df.columns:
-            df[col] = df[col].astype(str).str.replace(r"[\n\r\t]+", " ", regex=True).str.strip()
-
-    if "Empresa(proveedor)" in df.columns:
-        df["Empresa(proveedor)"] = df["Empresa(proveedor)"].astype(str).str.strip()
+    if "Nombre tecnico" in df.columns:
+        df["Nombre tecnico"] = df["Nombre tecnico"].astype(str).str.strip()
     if "Tipo" in df.columns:
         df["Tipo"] = df["Tipo"].astype(str).str.strip()
     if "Subtipo" in df.columns:
         df["Subtipo"] = df["Subtipo"].astype(str).str.strip()
 
-    # Fecha termino es la más confiable para PE: Fecha trabajo viene vacía al 100%
-    if "Fecha termino" in df.columns:
-        df["Fecha termino"] = df["Fecha termino"].astype(str).str.replace(r"[\n\r\t]+", "", regex=True)
-        df["Fecha termino"] = pd.to_datetime(df["Fecha termino"], dayfirst=True, errors="coerce")
-
+    df["Fecha termino"] = pd.to_datetime(df["Fecha termino"], errors="coerce")
     df = df.dropna(subset=["Fecha termino"])
     df["Dia"] = df["Fecha termino"].dt.date
     df["Semana"] = df["Fecha termino"].dt.isocalendar().week
@@ -70,36 +65,26 @@ if not check_login():
 st.title("📊 Productividad PE (DISARO / DISACONNECT)")
 st.markdown("---")
 
-archivo = st.file_uploader(
-    "Sube el reporte de Cierre Diario (.xlsx)",
-    type=["xlsx", "xls", "csv"],
-    key="productividad_pe_uploader",
-)
+df_raw = _leer_de_github("cierrePE.csv", dtype={"Cuenta": str})
 
-if archivo is None:
-    st.info("Sube un archivo para generar la vista.")
+if df_raw is None or df_raw.empty:
+    st.info("Todavía no hay datos de Cierre Diario PE cargados. Ve a Admin para subir el archivo.")
     st.stop()
 
-df_raw = _cargar_archivo(archivo)
 df = _limpiar(df_raw)
-
-# Solo empresas de Planta Externa
-df = df[df["Empresa(proveedor)"].isin(EMPRESAS_PE)]
 
 # Solo tipos de trabajo relevantes para productividad
 df = df[df["Tipo"].isin(TIPOS_VALIDOS)]
 
 if df.empty:
-    st.warning("No hay registros PE (DISARO/DISACONNECT) con tipos de trabajo válidos en este archivo.")
+    st.warning("No hay registros PE con tipos de trabajo válidos.")
     st.stop()
-
-st.markdown("---")
 
 # ── Filtros ──
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    empresa_sel = st.selectbox("Empresa", ["Todas"] + sorted(df["Empresa(proveedor)"].unique().tolist()))
+    empresa_sel = st.selectbox("Empresa", ["Todas"] + sorted(df["Empresa(proveedor)"].dropna().unique().tolist()))
 df_emp = df if empresa_sel == "Todas" else df[df["Empresa(proveedor)"] == empresa_sel]
 
 with col2:
@@ -138,7 +123,6 @@ for tecnico, grupo_tec in df_filtrado.groupby("Nombre tecnico"):
     meta = METAS_DIARIAS.get(tecnico, META_DEFAULT)
 
     with st.expander(f"{tecnico} — {total_tec} OTs (meta {meta}/día)"):
-        # Tabla Tipo > Subtipo x Día
         filas = []
         for tipo, grupo_tipo in grupo_tec.groupby("Tipo"):
             fila_tipo = {"Tipo / Subtipo": f"**{tipo}**"}
@@ -157,7 +141,6 @@ for tecnico, grupo_tec in df_filtrado.groupby("Nombre tecnico"):
         tabla_tec = pd.DataFrame(filas).set_index("Tipo / Subtipo")
         st.dataframe(tabla_tec, use_container_width=True)
 
-        # Cumplimiento diario vs meta
         st.markdown(f"**Cumplimiento diario (meta: {meta} OT/día)**")
         cumplimiento = []
         for d, col_name in zip(dias_ordenados, columnas_dia):
