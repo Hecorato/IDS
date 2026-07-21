@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+from components.auth import check_login
 
 # ── Configuración de negocio — Planta Externa: DISARO + DISACONNECT ──
 EMPRESAS_PE = ["DISARO", "DISACONNECT"]
@@ -24,10 +25,11 @@ def _cargar_archivo(archivo_subido) -> pd.DataFrame:
     de Excel (header=1) — la fila 1 y la columna A vienen vacías.
     """
     if archivo_subido.name.endswith((".xls", ".xlsx")):
-        df = pd.read_excel(archivo_subido, header=1)
+        df = pd.read_excel(archivo_subido, sheet_name="Reporte Cierre Diario", header=1)
     else:
         df = pd.read_csv(archivo_subido, header=1)
-    df = df.dropna(axis=1, how="all")
+    df = df.loc[:, ~df.columns.astype(str).str.contains("^Unnamed")]
+    df = df.dropna(how="all")
     df.columns = df.columns.str.strip()
     return df
 
@@ -59,126 +61,131 @@ def _limpiar(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def show():
-    st.title("📊 Productividad PE (DISARO / DISACONNECT)")
+# ── PÁGINA ────────────────────────────────────────────
+st.set_page_config(page_title="Productividad PE - Dashboard IDS", layout="wide")
 
-    st.subheader("Cargar archivo")
-    archivo = st.file_uploader(
-        "Sube el reporte de Cierre Diario (.xlsx)",
-        type=["xlsx", "xls", "csv"],
-        key="productividad_pe_uploader",
-    )
+if not check_login():
+    st.stop()
 
-    if archivo is None:
-        st.info("Sube un archivo para generar la vista.")
-        return
+st.title("📊 Productividad PE (DISARO / DISACONNECT)")
+st.markdown("---")
 
-    df_raw = _cargar_archivo(archivo)
-    df = _limpiar(df_raw)
+archivo = st.file_uploader(
+    "Sube el reporte de Cierre Diario (.xlsx)",
+    type=["xlsx", "xls", "csv"],
+    key="productividad_pe_uploader",
+)
 
-    # Solo empresas de Planta Externa
-    df = df[df["Empresa(proveedor)"].isin(EMPRESAS_PE)]
+if archivo is None:
+    st.info("Sube un archivo para generar la vista.")
+    st.stop()
 
-    # Solo tipos de trabajo relevantes para productividad
-    df = df[df["Tipo"].isin(TIPOS_VALIDOS)]
+df_raw = _cargar_archivo(archivo)
+df = _limpiar(df_raw)
 
-    if df.empty:
-        st.warning("No hay registros PE (DISARO/DISACONNECT) con tipos de trabajo válidos en este archivo.")
-        return
+# Solo empresas de Planta Externa
+df = df[df["Empresa(proveedor)"].isin(EMPRESAS_PE)]
 
-    st.divider()
+# Solo tipos de trabajo relevantes para productividad
+df = df[df["Tipo"].isin(TIPOS_VALIDOS)]
 
-    # ── Filtros ──
-    col1, col2, col3 = st.columns(3)
+if df.empty:
+    st.warning("No hay registros PE (DISARO/DISACONNECT) con tipos de trabajo válidos en este archivo.")
+    st.stop()
 
-    with col1:
-        empresa_sel = st.selectbox("Empresa", ["Todas"] + sorted(df["Empresa(proveedor)"].unique().tolist()))
-    df_emp = df if empresa_sel == "Todas" else df[df["Empresa(proveedor)"] == empresa_sel]
+st.markdown("---")
 
-    with col2:
-        semanas_disp = sorted(df_emp["Semana"].dropna().unique().tolist())
-        semana_sel = st.selectbox("Semana", ["Todas"] + [f"SEM {int(s)}" for s in semanas_disp])
-    df_sem = df_emp if semana_sel == "Todas" else df_emp[df_emp["Semana"] == int(semana_sel.replace("SEM ", ""))]
+# ── Filtros ──
+col1, col2, col3 = st.columns(3)
 
-    with col3:
-        dias_disp = sorted(df_sem["Dia"].dropna().unique().tolist())
-        dia_sel = st.selectbox("Día", ["Todos"] + [d.strftime("%d/%m/%Y") for d in dias_disp])
-    df_filtrado = df_sem if dia_sel == "Todos" else df_sem[df_sem["Dia"] == pd.to_datetime(dia_sel, dayfirst=True).date()]
+with col1:
+    empresa_sel = st.selectbox("Empresa", ["Todas"] + sorted(df["Empresa(proveedor)"].unique().tolist()))
+df_emp = df if empresa_sel == "Todas" else df[df["Empresa(proveedor)"] == empresa_sel]
 
-    if df_filtrado.empty:
-        st.info("No hay registros para los filtros seleccionados.")
-        return
+with col2:
+    semanas_disp = sorted(df_emp["Semana"].dropna().unique().tolist())
+    semana_sel = st.selectbox("Semana", ["Todas"] + [f"SEM {int(s)}" for s in semanas_disp])
+df_sem = df_emp if semana_sel == "Todas" else df_emp[df_emp["Semana"] == int(semana_sel.replace("SEM ", ""))]
 
-    st.divider()
+with col3:
+    dias_disp = sorted(df_sem["Dia"].dropna().unique().tolist())
+    dia_sel = st.selectbox("Día", ["Todos"] + [d.strftime("%d/%m/%Y") for d in dias_disp])
+df_filtrado = df_sem if dia_sel == "Todos" else df_sem[df_sem["Dia"] == pd.to_datetime(dia_sel, dayfirst=True).date()]
 
-    # ── KPIs ──
-    st.subheader("KPIs")
-    kpi_cols = st.columns(len(TIPOS_VALIDOS) + 1)
-    kpi_cols[0].metric("Total OTs", len(df_filtrado))
-    for i, tipo in enumerate(TIPOS_VALIDOS, start=1):
-        kpi_cols[i].metric(tipo, int((df_filtrado["Tipo"] == tipo).sum()))
+if df_filtrado.empty:
+    st.info("No hay registros para los filtros seleccionados.")
+    st.stop()
 
-    st.divider()
+st.markdown("---")
 
-    # ── Detalle por Técnico: Tipo > Subtipo por día + cumplimiento de meta ──
-    st.subheader("Detalle por Técnico")
+# ── KPIs ──
+st.subheader("KPIs")
+kpi_cols = st.columns(len(TIPOS_VALIDOS) + 1)
+kpi_cols[0].metric("Total OTs", len(df_filtrado))
+for i, tipo in enumerate(TIPOS_VALIDOS, start=1):
+    kpi_cols[i].metric(tipo, int((df_filtrado["Tipo"] == tipo).sum()))
 
-    dias_ordenados = sorted(df_filtrado["Dia"].unique())
-    columnas_dia = [d.strftime("%d-%b") for d in dias_ordenados]
+st.markdown("---")
 
-    for tecnico, grupo_tec in df_filtrado.groupby("Nombre tecnico"):
-        total_tec = len(grupo_tec)
-        meta = METAS_DIARIAS.get(tecnico, META_DEFAULT)
+# ── Detalle por Técnico: Tipo > Subtipo por día + cumplimiento de meta ──
+st.subheader("Detalle por Técnico")
 
-        with st.expander(f"{tecnico} — {total_tec} OTs (meta {meta}/día)"):
-            # Tabla Tipo > Subtipo x Día
-            filas = []
-            for tipo, grupo_tipo in grupo_tec.groupby("Tipo"):
-                fila_tipo = {"Tipo / Subtipo": f"**{tipo}**"}
-                for d, col_name in zip(dias_ordenados, columnas_dia):
-                    fila_tipo[col_name] = int((grupo_tipo["Dia"] == d).sum())
-                fila_tipo["Total"] = len(grupo_tipo)
-                filas.append(fila_tipo)
+dias_ordenados = sorted(df_filtrado["Dia"].unique())
+columnas_dia = [d.strftime("%d-%b") for d in dias_ordenados]
 
-                for subtipo, grupo_sub in grupo_tipo.groupby("Subtipo"):
-                    fila_sub = {"Tipo / Subtipo": f"　{subtipo}"}
-                    for d, col_name in zip(dias_ordenados, columnas_dia):
-                        fila_sub[col_name] = int((grupo_sub["Dia"] == d).sum())
-                    fila_sub["Total"] = len(grupo_sub)
-                    filas.append(fila_sub)
+for tecnico, grupo_tec in df_filtrado.groupby("Nombre tecnico"):
+    total_tec = len(grupo_tec)
+    meta = METAS_DIARIAS.get(tecnico, META_DEFAULT)
 
-            tabla_tec = pd.DataFrame(filas).set_index("Tipo / Subtipo")
-            st.dataframe(tabla_tec, use_container_width=True)
-
-            # Cumplimiento diario vs meta
-            st.markdown(f"**Cumplimiento diario (meta: {meta} OT/día)**")
-            cumplimiento = []
+    with st.expander(f"{tecnico} — {total_tec} OTs (meta {meta}/día)"):
+        # Tabla Tipo > Subtipo x Día
+        filas = []
+        for tipo, grupo_tipo in grupo_tec.groupby("Tipo"):
+            fila_tipo = {"Tipo / Subtipo": f"**{tipo}**"}
             for d, col_name in zip(dias_ordenados, columnas_dia):
-                real = int((grupo_tec["Dia"] == d).sum())
-                if real == 0:
-                    continue
-                cumplimiento.append({
-                    "Día": col_name,
-                    "OTs": real,
-                    "Meta": meta,
-                    "Brecha": real - meta,
-                    "Cumplimiento %": round(real / meta * 100, 0),
-                })
-            st.dataframe(pd.DataFrame(cumplimiento), use_container_width=True, hide_index=True)
+                fila_tipo[col_name] = int((grupo_tipo["Dia"] == d).sum())
+            fila_tipo["Total"] = len(grupo_tipo)
+            filas.append(fila_tipo)
 
-    st.divider()
+            for subtipo, grupo_sub in grupo_tipo.groupby("Subtipo"):
+                fila_sub = {"Tipo / Subtipo": f"　{subtipo}"}
+                for d, col_name in zip(dias_ordenados, columnas_dia):
+                    fila_sub[col_name] = int((grupo_sub["Dia"] == d).sum())
+                fila_sub["Total"] = len(grupo_sub)
+                filas.append(fila_sub)
 
-    # ── Gráfica: OTs por día ──
-    st.subheader("Tendencia de OTs por Día")
+        tabla_tec = pd.DataFrame(filas).set_index("Tipo / Subtipo")
+        st.dataframe(tabla_tec, use_container_width=True)
 
-    serie_dia = (
-        df_filtrado.groupby("Dia")
-        .size()
-        .reset_index(name="OTs")
-        .sort_values("Dia")
-    )
+        # Cumplimiento diario vs meta
+        st.markdown(f"**Cumplimiento diario (meta: {meta} OT/día)**")
+        cumplimiento = []
+        for d, col_name in zip(dias_ordenados, columnas_dia):
+            real = int((grupo_tec["Dia"] == d).sum())
+            if real == 0:
+                continue
+            cumplimiento.append({
+                "Día": col_name,
+                "OTs": real,
+                "Meta": meta,
+                "Brecha": real - meta,
+                "Cumplimiento %": round(real / meta * 100, 0),
+            })
+        st.dataframe(pd.DataFrame(cumplimiento), use_container_width=True, hide_index=True)
 
-    fig = px.line(serie_dia, x="Dia", y="OTs", markers=True, title="OTs por día (PE)")
-    fig.update_traces(line_shape="spline")
-    fig.update_layout(xaxis_title="Día", yaxis_title="Cantidad de OTs")
-    st.plotly_chart(fig, use_container_width=True)
+st.markdown("---")
+
+# ── Gráfica: OTs por día ──
+st.subheader("Tendencia de OTs por Día")
+
+serie_dia = (
+    df_filtrado.groupby("Dia")
+    .size()
+    .reset_index(name="OTs")
+    .sort_values("Dia")
+)
+
+fig = px.line(serie_dia, x="Dia", y="OTs", markers=True, title="OTs por día (PE)")
+fig.update_traces(line_shape="spline")
+fig.update_layout(xaxis_title="Día", yaxis_title="Cantidad de OTs")
+st.plotly_chart(fig, use_container_width=True)
