@@ -2,6 +2,7 @@ import pandas as pd
 import streamlit as st
 import requests
 import base64
+import io
 from components.auth import check_login
 
 # ── LISTA DE CLUSTERS ─────────────────────────────────
@@ -46,6 +47,31 @@ def subir_a_github(df, nombre_archivo, mensaje):
 
     r = requests.put(url, headers=headers, json=payload)
     return r.status_code in [200, 201]
+
+
+# ── FUNCIÓN: LEER BASE ACTUAL DIRECTO DE GITHUB (NO LOCAL) ──
+def leer_de_github(nombre_archivo, dtype=None):
+    """
+    Trae siempre la versión más reciente del csv desde GitHub (raw),
+    en vez de leer el archivo local del contenedor. Esto evita que
+    se pierda histórico si subes varios archivos en la misma sesión,
+    ya que el archivo local nunca se entera de lo que se sube a GitHub.
+    Devuelve None si el archivo no existe todavía en el repo.
+    """
+    repo = st.secrets["github"]["repo"]
+    token = st.secrets["github"]["token"]
+    url = f"https://raw.githubusercontent.com/{repo}/main/{nombre_archivo}"
+    headers = {"Authorization": f"token {token}"}
+
+    r = requests.get(url, headers=headers)
+    if r.status_code != 200:
+        return None
+
+    try:
+        return pd.read_csv(io.StringIO(r.text), dtype=dtype)
+    except Exception:
+        return None
+
 
 # ── FUNCIÓN: LEER Y LIMPIAR IDS.XLSX ──────────────────
 def procesar_archivo(archivo):
@@ -108,6 +134,50 @@ def procesar_nce(archivo):
 
     return df
 
+# ── FUNCIÓN: LEER Y LIMPIAR CIERRE DIARIO PE (DISARO/DISACONNECT) ──
+def procesar_cierre_pe(archivo):
+    df = pd.read_excel(archivo,
+        sheet_name='Reporte Cierre Diario',
+        header=1
+    )
+    df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
+    df = df.dropna(how='all')
+    df.columns = df.columns.str.strip()
+
+    # Solo empresas de Planta Externa
+    df['Empresa(proveedor)'] = df['Empresa(proveedor)'].astype(str).str.strip()
+    df = df[df['Empresa(proveedor)'].isin(['DISARO', 'DISACONNECT'])]
+
+    # Limpiar saltos de linea/tabs embebidos en nombre y fechas
+    for col in ['Nombre tecnico', 'Nombre despacho/AA', 'Nombre supervisor']:
+        if col in df.columns:
+            df[col] = df[col].astype(str).str.replace(r'[\n\r\t]+', ' ', regex=True).str.strip()
+
+    cols_fecha = [
+        'Fecha creacion FFM', 'Fecha asignacion', 'Fecha transito',
+        'Fecha sitio', 'Fecha trabajo', 'Fecha termino'
+    ]
+    for col in cols_fecha:
+        if col in df.columns:
+            df[col] = df[col].astype(str).str.replace(r'[\n\r\t]+', '', regex=True)
+            df[col] = pd.to_datetime(df[col], dayfirst=True, errors='coerce')
+
+    if 'Tipo' in df.columns:
+        df['Tipo'] = df['Tipo'].astype(str).str.strip()
+    if 'Subtipo' in df.columns:
+        df['Subtipo'] = df['Subtipo'].astype(str).str.strip()
+
+    cols_necesarias = [
+        'Cuenta', 'OS', 'OT', 'Tipo', 'Subtipo', 'Cluster',
+        'Nombre tecnico', 'Usuario instalador', 'Empresa(proveedor)',
+        'Fecha creacion FFM', 'Fecha trabajo', 'Fecha termino',
+        'Estatus', 'Estado', 'QR asignado'
+    ]
+    cols_disp = [c for c in cols_necesarias if c in df.columns]
+    df = df[cols_disp]
+
+    return df
+
 # ── FUNCIÓN: LEER Y LIMPIAR SEMANA DETALLE ────────────
 def procesar_detalle(archivo):
     df = pd.read_excel(archivo, sheet_name='Sheet1', header=0)
@@ -155,12 +225,12 @@ with st.container(border=True):
         st.markdown("---")
         if st.button("⬆️ Actualizar dashboard", use_container_width=True, key="btn_ids"):
             with st.spinner("Fusionando y subiendo a GitHub..."):
-                try:
-                    df_base = pd.read_csv('ids.csv')
-                    df_base['FECHA CREACION'] = pd.to_datetime(df_base['FECHA CREACION']).dt.date
+                df_base = leer_de_github("ids.csv")
+                if df_base is not None:
+                    df_base['FECHA CREACION'] = pd.to_datetime(df_base['FECHA CREACION'], errors='coerce').dt.date
                     df_total = pd.concat([df_base, df_nuevo], ignore_index=True)
                     df_total = df_total.drop_duplicates(subset=['OS'], keep='last')
-                except:
+                else:
                     df_total = df_nuevo
 
                 if subir_a_github(df_total, "ids.csv", "Actualización automática ids.csv"):
@@ -187,15 +257,15 @@ with st.container(border=True):
         st.markdown("---")
         if st.button("⬆️ Actualizar Reporte Cierre Diario", use_container_width=True, key="btn_cierre"):
             with st.spinner("Fusionando y subiendo a GitHub..."):
-                try:
-                    df_cierre_base = pd.read_csv('reporteCierreDiario.csv', dtype={'Cuenta': str})
+                df_cierre_base = leer_de_github("reporteCierreDiario.csv", dtype={'Cuenta': str})
+                if df_cierre_base is not None:
                     cols_fecha = ['Fecha creacion FFM', 'Fecha trabajo', 'Fecha termino']
                     for col in cols_fecha:
                         if col in df_cierre_base.columns:
                             df_cierre_base[col] = pd.to_datetime(df_cierre_base[col], errors='coerce')
                     df_cierre_total = pd.concat([df_cierre_base, df_cierre_nuevo], ignore_index=True)
                     df_cierre_total = df_cierre_total.drop_duplicates(subset=['OS'], keep='last')
-                except Exception:
+                else:
                     df_cierre_total = df_cierre_nuevo
 
                 if subir_a_github(df_cierre_total, "reporteCierreDiario.csv", "Actualización automática reporteCierreDiario.csv"):
@@ -248,6 +318,41 @@ with st.container(border=True):
             with st.spinner("Subiendo a GitHub..."):
                 if subir_a_github(df_detalle_nuevo, "semana_detalle_coacalco.csv", "Actualización automática semana_detalle_coacalco.csv"):
                     st.success(f"🎉 Semana Detalle actualizado con {len(df_detalle_nuevo)} registros")
+                    st.balloons()
+                else:
+                    st.error("❌ Error al subir a GitHub, intenta de nuevo")
+
+st.markdown("---")
+
+with st.container(border=True):
+    st.subheader("📤 Cargar Cierre Diario PE (DISARO / DISACONNECT)")
+    st.caption("Sube el mismo archivo de Cierre Diario — aquí se filtra y guarda solo Planta Externa")
+
+    archivo_cierre_pe = st.file_uploader("Selecciona el archivo", type=["xlsx", "xls"], key="cierre_pe_uploader")
+
+    if archivo_cierre_pe:
+        with st.spinner("Procesando archivo..."):
+            df_cierre_pe_nuevo = procesar_cierre_pe(archivo_cierre_pe)
+
+        st.success(f"✅ {len(df_cierre_pe_nuevo)} registros de DISARO/DISACONNECT encontrados")
+        st.dataframe(df_cierre_pe_nuevo.head(10), use_container_width=True)
+
+        st.markdown("---")
+        if st.button("⬆️ Actualizar Cierre Diario PE", use_container_width=True, key="btn_cierre_pe"):
+            with st.spinner("Fusionando y subiendo a GitHub..."):
+                df_cierre_pe_base = leer_de_github("cierrePE.csv", dtype={'Cuenta': str})
+                if df_cierre_pe_base is not None:
+                    cols_fecha = ['Fecha creacion FFM', 'Fecha trabajo', 'Fecha termino']
+                    for col in cols_fecha:
+                        if col in df_cierre_pe_base.columns:
+                            df_cierre_pe_base[col] = pd.to_datetime(df_cierre_pe_base[col], errors='coerce')
+                    df_cierre_pe_total = pd.concat([df_cierre_pe_base, df_cierre_pe_nuevo], ignore_index=True)
+                    df_cierre_pe_total = df_cierre_pe_total.drop_duplicates(subset=['OS'], keep='last')
+                else:
+                    df_cierre_pe_total = df_cierre_pe_nuevo
+
+                if subir_a_github(df_cierre_pe_total, "cierrePE.csv", "Actualización automática cierrePE.csv"):
+                    st.success(f"🎉 Cierre Diario PE actualizado con {len(df_cierre_pe_total)} registros totales")
                     st.balloons()
                 else:
                     st.error("❌ Error al subir a GitHub, intenta de nuevo")
