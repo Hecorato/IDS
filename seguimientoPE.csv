@@ -1,0 +1,20 @@
+Cuenta,Ticket,OT,Tipo,Subtipo,Empresa(proveedor),Nombre tecnico,Fecha creacion FFM,Fecha ultima agenda,Fecha termino,Estatus,Estado,Motivo
+Falla Masiva,1,36310692,Corte Masivo,Corte Masivo,DISARO,Pedro Francisco Cruz Rodriguez,2026-07-02 14:00:08,2026-07-02 17:30:00,2026-07-02 17:31:05,Terminada,Completa,Orden Completada
+Falla Masiva,1,36367252,Corte Masivo,Corte Masivo,DISARO,Pedro Francisco Cruz Rodriguez,2026-07-04 11:40:08,2026-07-04 17:00:00,,Asignada,Validacion Correcta,
+Falla Masiva,1,36363342,Corte Masivo,Corte Masivo,DISARO,Pedro Francisco Cruz Rodriguez,2026-07-04 09:00:06,2026-07-04 14:00:00,,Asignada,Validacion Correcta,
+Falla Masiva,1,36709683,Corte Masivo,Corte Masivo,DISARO,Pedro Francisco Cruz Rodriguez,2026-07-15 14:40:07,2026-07-15 17:30:00,2026-07-15 17:23:26,Terminada,Completa,Orden Completada
+Falla Masiva,1,36720676,Corte Masivo,Corte Masivo,DISARO,Pedro Francisco Cruz Rodriguez,2026-07-16 01:10:06,2026-07-16 04:30:00,2026-07-16 07:29:58,Terminada,Completa,Orden Completada
+Falla Masiva,1,36417608,Corte Masivo,Corte Masivo,DISARO,Pedro Francisco Cruz Rodriguez,2026-07-06 12:50:05,2026-07-06 16:00:00,,Asignada,En Transito,
+Falla Masiva,1,36644104,Corte Masivo,Corte Masivo,DISARO,Pedro Francisco Cruz Rodriguez,2026-07-13 11:55:06,2026-07-13 14:00:00,,Asignada,Busqueda De Falla,
+Falla Masiva,1,36603123,Corte Masivo,Corte Masivo,DISARO,Pedro Francisco Cruz Rodriguez,2026-07-12 07:20:05,2026-07-12 10:00:00,2026-07-12 10:03:09,Terminada,Completa,Orden Completada
+Falla Masiva,1,36579632,Corte Masivo,Corte Masivo,DISARO,Pedro Francisco Cruz Rodriguez,2026-07-11 11:40:05,2026-07-11 13:30:00,2026-07-11 13:23:17,Terminada,Completa,Orden Completada
+Falla Masiva,1,36287702,Corte Masivo,Corte Masivo,DISARO,Pedro Francisco Cruz Rodriguez,2026-07-01 17:30:08,2026-07-01 22:00:00,2026-07-01 22:03:13,Terminada,Completa,Orden Completada
+Falla Masiva,1,36525300,Corte Masivo,Corte Masivo,DISARO,Pedro Francisco Cruz Rodriguez,2026-07-09 16:15:05,2026-07-09 19:30:00,2026-07-09 19:07:18,Terminada,Completa,Orden Completada
+Falla Masiva,1,36851738,Corte Masivo,Corte Masivo,DISARO,Pedro Francisco Cruz Rodriguez,2026-07-20 17:35:08,2026-07-20 21:00:00,2026-07-20 20:52:25,Terminada,Completa,Orden Completada
+Falla Masiva,1,36840971,Corte Masivo,Corte Masivo,DISARO,Pedro Francisco Cruz Rodriguez,2026-07-20 12:25:07,2026-07-20 15:00:00,2026-07-20 20:47:44,Terminada,Completa,Orden Completada
+Falla Masiva,1,36833693,Corte Masivo,Corte Masivo,DISARO,Pedro Francisco Cruz Rodriguez,2026-07-20 05:50:07,2026-07-20 09:30:00,2026-07-20 10:00:38,Terminada,Completa,Orden Completada
+Falla Masiva,1,36842380,Corte Masivo,Corte Masivo,DISARO,Pedro Francisco Cruz Rodriguez,2026-07-20 13:00:08,2026-07-20 18:00:00,2026-07-20 20:52:14,Terminada,Completa,Orden Completada
+Falla Masiva,1,36431417,Corte Masivo,Corte Masivo,DISARO,Pedro Francisco Cruz Rodriguez,2026-07-06 19:20:06,2026-07-06 21:00:00,2026-07-06 20:32:14,Terminada,Completa,Orden Completada
+Falla Masiva,1,36315364,Corte Masivo,Corte Masivo,DISARO,Pedro Francisco Cruz Rodriguez,2026-07-02 16:35:08,2026-07-02 20:30:00,,Asignada,En Transito,
+Falla Masiva,1,36369408,Corte Masivo,Corte Masivo,DISARO,Pedro Francisco Cruz Rodriguez,2026-07-04 12:50:08,2026-07-04 20:00:00,,Asignada,Validacion Correcta,
+Falla Masiva,1,36778203,Corte Masivo,Corte Masivo,DISARO,Pedro Francisco Cruz Rodriguez,2026-07-17 20:25:06,2026-07-18 04:30:00,2026-07-18 04:51:13,Terminada,Completa,Orden Completada
