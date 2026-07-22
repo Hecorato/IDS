@@ -1,13 +1,14 @@
 import streamlit as st
 import pandas as pd
 import requests
-import base64
 import io
 import datetime
 from components.auth import check_login
 
 # ── Configuración de negocio — Planta Externa: DISARO + DISACONNECT ──
 TIPOS_VALIDOS = ["Cierre", "Detenciones", "Gasa", "Mantenimiento Mayor", "Poste", "Ruta"]
+TIPOS_PREVENTIVO = ["Cierre", "Gasa", "Mantenimiento Mayor", "Poste", "Ruta"]  # todo menos Detenciones
+TIPO_OPD = "Detenciones"  # OT OPD = las órdenes de tipo Detenciones
 DIAS_SEMANA = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
 
 # Meta diaria de OTs por técnico. Las cuadrillas generales tienen meta de 20/día;
@@ -20,8 +21,6 @@ METAS_DIARIAS = {
     "Pedro Francisco Cruz Rodriguez": 5,
 }
 META_DEFAULT = 20  # para técnicos que no estén en el diccionario de arriba
-
-OT_OPD_ARCHIVO = "otOpdManual.csv"  # técnico + día + cantidad de OT OPD (cargado a mano)
 
 
 def _leer_de_github(nombre_archivo, dtype=None):
@@ -39,24 +38,6 @@ def _leer_de_github(nombre_archivo, dtype=None):
         return pd.read_csv(io.StringIO(r.text), dtype=dtype)
     except Exception:
         return None
-
-
-def _subir_a_github(df, nombre_archivo, mensaje):
-    """Sube/actualiza un csv en GitHub (mismo patrón que admin.py)."""
-    token = st.secrets["github"]["token"]
-    repo = st.secrets["github"]["repo"]
-    url = f"https://api.github.com/repos/{repo}/contents/{nombre_archivo}"
-    headers = {"Authorization": f"token {token}"}
-
-    r = requests.get(url, headers=headers)
-    sha = r.json().get("sha", None)
-
-    contenido = df.to_csv(index=False).encode()
-    contenido_b64 = base64.b64encode(contenido).decode()
-
-    payload = {"message": mensaje, "content": contenido_b64, "sha": sha}
-    r = requests.put(url, headers=headers, json=payload)
-    return r.status_code in [200, 201]
 
 
 def _limpiar_cierre(df: pd.DataFrame) -> pd.DataFrame:
@@ -110,13 +91,6 @@ df_seg_raw = _leer_de_github("seguimientoPE.csv", dtype={"Cuenta": str})
 df_seg = _limpiar_seguimiento(df_seg_raw) if df_seg_raw is not None and not df_seg_raw.empty else pd.DataFrame(
     columns=["Nombre tecnico", "Dia", "Anio", "Semana"]
 )
-
-df_opd = _leer_de_github(OT_OPD_ARCHIVO)
-if df_opd is None or df_opd.empty:
-    df_opd = pd.DataFrame(columns=["Nombre tecnico", "Dia", "OT_OPD"])
-else:
-    df_opd["Dia"] = pd.to_datetime(df_opd["Dia"]).dt.date
-opd_dict = {(t, d): c for t, d, c in zip(df_opd["Nombre tecnico"], df_opd["Dia"], df_opd["OT_OPD"])}
 
 if df.empty:
     st.warning("No hay registros PE con tipos de trabajo válidos.")
@@ -205,8 +179,9 @@ st.markdown("---")
 # ── Tabla semanal: Cuadrilla x Día x (OT Preventivo / Folio Masivo / OT OPD) ──
 st.subheader(f"Tabla Semanal — {semana_sel}")
 st.caption(
-    "OT Preventivo = OTs del Cierre Diario. Folio Masivo = tickets del Seguimiento Diario (Corte Masivo). "
-    "OT OPD se captura a mano abajo — todavía no viene de ningún archivo."
+    "OT Preventivo = Cierre+Gasa+Mant.Mayor+Poste+Ruta del Cierre Diario. "
+    "Folio Masivo = tickets del Seguimiento Diario (Corte Masivo). "
+    "OT OPD = OTs de tipo Detenciones."
 )
 
 anio_ref = int(df_sem["Anio"].mode()[0]) if not df_sem.empty else datetime.date.today().year
@@ -217,7 +192,9 @@ tecnicos_semana = sorted(df_sem["Nombre tecnico"].dropna().unique().tolist())
 
 filas_semana = []
 for tecnico in tecnicos_semana:
-    grupo_prev = df_sem[df_sem["Nombre tecnico"] == tecnico]
+    grupo_tec_sem = df_sem[df_sem["Nombre tecnico"] == tecnico]
+    grupo_prev = grupo_tec_sem[grupo_tec_sem["Tipo"].isin(TIPOS_PREVENTIVO)]
+    grupo_opd = grupo_tec_sem[grupo_tec_sem["Tipo"] == TIPO_OPD]
     grupo_folio = df_seg[
         (df_seg["Nombre tecnico"] == tecnico) & (df_seg.get("Semana") == sem_num)
     ] if not df_seg.empty else pd.DataFrame(columns=["Dia"])
@@ -226,8 +203,8 @@ for tecnico in tecnicos_semana:
     total_sem = 0
     for d, etiqueta in zip(dias_semana_completa, DIAS_SEMANA):
         prev = int((grupo_prev["Dia"] == d).sum())
+        opd = int((grupo_opd["Dia"] == d).sum())
         folio = int((grupo_folio["Dia"] == d).sum()) if not grupo_folio.empty else 0
-        opd = int(opd_dict.get((tecnico, d), 0))
 
         fila[f"{etiqueta} — OT Prev."] = prev
         fila[f"{etiqueta} — Folio Masivo"] = folio
@@ -242,52 +219,3 @@ if not tabla_semana.empty:
     tabla_semana.loc["Total"] = tabla_semana.sum()
 
 st.dataframe(tabla_semana, use_container_width=True)
-
-st.markdown("---")
-
-# ── Captura manual de OT OPD ──
-st.subheader("Captura de OT OPD")
-st.caption("Todavía no hay archivo para esta columna — captúrala aquí y se guarda en GitHub.")
-
-filas_opd_editor = []
-for tecnico in tecnicos_semana:
-    for d, etiqueta in zip(dias_semana_completa, DIAS_SEMANA):
-        filas_opd_editor.append({
-            "Cuadrilla": tecnico,
-            "Día": f"{etiqueta} {d.strftime('%d-%b')}",
-            "OT OPD": int(opd_dict.get((tecnico, d), 0)),
-            "_dia_real": d,
-        })
-
-df_opd_editor = pd.DataFrame(filas_opd_editor)
-
-if not df_opd_editor.empty:
-    resultado_editor = st.data_editor(
-        df_opd_editor.drop(columns=["_dia_real"]),
-        use_container_width=True,
-        hide_index=True,
-        disabled=["Cuadrilla", "Día"],
-        key="opd_editor",
-    )
-
-    if st.button("💾 Guardar OT OPD", use_container_width=True):
-        nuevos = []
-        for i, row in resultado_editor.iterrows():
-            cantidad = int(row["OT OPD"])
-            if cantidad > 0:
-                nuevos.append({
-                    "Nombre tecnico": df_opd_editor.loc[i, "Cuadrilla"],
-                    "Dia": df_opd_editor.loc[i, "_dia_real"],
-                    "OT_OPD": cantidad,
-                })
-
-        pares_en_vista = set(zip(df_opd_editor["Cuadrilla"], df_opd_editor["_dia_real"]))
-        otros = df_opd[~df_opd.apply(lambda r: (r["Nombre tecnico"], r["Dia"]) in pares_en_vista, axis=1)] if not df_opd.empty else pd.DataFrame(columns=["Nombre tecnico", "Dia", "OT_OPD"])
-
-        df_opd_final = pd.concat([otros, pd.DataFrame(nuevos)], ignore_index=True)
-
-        if _subir_a_github(df_opd_final, OT_OPD_ARCHIVO, "Actualización manual de OT OPD"):
-            st.success("OT OPD guardado.")
-            st.rerun()
-        else:
-            st.error("❌ Error al guardar OT OPD en GitHub, intenta de nuevo")
