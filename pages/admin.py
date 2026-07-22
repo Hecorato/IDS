@@ -178,6 +178,39 @@ def procesar_cierre_pe(archivo):
 
     return df
 
+# ── FUNCIÓN: LEER Y LIMPIAR SEGUIMIENTO DIARIO PE (FOLIOS MASIVOS) ──
+def procesar_seguimiento_pe(archivo):
+    df = pd.read_excel(archivo,
+        sheet_name='Reporte segumiento Diario',
+        header=1
+    )
+    df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
+    df = df.dropna(how='all')
+    df.columns = df.columns.str.strip()
+
+    # Solo empresas de Planta Externa
+    df['Empresa(proveedor)'] = df['Empresa(proveedor)'].astype(str).str.strip()
+    df = df[df['Empresa(proveedor)'].isin(['DISARO', 'DISACONNECT'])]
+
+    if 'Nombre tecnico' in df.columns:
+        df['Nombre tecnico'] = df['Nombre tecnico'].astype(str).str.replace(r'[\n\r\t]+', ' ', regex=True).str.strip()
+
+    cols_fecha = ['Fecha creacion FFM', 'Fecha ultima agenda', 'Fecha termino', 'Fecha Confirmacion']
+    for col in cols_fecha:
+        if col in df.columns:
+            df[col] = df[col].astype(str).str.replace(r'[\n\r\t]+', '', regex=True)
+            df[col] = pd.to_datetime(df[col], dayfirst=True, errors='coerce')
+
+    cols_necesarias = [
+        'Cuenta', 'Ticket', 'OT', 'Tipo', 'Subtipo', 'Empresa(proveedor)',
+        'Nombre tecnico', 'Fecha creacion FFM', 'Fecha ultima agenda',
+        'Fecha termino', 'Estatus', 'Estado', 'Motivo'
+    ]
+    cols_disp = [c for c in cols_necesarias if c in df.columns]
+    df = df[cols_disp]
+
+    return df
+
 # ── FUNCIÓN: LEER Y LIMPIAR SEMANA DETALLE ────────────
 def procesar_detalle(archivo):
     df = pd.read_excel(archivo, sheet_name='Sheet1', header=0)
@@ -353,6 +386,41 @@ with st.container(border=True):
 
                 if subir_a_github(df_cierre_pe_total, "cierrePE.csv", "Actualización automática cierrePE.csv"):
                     st.success(f"🎉 Cierre Diario PE actualizado con {len(df_cierre_pe_total)} registros totales")
+                    st.balloons()
+                else:
+                    st.error("❌ Error al subir a GitHub, intenta de nuevo")
+
+st.markdown("---")
+
+with st.container(border=True):
+    st.subheader("📤 Cargar Seguimiento Diario PE (Folios Masivos / MDR)")
+    st.caption("Sube el reporte de Seguimiento Diario (Falla Masiva) — se filtra solo Planta Externa")
+
+    archivo_seguimiento = st.file_uploader("Selecciona el archivo", type=["xlsx", "xls"], key="seguimiento_uploader")
+
+    if archivo_seguimiento:
+        with st.spinner("Procesando archivo..."):
+            df_seguimiento_nuevo = procesar_seguimiento_pe(archivo_seguimiento)
+
+        st.success(f"✅ {len(df_seguimiento_nuevo)} registros de DISARO/DISACONNECT encontrados")
+        st.dataframe(df_seguimiento_nuevo.head(10), use_container_width=True)
+
+        st.markdown("---")
+        if st.button("⬆️ Actualizar Seguimiento Diario PE", use_container_width=True, key="btn_seguimiento"):
+            with st.spinner("Fusionando y subiendo a GitHub..."):
+                df_seguimiento_base = leer_de_github("seguimientoPE.csv", dtype={'Cuenta': str})
+                if df_seguimiento_base is not None:
+                    cols_fecha = ['Fecha creacion FFM', 'Fecha ultima agenda', 'Fecha termino']
+                    for col in cols_fecha:
+                        if col in df_seguimiento_base.columns:
+                            df_seguimiento_base[col] = pd.to_datetime(df_seguimiento_base[col], errors='coerce')
+                    df_seguimiento_total = pd.concat([df_seguimiento_base, df_seguimiento_nuevo], ignore_index=True)
+                    df_seguimiento_total = df_seguimiento_total.drop_duplicates(subset=['OT'], keep='last')
+                else:
+                    df_seguimiento_total = df_seguimiento_nuevo
+
+                if subir_a_github(df_seguimiento_total, "seguimientoPE.csv", "Actualización automática seguimientoPE.csv"):
+                    st.success(f"🎉 Seguimiento Diario PE actualizado con {len(df_seguimiento_total)} registros totales")
                     st.balloons()
                 else:
                     st.error("❌ Error al subir a GitHub, intenta de nuevo")
