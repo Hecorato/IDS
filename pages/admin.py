@@ -380,7 +380,8 @@ with st.container(border=True):
                         if col in df_cierre_pe_base.columns:
                             df_cierre_pe_base[col] = pd.to_datetime(df_cierre_pe_base[col], errors='coerce')
                     df_cierre_pe_total = pd.concat([df_cierre_pe_base, df_cierre_pe_nuevo], ignore_index=True)
-                    df_cierre_pe_total = df_cierre_pe_total.drop_duplicates(subset=['OS'], keep='last')
+                    # OS casi siempre viene vacío en PE (solo tienen OT) — dedup por OT, no por OS
+                    df_cierre_pe_total = df_cierre_pe_total.drop_duplicates(subset=['OT'], keep='last')
                 else:
                     df_cierre_pe_total = df_cierre_pe_nuevo
 
